@@ -1,0 +1,48 @@
+{
+  "name": "face-recognition",
+  "version": "0.0.1",
+  "description": "Desc",
+  "productName": "faceRecognition",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "electron-builder --dir",
+    "dist:linux": "electron-builder --linux",
+    "dist:win": "electron-builder --win"
+  },
+  "author": "Maxim",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "3.0.10",
+    "electron-builder": "20.38.2",
+    "electron-rebuild": "1.8.2",
+    "jquery": "2.2.4"
+  },
+  "dependencies": {
+    "app-builder-bin": "2.6.0",
+    "app-builder-lib": "20.38.2",
+    "electron-builder-squirrel-windows": "20.38.2",
+    "electron-is-dev": "^1.0.1",
+    "electron-log": "2.2.17",
+    "electron-reload": "^1.4.0",
+    "electron-updater": "4.0.6",
+    "face-api.js": "^0.17.1",
+    "moment": "^2.23.0"
+  },
+  "build": {
+    "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "appImage": {
+      "systemIntegration": "doNotAsk"
+    },
+    "squirrelWindows": {
+      "iconUrl": "https://dummyimage.com/256x256/000/fff"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "win": {
+      "target": "squirrel"
+    }
+  }
+}
