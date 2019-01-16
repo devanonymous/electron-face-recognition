@@ -148,62 +148,62 @@ async function onPlay(videoEl) {
     });
 
     for (const face of fullFaceDescriptions) {
-        const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor)
-        let outText = '';
+        const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
 
+        const mainFaceBox = document.querySelector('#face-box');
+        const faceBox = mainFaceBox.cloneNode(true);
 
-        const faceBox = document.createElement('div');
         faceBox.classList.add('face-box');
-        document.body.appendChild(faceBox);
         faceBox.style.top = face.detection.box.top +'px';
         faceBox.style.width = face.detection.box.width +'px';
         faceBox.style.height = face.detection.box.height +'px';
         faceBox.style.right = face.detection.box.left +'px';
-        faceBox.innerHTML = `<div class="face-box__name">${(bestMatch.distance < maxDistance ? bestMatch.className : 'неопознанный енот')}</div>`;
 
-        const expressions = document.createElement('div');
-        expressions.classList.add('face-box__expressions');
+        faceBox.querySelector('.face-box__name').innerHTML = `${(bestMatch.distance < maxDistance ? bestMatch.className : 'неизвестный')}`;
 
         face.expressions.forEach((expressionItem) => {
             if ( expressionItem.probability.toFixed(2) > 0 ) {
-                const exBox = document.createElement('div');
-                exBox.classList.add('face-box__expressions-item');
-                const exName = document.createElement('span');
                 let exNameRus = ``;
+                let $expressionItem;
+
                 switch (expressionItem.expression) {
                     case "neutral":
-                        exNameRus = `Нейтральны`;
+                        // exNameRus = `Нейтральны`;
                         break;
                     case "happy":
-                        exNameRus = `Счастливы`;
+                        exNameRus = `Радость`;
+                        $expressionItem = faceBox.querySelector('.face-box__expressions-item_happy');
                         break;
                     case "sad":
-                        exNameRus = `Грустны`;
+                        exNameRus = `Огорчение`;
+                        $expressionItem = faceBox.querySelector('.face-box__expressions-item_sad');
                         break;
                     case "angry":
-                        exNameRus = `Злы`;
+                        // exNameRus = `Злы`;
                         break;
                     case "fearful":
-                        exNameRus = `Напуганны`;
+                        exNameRus = `Испуг`;
+                        $expressionItem = faceBox.querySelector('.face-box__expressions-item_fearful');
                         break;
                     case "disgusted":
-                        exNameRus = `Чувствуете отвращение`;
+                        // exNameRus = `Чувствуете отвращение`;
                         break;
                     case "surprised":
-                        exNameRus = `Удивлы`;
+                        exNameRus = `Удивление`;
+                        $expressionItem = faceBox.querySelector('.face-box__expressions-item_surprised');
                         break;
                 }
-                exName.innerHTML = `${exNameRus}: `;
-                const percentage = parseInt(expressionItem.probability.toFixed(2) * 100, 10);
-                const exPercentage = document.createElement('span');
-                exPercentage.innerHTML = `${percentage}%`;
-                exBox.appendChild(exName);
-                exBox.appendChild(exPercentage);
-                expressions.appendChild(exBox);
+
+                if ( $expressionItem ) {
+                    const percentage = Math.round(expressionItem.probability * 100);
+                    $expressionItem.querySelector('.face-box__expressions-item-percent-value').innerHTML = `${percentage}`;
+                }
             }
         });
 
-        faceBox.appendChild(expressions);
+        document.body.appendChild(faceBox);
+
+        // faceBox.appendChild(expressionsClone);
 
         // console.log(face.expressions)
 
