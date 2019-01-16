@@ -10,6 +10,7 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
+  font-family: circe, sans-serif;
 }
 
 .margin {
@@ -86,16 +87,67 @@ body {
   background: url('../../img/face.svg')50% 50% no-repeat;
   background-size: 100% 100%;
 }
-.face-box__name {
-  overflow: hidden;
-  text-overflow: ellipsis;
+.face-box__header {
   position: absolute;
   right: 0;
   left: 0;
   bottom: 100%;
-  margin-bottom: 5px;
+}
+.face-box__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: #fff;
-  background: rgba(0,0,0,0.5);
+  line-height: 34px;
+  font-size: 18px;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow:
+          -0   -4px 0   #000000,
+          0   -4px 0   #000000,
+          -0    4px 0   #000000,
+          0    4px 0   #000000,
+          -4px -0   0   #000000,
+          4px -0   0   #000000,
+          -4px  0   0   #000000,
+          4px  0   0   #000000,
+          -1px -4px 0   #000000,
+          1px -4px 0   #000000,
+          -1px  4px 0   #000000,
+          1px  4px 0   #000000,
+          -4px -1px 0   #000000,
+          4px -1px 0   #000000,
+          -4px  1px 0   #000000,
+          4px  1px 0   #000000,
+          -2px -4px 0   #000000,
+          2px -4px 0   #000000,
+          -2px  4px 0   #000000,
+          2px  4px 0   #000000,
+          -4px -2px 0   #000000,
+          4px -2px 0   #000000,
+          -4px  2px 0   #000000,
+          4px  2px 0   #000000,
+          -3px -4px 0   #000000,
+          3px -4px 0   #000000,
+          -3px  4px 0   #000000,
+          3px  4px 0   #000000,
+          -4px -3px 0   #000000,
+          4px -3px 0   #000000,
+          -4px  3px 0   #000000,
+          4px  3px 0   #000000,
+          -4px -4px 0   #000000,
+          4px -4px 0   #000000,
+          -4px  4px 0   #000000,
+          4px  4px 0   #000000,
+          -4px -4px 0   #000000,
+          4px -4px 0   #000000,
+          -4px  4px 0   #000000,
+          4px  4px 0   #000000;
+}
+.face-box__user-position {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #fff;
   white-space: nowrap;
 }
 
@@ -111,6 +163,7 @@ body {
 /* --face box */
 
 #name {
+  display: none;
   position: absolute;
   top: 50%;
   left: 35%;
@@ -156,7 +209,7 @@ body {
   top: 0;
   left: 0;
   z-index: 100;
-  display: grid;
+  display: none;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 1px;
   width: 100%;
@@ -215,6 +268,7 @@ body {
 
 /* gid */
 .f-gid-button {
+  display: none;
   position: absolute;
   left: 40px;
   bottom: 40px;

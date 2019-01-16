@@ -218,7 +218,7 @@ async function onPlay(videoEl) {
             M.toast({ html: toastHTML, classes: 'rounded pulse not_found' });*/
         }
     }
-    setTimeout(() => onPlay(videoEl), 100)
+    setTimeout(() => onPlay(videoEl), 100);
 }
 
 async function run() {

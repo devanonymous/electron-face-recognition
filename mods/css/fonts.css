@@ -1,0 +1,8 @@
+/* Circe */
+@font-face {
+    font-family: 'circe';
+    src: url('../../fonts/circe-regular.woff2') format('woff2'),
+    url('../../fonts/circe-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

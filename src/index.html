@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ru">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=1" />
 
-    <link rel="stylesheet" href="../mods/css/styles.css">
+    <title></title>
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../mods/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="../mods/css/fonts.css" />
     <link type="text/css" rel="stylesheet" href="../mods/css/keyboard.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=1" />
+    <link rel="stylesheet" href="../mods/css/styles.css">
 </head>
 
 <body>
@@ -44,9 +46,12 @@
         <input id="name" type="text" class="validate" placeholder="Имя и фамилия">
     </div>
 
-    <div id="face-box">
-        <div class="face-box__name"></div>
-        <div class="face-box__expressions">
+    <section id="face-box">
+        <header class="face-box__header">
+            <div class="face-box__name"></div>
+            <div class="face-box__user-position"></div>
+        </header>
+        <main class="face-box__expressions">
             <div class="face-box__expressions-item face-box__expressions-item_happy">
                 <div class="face-box__expressions-item-percent">
                     <div class="face-box__expressions-item-percent-value">0</div>
@@ -75,8 +80,8 @@
                 </div>
                 <div class="face-box__expressions-item-title">Удивление</div>
             </div>
-        </div>
-    </div>
+        </main>
+    </section>
 
     <div class="keyboard">
         <div class="m_keyboard-container">
