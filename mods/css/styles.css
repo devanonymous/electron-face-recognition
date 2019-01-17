@@ -36,12 +36,13 @@ body {
   display: block;
   width: 100%;
   height: 100%;
-  background-color: gray;
+  background-color: transparent;
   overflow: hidden;
   z-index: 1;
 }
 
 #inputVideo {
+  display: none !important;
   position: absolute;
   left: 0;
   top: 0;
@@ -97,6 +98,16 @@ body {
 }
 
 /* face box */
+#face-box {
+  position: absolute;
+  top: 200px;
+  right: 500px;
+  z-index: 10;
+  width: 204px;
+  height: 288px;
+  background: url('../../img/face.svg')50% 50% no-repeat;
+  background-size: 100% 100%;
+}
 .face-box {
   position: absolute;
   z-index: 2;
@@ -114,52 +125,23 @@ body {
   text-overflow: ellipsis;
   color: #fff;
   line-height: 34px;
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
   text-transform: uppercase;
   white-space: nowrap;
-  text-shadow:
-          -0   -4px 0   #000000,
-          0   -4px 0   #000000,
-          -0    4px 0   #000000,
-          0    4px 0   #000000,
-          -4px -0   0   #000000,
-          4px -0   0   #000000,
-          -4px  0   0   #000000,
-          4px  0   0   #000000,
-          -1px -4px 0   #000000,
-          1px -4px 0   #000000,
-          -1px  4px 0   #000000,
-          1px  4px 0   #000000,
-          -4px -1px 0   #000000,
-          4px -1px 0   #000000,
-          -4px  1px 0   #000000,
-          4px  1px 0   #000000,
-          -2px -4px 0   #000000,
-          2px -4px 0   #000000,
-          -2px  4px 0   #000000,
-          2px  4px 0   #000000,
-          -4px -2px 0   #000000,
-          4px -2px 0   #000000,
-          -4px  2px 0   #000000,
-          4px  2px 0   #000000,
-          -3px -4px 0   #000000,
-          3px -4px 0   #000000,
-          -3px  4px 0   #000000,
-          3px  4px 0   #000000,
-          -4px -3px 0   #000000,
-          4px -3px 0   #000000,
-          -4px  3px 0   #000000,
-          4px  3px 0   #000000,
-          -4px -4px 0   #000000,
-          4px -4px 0   #000000,
-          -4px  4px 0   #000000,
-          4px  4px 0   #000000,
-          -4px -4px 0   #000000,
-          4px -4px 0   #000000,
-          -4px  4px 0   #000000,
-          4px  4px 0   #000000;
 }
+.face-box__name-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+}
+.face-box__name-svg-text {
+  stroke-width: 1px;
+  fill: #fff;
+}
+
 .face-box__user-position {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -217,7 +199,7 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: url('./img/cover5-1-768x512.jpg')50% 200px no-repeat;
+  background: #000;
 }
 
 .f-header {

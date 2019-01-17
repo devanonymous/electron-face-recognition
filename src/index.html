@@ -5,12 +5,11 @@
 
     <title></title>
 
-    <link type="text/css" rel="stylesheet" href="../mods/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="../mods/css/materialize.min.css" />
     <link type="text/css" rel="stylesheet" href="../mods/css/fonts.css" />
     <link type="text/css" rel="stylesheet" href="../mods/css/keyboard.css" />
-    <link rel="stylesheet" href="../mods/css/styles.css">
+    <link type="text/css" rel="stylesheet" href="../mods/css/styles.css">
 </head>
-
 <body>
 <header class="f-header">
     <div class="f-header__item"></div>
@@ -47,8 +46,19 @@
 
     <section id="face-box">
         <header class="face-box__header">
-            <div class="face-box__name"></div>
-            <div class="face-box__user-position"></div>
+            <!--<div class="face-box__name">Фёдор Утин</div>-->
+            <svg class="face-box__name-svg face-box__name">
+                <defs>
+                    <linearGradient id="face-box__name-svg-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF2A57; stop-opacity:0.8"/>
+                        <stop offset="100%" style="stop-color:#5594C5; stop-opacity:0.8"/>
+                    </linearGradient>
+                </defs>
+                <!--<text class="face-box__name-svg-text face-box__name-svg-text_1" x="0" y="20"> Stroked Text </text>-->
+                <text class="face-box__name-svg-text js-face-box__user-name"
+                      stroke="url(#face-box__name-svg-gradient)" x="0" y="20"></text>
+            </svg>
+            <div class="face-box__user-position">Программист</div>
         </header>
         <main class="face-box__expressions">
             <div class="face-box__expressions-item face-box__expressions-item_happy">

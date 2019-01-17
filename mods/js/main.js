@@ -159,7 +159,7 @@ async function onPlay(videoEl) {
         faceBox.style.height = face.detection.box.height +'px';
         faceBox.style.right = face.detection.box.left +'px';
 
-        faceBox.querySelector('.face-box__name').innerHTML = `${(bestMatch.distance < maxDistance ? bestMatch.className : 'неизвестный')}`;
+        faceBox.querySelector('.js-face-box__user-name').innerHTML = `${(bestMatch.distance < maxDistance ? bestMatch.className : 'неизвестный')}`;
 
         face.expressions.forEach((expressionItem) => {
             if ( expressionItem.probability.toFixed(2) > 0 ) {
