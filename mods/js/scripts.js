@@ -30,4 +30,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+
+
+    {
+        const myVivus = new Vivus('face-box__name-svg-circle', {
+            type: 'delayed',
+            duration: 500,
+            animTimingFunction: Vivus.EASE
+        }, function () {
+            console.log('end myVivus');
+        });
+
+        myVivus.play(function () {
+            console.log('play myVivus');
+        });
+    }
+
 });

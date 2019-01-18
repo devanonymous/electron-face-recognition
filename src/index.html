@@ -47,16 +47,10 @@
     <section id="face-box">
         <header class="face-box__header">
             <svg class="face-box__name-svg">
-                <defs>
-                    <linearGradient id="face-box__name-svg-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#5594C5; stop-opacity:0.8"/>
-                        <stop offset="100%" style="stop-color:#FF2A57; stop-opacity:0.8"/>
-                    </linearGradient>
-                </defs>
-                <text class="face-box__name-svg-text" stroke="url(#face-box__name-svg-gradient)"
+                <text class="face-box__name-svg-text"
                       y="25" transform="translate(100)">
-                    <tspan class="face-box__user-name js-face-box__user-name" x="0">Фёдор Утин</tspan>
-                    <tspan class="face-box__user-position" x="0" dy="30">Программист</tspan>
+                    <tspan class="face-box__user-name js-face-box__user-name" x="0" stroke="url(#face-box__name-svg-gradient_1)">Фёдор Утин</tspan>
+                    <tspan class="face-box__user-position" x="0" dy="30" stroke="url(#face-box__name-svg-gradient_2)">Программист</tspan>
                 </text>
             </svg>
         </header>
@@ -502,6 +496,8 @@
         <video class="f-gid__video" src="./video/just-do-it.webm"></video>
     </div>
 
+    <object id="face-box__name-svg-circle" type="image/svg+xml" data="../img/ellipse-gradient.svg"></object>
+
     <!--<script src="../mods/js/commons.js"></script>-->
     <script src="../mods/js/main.js"></script>
     <script src="../mods/js/materialize.min.js"></script>
@@ -509,7 +505,24 @@
         // M.AutoInit();
     </script>
     <script src="../mods/js/keyboard.js"></script>
+    <script src="../mods/js/vivus.js"></script>
     <script src="../mods/js/scripts.js"></script>
+
+
+
+<svg>
+    <defs>
+        <linearGradient id="face-box__name-svg-gradient_1" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#52B694; stop-opacity:1;stroke-width:1;"/>
+            <stop offset="50%" style="stop-color:#5594C5; stop-opacity:1;stroke-width:1;"/>
+            <stop offset="100%" style="stop-color:#FF2A57; stop-opacity:1;stroke-width:1;"/>
+        </linearGradient>
+        <linearGradient id="face-box__name-svg-gradient_2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#5594C5; stop-opacity:1;stroke-width:0.5;"/>
+            <stop offset="100%" style="stop-color:#5594C5; stop-opacity:1;stroke-width:0.5;"/>
+        </linearGradient>
+    </defs>
+</svg>
 </body>
 
 </html>

@@ -150,9 +150,24 @@ body {
   right: 5px;
 }
 .face-box__expressions-item {
+  position: absolute;
+  top: 0;
+  width: 165px;
+  height: 165px;
+  background: url('../../img/ellipse-dark-gray.png')50% 50% no-repeat;
+  background-size: contain;
   color: #fff;
-  background: rgba(0,0,0,0.5);
+  font-size: 48px;
+  text-align: center;
+  text-transform: uppercase;
 }
+.face-box__expressions-item_happy {
+  top: -63px;
+  left: -250px;
+}
+.face-box__expressions-item_sad {}
+.face-box__expressions-item_fearful {}
+.face-box__expressions-item_surprised {}
 /* --face box */
 
 #name {
