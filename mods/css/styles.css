@@ -1,3 +1,7 @@
+:root {
+  --anim-default: 0.22s ease-in;
+}
+
 html {
   overflow: hidden;
   position: relative;
@@ -100,13 +104,13 @@ body {
 /* face box */
 #face-box {
   position: absolute;
-  top: 1000%;
-  right: 1000%;
-  /*top: 400px;
+ /* top: 1000%;
+  right: 1000%;*/
+  top: 400px;
   right: 500px;
   z-index: 10;
   width: 408px;
-  height: 288px;*/
+  height: 288px;
   background: url('../../img/face.svg')50% 50% no-repeat;
   background-size: 100% 100%;
 }
@@ -154,6 +158,7 @@ body {
   margin-bottom: 100px;
   width: 100%;
 }
+.face-box__header-about_hidden { display: none; }
 .face-box__about-user {
   margin: 0 auto;
 }
@@ -191,6 +196,17 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  transition: top var(--anim-default);
+}
+.face-box__expressions_smalled {
+  top: auto;
+  bottom: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 160px;
+  height: auto;
 }
 .face-box__expressions-item {
   position: absolute;
@@ -228,6 +244,31 @@ body {
   right: 100%;
   margin-right: 163px;
   margin-top: -15px;
+}
+.face-box__expressions-item_smalled {
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  flex: 0 0 auto;
+  margin: 0 22px;
+  width: 64px;
+  height: 64px;
+}
+.face-box__expressions-item_smalled.face-box__expressions-item_fearful {
+  display: none;
+}
+.face-box__expressions-item_smalled .face-box__expressions-item-percent-value {
+  font-size: 24px;
+  line-height: 1;
+}
+.face-box__expressions-item_smalled .face-box__expressions-item-percent-symbol {
+  font-size: 14px;
+  line-height: 20px;
+}
+.face-box__expressions-item_smalled .face-box__expressions-item-title {
+  font-size: 12px;
 }
 
 .face-box__expressions-item-percent {

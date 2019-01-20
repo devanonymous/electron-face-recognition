@@ -161,6 +161,7 @@ async function onPlay(videoEl) {
 
         faceBox.querySelector('.js-face-box__user-name').innerHTML = `${(bestMatch.distance < maxDistance ? bestMatch.className : 'неизвестный')}`;
         faceBox.querySelector('.js-face-box__user-position').innerHTML = `прохожий`;
+        faceBox.querySelector('.js-face-box__user-age').innerHTML = `25`;
 
         face.expressions.forEach((expressionItem) => {
             if ( expressionItem.probability.toFixed(2) > 0 ) {
