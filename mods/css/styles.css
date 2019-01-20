@@ -42,7 +42,7 @@ body {
 }
 
 #inputVideo {
-  display: none !important;
+  /*display: none !important;*/
   position: absolute;
   left: 0;
   top: 0;
@@ -100,11 +100,11 @@ body {
 /* face box */
 #face-box {
   position: absolute;
-  top: 200px;
-  right: 500px;
+  top: 1000%;
+  right: 1000%;
   z-index: 10;
-  width: 204px;
-  height: 288px;
+  /*width: 204px;
+  height: 288px;*/
   background: url('../../img/face.svg')50% 50% no-repeat;
   background-size: 100% 100%;
 }
@@ -146,29 +146,72 @@ body {
 
 .face-box__expressions {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 .face-box__expressions-item {
   position: absolute;
-  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 165px;
   height: 165px;
   background: url('../../img/ellipse-dark-gray.png')50% 50% no-repeat;
   background-size: contain;
   color: #fff;
-  font-size: 48px;
   text-align: center;
   text-transform: uppercase;
 }
 .face-box__expressions-item_happy {
-  top: -63px;
-  left: -250px;
+  bottom: 100%;
+  right: 100%;
+  margin-right: 65px;
+  margin-bottom: 110px;
 }
-.face-box__expressions-item_sad {}
-.face-box__expressions-item_fearful {}
-.face-box__expressions-item_surprised {}
+.face-box__expressions-item_sad {
+  bottom: 100%;
+  left: 100%;
+  margin-left: 65px;
+  margin-bottom: 110px;
+}
+.face-box__expressions-item_fearful {
+  top: 0;
+  left: 100%;
+  margin-left: 163px;
+  margin-top: -15px;
+}
+.face-box__expressions-item_surprised {
+  top: 0;
+  right: 100%;
+  margin-right: 163px;
+  margin-top: -15px;
+}
+
+.face-box__expressions-item-percent {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-end;
+}
+.face-box__expressions-item-percent-value {
+  font-size: 48px;
+  line-height: 1;
+}
+.face-box__expressions-item-percent-symbol {
+  font-size: 18px;
+}
+.face-box__expressions-item-title {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 20px;
+  font-size: 18px;
+}
 /* --face box */
+#face-box__name-svg-circle { display: none; }
 
 #name {
   display: none;

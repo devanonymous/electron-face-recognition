@@ -33,6 +33,10 @@ exports.loadDetectedPeople = async function loadDetectedPeople() {
 }
 
 exports.getBestMatch = function getBestMatch(descriptorsByClass, queryDescriptor) {
+  if ( !descriptorsByClass.length ) {
+      return false;
+  }
+
   function computeMeanDistance(descriptorsOfClass) {
 
     const divider = (descriptorsOfClass.length || 1)
