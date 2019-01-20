@@ -100,11 +100,11 @@ body {
 /* face box */
 #face-box {
   position: absolute;
-  top: 1000%;
-  right: 1000%;
+  top: 200px;
+  right: 500px;
   z-index: 10;
-  /*width: 204px;
-  height: 288px;*/
+  width: 408px;
+  height: 288px;
   background: url('../../img/face.svg')50% 50% no-repeat;
   background-size: 100% 100%;
 }
@@ -119,6 +119,7 @@ body {
   right: 0;
   left: 0;
   bottom: 100%;
+  height: 75px;
 }
 .face-box__name-svg {
   position: absolute;
