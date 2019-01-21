@@ -147,18 +147,20 @@ async function onPlay(videoEl) {
     document.querySelectorAll('.face-box').forEach((box) => {
         box.remove();
     });
+    let faceboxesLength = 0;
 
     for (const face of fullFaceDescriptions) {
         const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
 
         const fb = new faceBox();
         fb.setValues({name: (bestMatch.distance < maxDistance ? bestMatch.className : '')});
+        faceboxesLength++;
 
         face.expressions.forEach((expressionItem) => {
             if ( expressionItem.probability.toFixed(2) > 0 ) {
                 // let exNameRus = ``;
                 // let $expressionItem;
-                console.log(expressionItem, expressionItem.expression);
+
                 switch (expressionItem.expression) {
                     case "neutral":
                         // exNameRus = `Нейтральны`;
@@ -198,7 +200,7 @@ async function onPlay(videoEl) {
             }
         });
 
-        fb.show(face.detection.box);
+        fb.show(face.detection.box, (faceboxesLength > 1));
         // document.body.appendChild(faceBox);
 
         // faceBox.appendChild(expressionsClone);

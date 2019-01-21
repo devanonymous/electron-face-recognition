@@ -38,6 +38,7 @@ module.exports = class faceBox {
         this.fearful = values[0].fearful || this.fearful;
         this.disgusted = values[0].disgusted || this.disgusted;
         this.surprised = values[0].surprised || this.surprised;
+        this._updateValues();
     }
 
     _showNormal() {
@@ -74,7 +75,6 @@ module.exports = class faceBox {
             elem.innerHTML = this.happy;
         });
         html.querySelectorAll('.js-face-box__user-sad').forEach((elem) => {
-            console.log("SAD", this.sad)
             elem.innerHTML = this.sad;
         });
         html.querySelectorAll('.js-face-box__user-fearful').forEach((elem) => {
