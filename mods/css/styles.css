@@ -1,5 +1,6 @@
 :root {
   --anim-default: 0.22s ease-in;
+  --anim-longer: 0.5s ease-in;
 }
 
 html {
@@ -317,21 +318,33 @@ body {
   justify-content: space-around;
   align-items: stretch;
   background: url('../../img/bg-buttons-for-login.png')50% 50% no-repeat;
-  background-size: 100% auto;
+  background-size: auto 100%;
+  transition: min-width var(--anim-longer);
+}
+.login-buttons_show {
+  right: 300px;
+  min-width: calc(100vw - 600px);
+  background: none;
 }
 .login-buttons__btn {
   flex: 0 0 auto;
   margin: 0 3px;
   width: 60px;
   height: 60px;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
 }
 .login-buttons__btn_keyboard {
-  background-image: url('../../img/keyboard.svg');
+  border-radius: 50%;
+  background: url('../../img/keyboard.svg')50% 50% no-repeat, linear-gradient(230.25deg, #52B694, #5594C5, #FF2A57);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 }
 .login-buttons__btn_voice {
-  background-image: url('../../img/voice.svg');
+  border-radius: 50%;
+  background: url('../../img/voice.svg')50% 50% no-repeat #F03461;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+}
+
+.keyboard {
+  z-index: 9;
 }
 
 #name {

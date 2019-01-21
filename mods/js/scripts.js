@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelectorAll('.login-buttons').forEach((btn) => {
         btn.addEventListener('click', function () {
+            this.classList.add('login-buttons_show');
             document.querySelector('#name').classList.add('field-name-show');
         });
     });
