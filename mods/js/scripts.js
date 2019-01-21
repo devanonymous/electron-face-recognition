@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
     /*{
         const myVivus = new Vivus('face-box__name-svg-circle', {
             type: 'delayed',

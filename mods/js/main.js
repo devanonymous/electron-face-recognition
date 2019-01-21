@@ -5,6 +5,7 @@ const faceapi = require('face-api.js');
 const moment = require('moment');
 
 const commonjs = require('../mods/js/commons');
+const faceBox = require('../modules/faceBox');
 
 let minFaceSize = 100
 let maxDistance = 0.5
@@ -150,60 +151,55 @@ async function onPlay(videoEl) {
     for (const face of fullFaceDescriptions) {
         const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
 
-        const mainFaceBox = document.querySelector('#face-box');
-        const faceBox = mainFaceBox.cloneNode(true);
-
-        faceBox.classList.add('face-box');
-        faceBox.style.top = face.detection.box.top +'px';
-        faceBox.style.width = face.detection.box.width +'px';
-        faceBox.style.height = face.detection.box.height +'px';
-        faceBox.style.right = face.detection.box.left +'px';
-
-        faceBox.querySelector('.js-face-box__user-name').innerHTML = `${(bestMatch.distance < maxDistance ? bestMatch.className : 'неизвестный')}`;
-        faceBox.querySelector('.js-face-box__user-position').innerHTML = `прохожий`;
-        faceBox.querySelector('.js-face-box__user-age').innerHTML = `25`;
+        const fb = new faceBox();
+        fb.setValues({name: (bestMatch.distance < maxDistance ? bestMatch.className : '')});
 
         face.expressions.forEach((expressionItem) => {
             if ( expressionItem.probability.toFixed(2) > 0 ) {
-                let exNameRus = ``;
-                let $expressionItem;
-
+                // let exNameRus = ``;
+                // let $expressionItem;
+                console.log(expressionItem, expressionItem.expression);
                 switch (expressionItem.expression) {
                     case "neutral":
                         // exNameRus = `Нейтральны`;
                         break;
                     case "happy":
-                        exNameRus = `Радость`;
-                        $expressionItem = faceBox.querySelector('.face-box__expressions-item_happy');
+                        fb.setValues({happy: Math.round(expressionItem.probability * 100)});
+                        // exNameRus = `Радость`;
+                        // $expressionItem = faceBox.querySelector('.face-box__expressions-item_happy');
                         break;
                     case "sad":
-                        exNameRus = `Огорчение`;
-                        $expressionItem = faceBox.querySelector('.face-box__expressions-item_sad');
+                        fb.setValues({sad: Math.round(expressionItem.probability * 100)});
+                        // exNameRus = `Огорчение`;
+                        // $expressionItem = faceBox.querySelector('.face-box__expressions-item_sad');
                         break;
                     case "angry":
                         // exNameRus = `Злы`;
                         break;
                     case "fearful":
-                        exNameRus = `Испуг`;
-                        $expressionItem = faceBox.querySelector('.face-box__expressions-item_fearful');
+                        fb.setValues({fearful: Math.round(expressionItem.probability * 100)});
+                        // exNameRus = `Испуг`;
+                        // $expressionItem = faceBox.querySelector('.face-box__expressions-item_fearful');
                         break;
                     case "disgusted":
                         // exNameRus = `Чувствуете отвращение`;
                         break;
                     case "surprised":
-                        exNameRus = `Удивление`;
-                        $expressionItem = faceBox.querySelector('.face-box__expressions-item_surprised');
+                        fb.setValues({suprised: Math.round(expressionItem.probability * 100)});
+                        // exNameRus = `Удивление`;
+                        // $expressionItem = faceBox.querySelector('.face-box__expressions-item_surprised');
                         break;
                 }
 
-                if ( $expressionItem ) {
+                /*if ( $expressionItem ) {
                     const percentage = Math.round(expressionItem.probability * 100);
                     $expressionItem.querySelector('.face-box__expressions-item-percent-value').innerHTML = `${percentage}`;
-                }
+                }*/
             }
         });
 
-        document.body.appendChild(faceBox);
+        fb.show(face.detection.box);
+        // document.body.appendChild(faceBox);
 
         // faceBox.appendChild(expressionsClone);
 

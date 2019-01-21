@@ -77,6 +77,16 @@ body {
   width: 100%;
   height: 100%;
 }
+.page-container:before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.33);
+}
 
 [href='#modal1'] {
   position: absolute;
@@ -104,13 +114,13 @@ body {
 /* face box */
 #face-box {
   position: absolute;
- /* top: 1000%;
-  right: 1000%;*/
-  top: 400px;
+  top: 1000%;
+  right: 1000%;
+  /*top: 400px;
   right: 500px;
   z-index: 10;
   width: 408px;
-  height: 288px;
+  height: 288px;*/
   background: url('../../img/face.svg')50% 50% no-repeat;
   background-size: 100% 100%;
 }
@@ -150,6 +160,8 @@ body {
   text-anchor: middle;
   font-size: 14px;
 }
+.face-box__user-position_age { display: none; }
+.face-box__user-position_age_show { display: block; }
 
 .face-box__header-about {
   position: absolute;
