@@ -307,6 +307,33 @@ body {
 /* --face box */
 #face-box__name-svg-circle { display: none; }
 
+.login-buttons {
+  position: absolute;
+  top: 50%;
+  right: 40px;
+  z-index: 10;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: stretch;
+  background: url('../../img/bg-buttons-for-login.png')50% 50% no-repeat;
+  background-size: 100% auto;
+}
+.login-buttons__btn {
+  flex: 0 0 auto;
+  margin: 0 3px;
+  width: 60px;
+  height: 60px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+.login-buttons__btn_keyboard {
+  background-image: url('../../img/keyboard.svg');
+}
+.login-buttons__btn_voice {
+  background-image: url('../../img/voice.svg');
+}
+
 #name {
   display: none;
   position: absolute;
@@ -325,6 +352,9 @@ body {
 }
 #name::placeholder {
   color: #fff;
+}
+#name.field-name-show {
+  display: block;
 }
 
 .keyboard {

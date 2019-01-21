@@ -31,6 +31,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    document.querySelectorAll('.login-buttons').forEach((btn) => {
+        btn.addEventListener('click', function () {
+            document.querySelector('#name').classList.add('field-name-show');
+        });
+    });
+
     /*{
         const myVivus = new Vivus('face-box__name-svg-circle', {
             type: 'delayed',
