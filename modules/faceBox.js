@@ -27,6 +27,10 @@ module.exports = class faceBox {
         document.body.appendChild(this.html);
     }
 
+    toSmalled() {
+        this._showSmalled();
+    }
+
     setValues(...values) {
         this.name = values[0].name || this.name;
         this.position = values[0].position || this.position;
@@ -54,6 +58,22 @@ module.exports = class faceBox {
         });
         html.querySelectorAll('.face-box__expressions-item').forEach((elem) => {
             elem.classList.remove('face-box__expressions-item_smalled');
+        });
+    }
+
+    _showSmalled() {
+        const html = this.html;
+        html.querySelectorAll('.face-box__user-position_age').forEach((elem) => {
+            elem.classList.add('face-box__user-position_age_show');
+        });
+        html.querySelectorAll('.face-box__header-about').forEach((elem) => {
+            elem.classList.add('face-box__header-about_hidden');
+        });
+        html.querySelectorAll('.face-box__expressions').forEach((elem) => {
+            elem.classList.add('face-box__expressions_smalled');
+        });
+        html.querySelectorAll('.face-box__expressions-item').forEach((elem) => {
+            elem.classList.add('face-box__expressions-item_smalled');
         });
     }
 

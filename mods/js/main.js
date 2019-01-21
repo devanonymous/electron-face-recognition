@@ -147,13 +147,16 @@ async function onPlay(videoEl) {
     document.querySelectorAll('.face-box').forEach((box) => {
         box.remove();
     });
+    const faceBoxes = new Map();
     let faceboxesLength = 0;
 
     for (const face of fullFaceDescriptions) {
         const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
 
         const fb = new faceBox();
-        fb.setValues({name: (bestMatch.distance < maxDistance ? bestMatch.className : '')});
+        faceBoxes.set(face.descriptor, fb);
+        const userName = (bestMatch.distance < maxDistance ? bestMatch.className : '');
+        fb.setValues({name: userName});
         faceboxesLength++;
 
         face.expressions.forEach((expressionItem) => {
@@ -201,6 +204,13 @@ async function onPlay(videoEl) {
         });
 
         fb.show(face.detection.box, (faceboxesLength > 1));
+
+        if (faceboxesLength > 1) {
+            faceBoxes.forEach((fb) => {
+                fb.toSmalled();
+            });
+        }
+
         // document.body.appendChild(faceBox);
 
         // faceBox.appendChild(expressionsClone);
