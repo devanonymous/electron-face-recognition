@@ -115,13 +115,13 @@ body {
 /* face box */
 #face-box {
   position: absolute;
-  top: 1000%;
-  right: 1000%;
-  /*top: 400px;
+  /*top: 1000%;
+  right: 1000%;*/
+  top: 400px;
   right: 500px;
   z-index: 10;
   width: 408px;
-  height: 288px;*/
+  height: 288px;
   background: url('../../img/face.svg')50% 50% no-repeat;
   background-size: 100% 100%;
 }
@@ -284,6 +284,19 @@ body {
   font-size: 12px;
 }
 
+.face-box__svg-round {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 64px;
+}
+.face-box__svg-round-path {
+  fill: blue;
+  stroke: red;
+  stroke-width: 10;
+}
+
 .face-box__expressions-item-percent {
   display: flex;
   flex-flow: row nowrap;
@@ -345,6 +358,9 @@ body {
 
 .keyboard {
   z-index: 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #name {
@@ -502,4 +518,12 @@ body {
   z-index: 5;
   transform:  scale(-1,1);
   transform-origin: 50%;
+}
+
+
+.b-graphic {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  z-index: 100;
 }

@@ -76,6 +76,25 @@
                     <div class="face-box__expressions-item-percent-symbol">%</div>
                 </div>
                 <div class="face-box__expressions-item-title">Удивление</div>
+
+                <svg class="face-box__svg-round" viewBox="0 0 64 64" width="64" height="64">
+                    <defs>
+                        <linearGradient id="gradientName" x1="-154%" y2="-78%">
+                            <stop offset="57%" stop-color="#54B59A" stop-opacity="1"></stop>
+                            <stop offset="69%" stop-color="#5E92BF" stop-opacity="1"></stop>
+                            <stop offset="90%" stop-color="#FB2F5C" stop-opacity="1"></stop>
+                            <animate attributeName="x1" values="-244%; -100%; -244%" dur="10s" repeatCount="indefinite"></animate>
+                            <animate attributeName="y2" values="-178%; 0%; -178%" dur="10s" repeatCount="indefinite"></animate>
+                        </linearGradient>
+                    </defs>
+                    <path class="face-box__svg-round-path" d="" stroke="url(#gradientName)" fill="none" style="stroke-width: 4;"></path>
+                    <!--<path d="M0,0 C 20 20, 40 20, 50 10 Z" fill="none" stroke="url(#gradientName)" stroke-width="5"></path>-->
+                    <!--<g transform="rotate(-90 0 0)">
+                        <circle id="fon" cx="0" cy="0" r="32" stroke="url(#gradientName)" stroke-width="2"   stroke-dasharray ="32 " stroke-dashoffset="32" fill="none" />
+                    </g>-->
+                    <!--<ellipse cx="50%" cy="50%" rx="50%" ry="50%" fill="none" stroke="url(#gradientName)" stroke-width="10"
+                             stroke-dasharray="100% 0%" stroke-dashoffset="0%"></ellipse>-->
+                </svg>
             </div>
             <div class="face-box__expressions-item face-box__expressions-item_smalled face-box__expressions-item_happy">
                 <div class="face-box__expressions-item-percent">
@@ -519,6 +538,28 @@
 
     <object id="face-box__name-svg-circle" type="image/svg+xml" data="../img/ellipse-gradient.svg"></object>
 
+
+<div class="b-graphic">
+    <div class="b-graphic__row">
+        <div class="b-graphic__graph">
+            <svg style="width:330px;height:330px;" >
+
+            </svg>
+        </div>
+        <div class="b-graphic__items">
+            <div class="b-graphic__items__item" data-index="0">
+                <span class="b-graphic__items__part">85%</span>
+            </div>
+            <div class="b-graphic__items__item" data-index="2">
+                <span class="b-graphic__items__part">15%</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
     <!--<script src="../mods/js/commons.js"></script>-->
     <script src="../mods/js/main.js"></script>
     <script src="../mods/js/materialize.min.js"></script>
@@ -526,11 +567,14 @@
         // M.AutoInit();
     </script>
     <script src="../mods/js/keyboard.js"></script>
-    <script src="../mods/js/vivus.js"></script>
+    <script src="../snap.svg-min.js"></script>
     <script src="../mods/js/scripts.js"></script>
 
 
 
+<!--<svg id="svg" style="position:absolute;top:100px;left:100px;z-index: 100;">
+    <path d="M200,200 v-150 a150,150 0 0,0 -150,150 z" stroke="url(#gradientName)" fill="none" stroke-width="4"></path>
+</svg>-->
 <svg>
     <defs>
         <linearGradient id="face-box__name-svg-gradient_1" x1="0%" y1="100%" x2="100%" y2="0%">
