@@ -108,10 +108,11 @@ document.body.addEventListener('click', function () {
 
 function rotateCanvas(m_video) {
     context.save();
-    // context.translate(-420, -320);
+    context.translate(-420, 0);
     // context.rotate((CAMERA_ROTATION === 0 ? 1 : -CAMERA_ROTATION) * Math.PI / 180);
+    // context.rotate(1 * Math.PI / 180);
     // context.scale(1.35, 1.35);
-    context.drawImage(m_video, 0, 0, canvas.width, canvas.height);
+    context.drawImage(m_video, 0, 0, 1920, 1920);
     context.restore();
 };
 
@@ -540,7 +541,7 @@ async function onPlay(videoEl) {
             M.toast({ html: toastHTML, classes: 'rounded pulse not_found' });*/
         }
     }
-    setTimeout(() => onPlay(videoEl), 100);
+    setTimeout(() => onPlay(videoEl), 1000);
 }
 
 async function run() {
@@ -563,24 +564,54 @@ async function run() {
     trainDescriptorsByClass = await commonjs.loadDetectedPeople()
     /* console.log(trainDescriptorsByClass) */
     // console.log(navigator.mediaDevices.getSupportedConstraints())
-    navigator.mediaDevices.getUserMedia({
-            audio: false,
-            video: {
-                facingMode: "environment",
-                // aspectRatio: canvas.width/canvas.height,
-                width: { ideal: 1920 },
-                height: { ideal: 1080 },
-                frameRate: { ideal: 60, min: 25 }
+    navigator.mediaDevices.enumerateDevices()
+        .then((devices) => {
+
+            const cameras = devices.filter(device => device.kind === 'videoinput');
+            const camera = cameras.find(camera => camera.label.includes('Dummy'));
+
+            console.log(cameras)
+
+            if (!camera) {
+                throw new Error('No back camera found.');
             }
-        },
-        stream => videoEl.srcObject = stream,
-        err => console.error(err)
-    ).then(function(stream) {
-        videoEl.srcObject = stream;
-        // log the real size
-    }).catch(function(err) {
-        console.log(err.name + ': ' + err.message);
-    });
+
+            console.log(camera, 'camera1')
+
+            return navigator.mediaDevices.getUserMedia({
+                video: { 
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 },
+                    frameRate: { ideal: 30, min: 25 },
+                    deviceId: { exact: camera.deviceId } 
+                },
+                audio: false
+            });
+        }).then(function(stream) {
+            videoEl.srcObject = stream;
+            // log the real size
+        }).catch(function(err) {
+            console.log(err.name + ': ' + err.message);
+        });
+
+    // navigator.mediaDevices.getUserMedia({
+    //         audio: false,
+    //         video: {
+    //             facingMode: "environment",
+    //             // aspectRatio: canvas.width/canvas.height,
+    //             width: { ideal: 1920 },
+    //             height: { ideal: 1080 },
+    //             frameRate: { ideal: 30, min: 25 }
+    //         }
+    //     },
+    //     stream => videoEl.srcObject = stream,
+    //     err => console.error(err)
+    // ).then(function(stream) {
+    //     videoEl.srcObject = stream;
+    //     // log the real size
+    // }).catch(function(err) {
+    //     console.log(err.name + ': ' + err.message);
+    // });
 
 }
 

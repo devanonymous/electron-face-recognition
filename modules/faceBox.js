@@ -19,7 +19,7 @@ module.exports = class faceBox {
         this.html.style.top = faceDetectionBox.top +'px';
         this.html.style.width = faceDetectionBox.width +'px';
         this.html.style.height = faceDetectionBox.height +'px';
-        this.html.style.right = faceDetectionBox.left +'px';
+        this.html.style.left = faceDetectionBox.left +'px';
         this._updateValues();
         if (!smalledStyle) {
             this._showNormal();

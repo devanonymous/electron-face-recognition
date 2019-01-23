@@ -46,18 +46,6 @@ body {
   z-index: 1;
 }
 
-#inputVideo {
-  /*display: none !important;*/
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 5;
-  transform:  scale(-1,1);
-  transform-origin: 50%;
-}
-
 #modal1 {
   top: 50% !important;
 }
@@ -526,13 +514,18 @@ body {
 
 #inputVideo {
   position: absolute;
-  left: 0;
+  left: -420px;
   top: 0;
-  width: 100%;
-  height: 100%;
+  width: 1920px;
+  height: 1920px;
   z-index: 5;
-  transform:  scale(-1,1);
+  /* transform: scale(-1,1) translate3d(50%,0,0); */
   transform-origin: 50%;
+}
+#inputVideo.rotate {
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%,-50%,0) rotate(-90deg) scaleX(-1);
 }
 
 
