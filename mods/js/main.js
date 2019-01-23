@@ -425,9 +425,9 @@ async function onPlay(videoEl) {
 
     updateTimeStats(Date.now() - ts);
 
-    if ( document.querySelectorAll('.face-box').length > 0 ) {
+    // if ( document.querySelectorAll('.face-box').length > 0 ) {
         // return false;
-    }
+    // }
 
     document.querySelectorAll('.face-box').forEach((box) => {
         box.remove();
@@ -540,6 +540,17 @@ async function onPlay(videoEl) {
             M.toast({ html: toastHTML, classes: 'rounded pulse not_found' });*/
         }
     }
+
+
+
+   /* faceBoxes.forEach((fb) => {
+        // console.log(fb)
+        document.querySelectorAll('.face-box').forEach((fb) => {
+
+        });
+
+    });*/
+
     setTimeout(() => onPlay(videoEl), 100);
 }
 
