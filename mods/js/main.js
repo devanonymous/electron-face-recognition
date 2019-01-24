@@ -36,7 +36,7 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min)) + min;
 };
 
-const createFoto = async (name) => {
+const createFoto = async (name, position = '') => {
     const descriptors = [];
     let totalAttempts = 0;
     const facesRequired = 20;
@@ -70,7 +70,10 @@ const createFoto = async (name) => {
 
     if (descriptors.length >= facesRequired) {
         fs.writeFileSync(photoDataPath(name), JSON.stringify({
-            className: `${name}`,
+            className: {
+                name:`${name}`,
+                position: `${position}`
+            },
             descriptors
         }));
         location.reload()
@@ -447,12 +450,16 @@ async function onPlay(videoEl) {
         const html = oldFaceBoxes[oldFaceBoxIndex];
 
         if ( html ) {
+            oldFaceBoxIndex++;
             fb.setNewHtml(html);
             html.classList.remove('face-box_hidden');
         }
 
-        const userName = (bestMatch.distance < maxDistance ? bestMatch.className : '');
+        const userName = (bestMatch.distance < maxDistance ? bestMatch.className.name : '');
         fb.setValues({name: userName});
+        const userPosition = (bestMatch.distance < maxDistance ? bestMatch.className.position : '');
+        fb.setValues({position: userPosition});
+
         faceboxesLength++;
 
         face.expressions.forEach((expressionItem) => {
