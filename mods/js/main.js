@@ -116,6 +116,8 @@ const clearStrValue = function (str) {
     return newStr;
 };
 
+
+
 document.querySelector('#name').addEventListener('focus', function () {
     document.querySelector('.keyboard').classList.add('open');
 });
@@ -128,6 +130,20 @@ document.querySelector('#user-position').addEventListener('focus', function () {
 document.querySelector('#user-position').addEventListener('click', function () {
     document.querySelector('.keyboard').classList.add('open');
 });
+
+const clickKeyboard = function () {
+    const fieldName = document.querySelector('#name');
+    const fieldPosition = document.querySelector('#user-position');
+    // console.log('$',fieldName.classList.contains('field-name-show'),fieldPosition.classList.contains('field-name-show'));
+    if ( fieldName.classList.contains('field-name-show') ) {
+        fieldName.focus();
+    } else if ( fieldPosition.classList.contains('field-name-show') ) {
+        console.log('focus position')
+        fieldPosition.focus();
+    }
+};
+const keyboard = document.querySelector('.keyboard');
+keyboard.addEventListener('click', clickKeyboard, false);
 
 let ti = setTimeout(() => {}, 0);
 document.body.addEventListener('click', function () {
