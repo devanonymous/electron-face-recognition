@@ -89,13 +89,43 @@ const link = document.querySelector('.m_k_enter')
 
 link.addEventListener('pointerdown', function (event) {
     event.preventDefault(event)
-    createFoto(document.querySelector('#name').value)
-})
+
+    const fieldName = document.querySelector('#name');
+    const fieldPosition = document.querySelector('#user-position');
+    const userName = clearStrValue(fieldName.value);
+    const userPosition = clearStrValue(fieldPosition.value);
+
+    if ( userName > '' && userPosition > '' ) {
+        createFoto(userName, userPosition);
+    } else if ( userName > '' && !userPosition ) {
+        fieldName.classList.remove('field-name-show');
+        fieldPosition.classList.add('field-name-show');
+    } else {
+        fieldName.classList.add('field-name-show');
+        fieldPosition.classList.remove('field-name-show');
+    }
+});
+
+const clearStrValue = function (str) {
+    let newStr = str;
+
+    if ( newStr > '' ) {
+        newStr = newStr.trim();
+    }
+
+    return newStr;
+};
 
 document.querySelector('#name').addEventListener('focus', function () {
     document.querySelector('.keyboard').classList.add('open');
 });
 document.querySelector('#name').addEventListener('click', function () {
+    document.querySelector('.keyboard').classList.add('open');
+});
+document.querySelector('#user-position').addEventListener('focus', function () {
+    document.querySelector('.keyboard').classList.add('open');
+});
+document.querySelector('#user-position').addEventListener('click', function () {
     document.querySelector('.keyboard').classList.add('open');
 });
 
@@ -106,6 +136,7 @@ document.body.addEventListener('click', function () {
     ti = setTimeout(() => {
         document.querySelector('.keyboard').classList.remove('open');
         document.querySelector('#name').value = '';
+        document.querySelector('#user-position').value = '';
     }, 1000 * 30);
 });
 

@@ -367,7 +367,8 @@ body {
   align-items: center;
 }
 
-#name {
+#name,
+#user-position {
   display: none;
   position: absolute;
   top: 50%;
@@ -383,10 +384,12 @@ body {
   font-size: 18px;
   line-height: 1.5;
 }
-#name::placeholder {
+#name::placeholder,
+#user-position::placeholder {
   color: #fff;
 }
-#name.field-name-show {
+#name.field-name-show,
+#user-position.field-name-show {
   display: block;
 }
 
