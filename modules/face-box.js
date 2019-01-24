@@ -45,6 +45,10 @@ module.exports = class faceBox {
         this._updateValues();
     }
 
+    setNewHtml(html) {
+        this.html = html;
+    }
+
     _showNormal() {
         const html = this.html;
         html.querySelectorAll('.face-box__user-position_age').forEach((elem) => {
