@@ -430,8 +430,10 @@ async function onPlay(videoEl) {
         // return false;
     // }
 
-    document.querySelectorAll('.face-box').forEach((box) => {
-        box.classList.remove('face-box_not-remove');
+    let oldFaceBoxIndex = 0;
+    const oldFaceBoxes = document.querySelectorAll('.face-box');
+    oldFaceBoxes.forEach((box) => {
+        box.classList.add('face-box_hidden');
     });
 
     const faceBoxes = new Map();
@@ -442,11 +444,11 @@ async function onPlay(videoEl) {
 
         const fb = new faceBox();
         faceBoxes.set(face.descriptor, fb);
-        const html = document.querySelector('.face-box:not(.face-box_not-remove)');
+        const html = oldFaceBoxes[oldFaceBoxIndex];
 
         if ( html ) {
             fb.setNewHtml(html);
-            html.classList.add('face-box_not-remove');
+            html.classList.remove('face-box_hidden');
         }
 
         const userName = (bestMatch.distance < maxDistance ? bestMatch.className : '');
@@ -530,9 +532,6 @@ async function onPlay(videoEl) {
             graphics((faceboxesLength === 1 ? 165 : 64), (faceboxesLength === 1 ? 12 : 4));
         }
 
-        document.querySelectorAll('.face-box:not(.face-box_not-remove)').forEach((box) => {
-            box.remove();
-        });
 
 
         // document.body.appendChild(faceBox);
