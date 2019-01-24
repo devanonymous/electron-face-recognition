@@ -5,7 +5,7 @@ const faceapi = require('face-api.js');
 const moment = require('moment');
 
 const commonjs = require('../mods/js/commons');
-const faceBox = require('../modules/faceBox');
+const faceBox = require('../modules/face-box');
 
 let minFaceSize = 100
 let maxDistance = 0.5
