@@ -552,7 +552,7 @@ async function onPlay(videoEl) {
         }
     }
 
-    setTimeout(() => onPlay(videoEl), 100);
+    setTimeout(() => onPlay(videoEl), 1000);
 }
 
 async function run() {
