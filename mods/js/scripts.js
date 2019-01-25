@@ -3,8 +3,14 @@ const $ = require('jquery');
 document.addEventListener("DOMContentLoaded", function () {
     const modals = document.querySelectorAll('.modal');
     const clickKeyboard = function () {
-        const input = document.querySelector('#name');
-        input.focus();
+        const fieldName = document.querySelector('#name');
+        const fieldPosition = document.querySelector('#user-position');
+
+        if ( fieldName.classList.contains('field-name-show') ) {
+            fieldName.focus();
+        } else if ( fieldName.classList.contains('field-name-show') ) {
+            fieldPosition.focus();
+        }
     };
     const clickEnter = function () {
         document.querySelector('.modal.open .button').dispatchEvent(new Event('pointerdown'));

@@ -9,6 +9,8 @@ if ( isDev ) {
   require('electron-reload');
 }
 
+app.commandLine.appendSwitch('ignore-gpu-blacklist');
+
 //const {autoUpdater} = require('electron-updater')
 //const cp = require('child_process')
 

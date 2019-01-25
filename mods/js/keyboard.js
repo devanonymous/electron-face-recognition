@@ -142,7 +142,7 @@
         keyBtn.forEach(function (item, i, keyBtn) {
             item.addEventListener("pointerdown", function (event) {
                 item.classList.add('fuck');
-                var inp = document.querySelector('#name');
+                var inp = document.querySelector('.field-name-show');
 
                 if (langBtnRU.classList.contains('m_open') && item.children[0].classList.contains('m_open')) {
                     point = item.querySelector('.m_lan_ru .m_simbol').textContent;
