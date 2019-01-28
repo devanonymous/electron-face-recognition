@@ -9,21 +9,18 @@ const commonjs = require('../mods/js/commons');
 const faceBox = require('../modules/face-box');
 const createFoto = require('../modules/create-foto');
 
-let minFaceSize = 100
-let maxDistance = 0.5
-let minConfidence = 0.99
-let forwardTimes = []
+const opt = {
+    width: 1920,
+    height: 1080,
+    maxDistance: 0.5
+};
 
-const CAMERA_ROTATION = -90;
-const CAMERA_REALWIDTH = 1920;
-const globalContainer = document.querySelector('.margin');
+const videoEl = document.querySelector('#inputVideo');
 
-const videoEl = document.querySelector('#inputVideo')
-// videoEl.style.transform = 'rotate(' + CAMERA_ROTATION + 'deg) scaleX(-1)';
-var canvas = document.createElement('canvas');
-canvas.width = globalContainer.getBoundingClientRect().width;
-canvas.height = globalContainer.getBoundingClientRect().height;
-var context = canvas.getContext('2d');
+const canvas = document.createElement('canvas');
+canvas.width = opt.width;
+canvas.height = opt.height;
+const context = canvas.getContext('2d');
 
 const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 })
 let isBlockedPlay = false;
@@ -110,17 +107,12 @@ document.body.addEventListener('click', function () {
 
 function rotateCanvas(m_video) {
     context.save();
-    context.translate(-420, 0);
+    // context.translate(-420, 0);
     // context.rotate((CAMERA_ROTATION === 0 ? 1 : -CAMERA_ROTATION) * Math.PI / 180);
     // context.rotate(1 * Math.PI / 180);
     // context.scale(1.35, 1.35);
-    context.drawImage(m_video, 0, 0, 1920, 1920);
+    context.drawImage(m_video, 0, 0, opt.width, opt.height);
     context.restore();
-};
-
-function updateTimeStats(timeInMs) {
-    forwardTimes = [timeInMs].concat(forwardTimes).slice(0, 30)
-    const avgTimeInMs = forwardTimes.reduce((total, t) => total + t) / forwardTimes.length
 }
 
 function graphics(size = 64, strokeWidth = 4) {
@@ -414,23 +406,13 @@ async function onPlay(videoEl) {
         return false;
     }
 
-    const {
-        width,
-        height
-    } = faceapi.getMediaDimensions(videoEl)
-    rotateCanvas(videoEl)
+    faceapi.getMediaDimensions(videoEl);
+    rotateCanvas(videoEl);
 
-    const ts = Date.now()
     const fullFaceDescriptions = await faceapi.detectAllFaces(canvas, options)
         .withFaceExpressions()
         .withFaceLandmarks()
-        .withFaceDescriptors()
-
-    updateTimeStats(Date.now() - ts);
-
-    // if ( document.querySelectorAll('.face-box').length > 0 ) {
-        // return false;
-    // }
+        .withFaceDescriptors();
 
     let oldFaceBoxIndex = 0;
     const oldFaceBoxes = document.querySelectorAll('.face-box');
@@ -450,13 +432,14 @@ async function onPlay(videoEl) {
 
         if ( html ) {
             oldFaceBoxIndex++;
+            // fb.clearData();
             fb.setNewHtml(html);
             html.classList.remove('face-box_hidden');
         }
 
-        const userName = (bestMatch.distance < maxDistance ? bestMatch.className.name : '');
+        const userName = (bestMatch.distance < opt.maxDistance ? bestMatch.className.name : '');
         fb.setValues({name: userName});
-        const userPosition = (bestMatch.distance < maxDistance ? bestMatch.className.position : '');
+        const userPosition = (bestMatch.distance < opt.maxDistance ? bestMatch.className.position : '');
         fb.setValues({position: userPosition});
 
         faceboxesLength++;
@@ -546,7 +529,7 @@ async function onPlay(videoEl) {
 
         // console.log(face.expressions)
 
-        if (bestMatch.distance < maxDistance) {
+        if (bestMatch.distance < opt.maxDistance) {
             const text = `${bestMatch.className}` //(${bestMatch.distance})
             var toastHTML = `<span>${text}</span>`;
             // M.toast({ html: toastHTML, classes: 'rounded pulse find' });
@@ -581,7 +564,7 @@ async function run() {
     trainDescriptorsByClass = await commonjs.loadDetectedPeople()
     /* console.log(trainDescriptorsByClass) */
     // console.log(navigator.mediaDevices.getSupportedConstraints())
-    navigator.mediaDevices.enumerateDevices()
+    /*navigator.mediaDevices.enumerateDevices()
         .then((devices) => {
 
             const cameras = devices.filter(device => device.kind === 'videoinput');
@@ -609,9 +592,9 @@ async function run() {
             // log the real size
         }).catch(function(err) {
             console.log(err.name + ': ' + err.message);
-        });
+        });*/
 
-    /*navigator.mediaDevices.getUserMedia({
+    navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
                 facingMode: "environment",
@@ -628,7 +611,7 @@ async function run() {
         // log the real size
     }).catch(function(err) {
         console.log(err.name + ': ' + err.message);
-    });*/
+    });
 
 }
 
