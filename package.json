@@ -1,8 +1,8 @@
 {
-  "name": "face-recognition",
+  "name": "neuro-id",
   "version": "0.0.1",
   "description": "Desc",
-  "productName": "faceRecognition",
+  "productName": "neuro-id",
   "main": "index.js",
   "scripts": {
     "start": "electron index.js",
