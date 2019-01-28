@@ -1,5 +1,3 @@
-const $ = require('jquery');
-
 module.exports = class faceBox {
     constructor(name, position, age, neutral, happy, sad, angry, fearful, disgusted, surprised) {
         this.name = name || `Роман Абрамович`;
