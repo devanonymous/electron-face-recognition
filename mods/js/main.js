@@ -20,7 +20,9 @@ const videoEl = document.querySelector('#inputVideo');
 const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 })
 let isBlockedPlay = false;
 
-
+if ( window.innerWidth < window.innerHeight ) {
+    videoEl.classList.add('rotate');
+}
 
 const link = document.querySelector('.m_k_enter')
 
