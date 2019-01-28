@@ -14,13 +14,14 @@ const opt = {
     height: 1080,
     maxDistance: 0.5
 };
+const rotateVideo = window.innerWidth < window.innerHeight;
 
 const videoEl = document.querySelector('#inputVideo');
 
 const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 })
 let isBlockedPlay = false;
 
-if ( window.innerWidth < window.innerHeight ) {
+if ( rotateVideo ) {
     videoEl.classList.add('rotate');
 }
 
@@ -194,7 +195,7 @@ async function onPlay(videoEl) {
             });
         }
 
-        fb.show(face.detection.box, (faceboxesLength > 1));
+        fb.show(face.detection.box, (faceboxesLength > 1), rotateVideo);
 
         if (faceboxesLength > 1) {
             faceBoxes.forEach((fb) => {
