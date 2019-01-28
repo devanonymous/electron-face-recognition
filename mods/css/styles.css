@@ -340,8 +340,8 @@ body {
   transition: min-width var(--anim-longer);
 }
 .login-buttons_show {
-  right: 300px;
-  min-width: calc(100vw - 600px);
+  right: 0;
+  min-width: 100vw;
   background: none;
 }
 .login-buttons__btn {
