@@ -17,11 +17,6 @@ const opt = {
 
 const videoEl = document.querySelector('#inputVideo');
 
-const canvas = document.createElement('canvas');
-canvas.width = opt.width;
-canvas.height = opt.height;
-const context = canvas.getContext('2d');
-
 const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 })
 let isBlockedPlay = false;
 
@@ -105,16 +100,6 @@ document.body.addEventListener('click', function () {
     }, 1000 * 30);
 });
 
-function rotateCanvas(m_video) {
-    context.save();
-    // context.translate(-420, 0);
-    // context.rotate((CAMERA_ROTATION === 0 ? 1 : -CAMERA_ROTATION) * Math.PI / 180);
-    // context.rotate(1 * Math.PI / 180);
-    // context.scale(1, 1);
-    context.drawImage(m_video, 0, 0, opt.width, opt.height);
-    context.restore();
-}
-
 async function onPlay(videoEl) {
     if (videoEl.paused || videoEl.ended) {
         console.log(`onPlay(): videoEl paused or ended; return;`);
@@ -126,9 +111,8 @@ async function onPlay(videoEl) {
     }
 
     faceapi.getMediaDimensions(videoEl);
-    rotateCanvas(videoEl);
 
-    const fullFaceDescriptions = await faceapi.detectAllFaces(canvas, options)
+    const fullFaceDescriptions = await faceapi.detectAllFaces(videoEl, options)
         .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
@@ -162,49 +146,51 @@ async function onPlay(videoEl) {
 
         faceboxesLength++;
 
-        face.expressions.forEach((expressionItem) => {
-            if ( expressionItem.probability.toFixed(2) > 0 ) {
-                // let exNameRus = ``;
-                // let $expressionItem;
+        if ( face.expressions ) {
+            face.expressions.forEach((expressionItem) => {
+                if ( expressionItem.probability.toFixed(2) > 0 ) {
+                    // let exNameRus = ``;
+                    // let $expressionItem;
 
-                switch (expressionItem.expression) {
-                    case "neutral":
-                        // exNameRus = `Нейтральны`;
-                        break;
-                    case "happy":
-                        fb.setValues({happy: Math.round(expressionItem.probability * 100)});
-                        // exNameRus = `Радость`;
-                        // $expressionItem = faceBox.querySelector('.face-box__expressions-item_happy');
-                        break;
-                    case "sad":
-                        fb.setValues({sad: Math.round(expressionItem.probability * 100)});
-                        // exNameRus = `Огорчение`;
-                        // $expressionItem = faceBox.querySelector('.face-box__expressions-item_sad');
-                        break;
-                    case "angry":
-                        // exNameRus = `Злы`;
-                        break;
-                    case "fearful":
-                        fb.setValues({fearful: Math.round(expressionItem.probability * 100)});
-                        // exNameRus = `Испуг`;
-                        // $expressionItem = faceBox.querySelector('.face-box__expressions-item_fearful');
-                        break;
-                    case "disgusted":
-                        // exNameRus = `Чувствуете отвращение`;
-                        break;
-                    case "surprised":
-                        fb.setValues({suprised: Math.round(expressionItem.probability * 100)});
-                        // exNameRus = `Удивление`;
-                        // $expressionItem = faceBox.querySelector('.face-box__expressions-item_surprised');
-                        break;
+                    switch (expressionItem.expression) {
+                        case "neutral":
+                            // exNameRus = `Нейтральны`;
+                            break;
+                        case "happy":
+                            fb.setValues({happy: Math.round(expressionItem.probability * 100)});
+                            // exNameRus = `Радость`;
+                            // $expressionItem = faceBox.querySelector('.face-box__expressions-item_happy');
+                            break;
+                        case "sad":
+                            fb.setValues({sad: Math.round(expressionItem.probability * 100)});
+                            // exNameRus = `Огорчение`;
+                            // $expressionItem = faceBox.querySelector('.face-box__expressions-item_sad');
+                            break;
+                        case "angry":
+                            // exNameRus = `Злы`;
+                            break;
+                        case "fearful":
+                            fb.setValues({fearful: Math.round(expressionItem.probability * 100)});
+                            // exNameRus = `Испуг`;
+                            // $expressionItem = faceBox.querySelector('.face-box__expressions-item_fearful');
+                            break;
+                        case "disgusted":
+                            // exNameRus = `Чувствуете отвращение`;
+                            break;
+                        case "surprised":
+                            fb.setValues({suprised: Math.round(expressionItem.probability * 100)});
+                            // exNameRus = `Удивление`;
+                            // $expressionItem = faceBox.querySelector('.face-box__expressions-item_surprised');
+                            break;
+                    }
+
+                    /*if ( $expressionItem ) {
+                        const percentage = Math.round(expressionItem.probability * 100);
+                        $expressionItem.querySelector('.face-box__expressions-item-percent-value').innerHTML = `${percentage}`;
+                    }*/
                 }
-
-                /*if ( $expressionItem ) {
-                    const percentage = Math.round(expressionItem.probability * 100);
-                    $expressionItem.querySelector('.face-box__expressions-item-percent-value').innerHTML = `${percentage}`;
-                }*/
-            }
-        });
+            });
+        }
 
         fb.show(face.detection.box, (faceboxesLength > 1));
 
@@ -236,7 +222,6 @@ async function run() {
     await faceapi.loadFaceRecognitionModel('../mods/weights')
     await faceapi.loadFaceExpressionModel('../mods/weights')
 
-    console.log(canvas.width, canvas.height);
     trainDescriptorsByClass = await commonjs.loadDetectedPeople()
     /* console.log(trainDescriptorsByClass) */
     // console.log(navigator.mediaDevices.getSupportedConstraints())
