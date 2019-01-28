@@ -245,6 +245,33 @@ module.exports = class faceBox {
         });
     }
 
+    parseExpressions(expressions) {
+        expressions.forEach((expressionItem) => {
+            if ( expressionItem.probability.toFixed(2) > 0 ) {
+                switch (expressionItem.expression) {
+                    case "neutral":// exNameRus = `Нейтральны`;
+                        break;
+                    case "happy":// exNameRus = `Радость`;
+                        this.setValues({happy: Math.round(expressionItem.probability * 100)});
+                        break;
+                    case "sad":// exNameRus = `Огорчение`;
+                        this.setValues({sad: Math.round(expressionItem.probability * 100)});
+                        break;
+                    case "angry":// exNameRus = `Злы`;
+                        break;
+                    case "fearful":// exNameRus = `Испуг`;
+                        this.setValues({fearful: Math.round(expressionItem.probability * 100)});
+                        break;
+                    case "disgusted":// exNameRus = `Чувствуете отвращение`;
+                        break;
+                    case "surprised":// exNameRus = `Удивление`;
+                        this.setValues({suprised: Math.round(expressionItem.probability * 100)});
+                        break;
+                }
+            }
+        });
+    }
+
     _showNormal() {
         const html = this.html;
         html.querySelectorAll('.face-box__user-position_age').forEach((elem) => {

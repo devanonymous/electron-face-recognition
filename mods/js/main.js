@@ -150,49 +150,7 @@ async function onPlay(videoEl) {
         faceboxesLength++;
 
         if ( face.expressions ) {
-            face.expressions.forEach((expressionItem) => {
-                if ( expressionItem.probability.toFixed(2) > 0 ) {
-                    // let exNameRus = ``;
-                    // let $expressionItem;
-
-                    switch (expressionItem.expression) {
-                        case "neutral":
-                            // exNameRus = `Нейтральны`;
-                            break;
-                        case "happy":
-                            fb.setValues({happy: Math.round(expressionItem.probability * 100)});
-                            // exNameRus = `Радость`;
-                            // $expressionItem = faceBox.querySelector('.face-box__expressions-item_happy');
-                            break;
-                        case "sad":
-                            fb.setValues({sad: Math.round(expressionItem.probability * 100)});
-                            // exNameRus = `Огорчение`;
-                            // $expressionItem = faceBox.querySelector('.face-box__expressions-item_sad');
-                            break;
-                        case "angry":
-                            // exNameRus = `Злы`;
-                            break;
-                        case "fearful":
-                            fb.setValues({fearful: Math.round(expressionItem.probability * 100)});
-                            // exNameRus = `Испуг`;
-                            // $expressionItem = faceBox.querySelector('.face-box__expressions-item_fearful');
-                            break;
-                        case "disgusted":
-                            // exNameRus = `Чувствуете отвращение`;
-                            break;
-                        case "surprised":
-                            fb.setValues({suprised: Math.round(expressionItem.probability * 100)});
-                            // exNameRus = `Удивление`;
-                            // $expressionItem = faceBox.querySelector('.face-box__expressions-item_surprised');
-                            break;
-                    }
-
-                    /*if ( $expressionItem ) {
-                        const percentage = Math.round(expressionItem.probability * 100);
-                        $expressionItem.querySelector('.face-box__expressions-item-percent-value').innerHTML = `${percentage}`;
-                    }*/
-                }
-            });
+            fb.parseExpressions(face.expressions);
         }
 
         fb.show(face.detection.box, (faceboxesLength > 1), rotateVideo);
