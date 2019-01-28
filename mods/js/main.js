@@ -581,7 +581,7 @@ async function run() {
     trainDescriptorsByClass = await commonjs.loadDetectedPeople()
     /* console.log(trainDescriptorsByClass) */
     // console.log(navigator.mediaDevices.getSupportedConstraints())
-    /*navigator.mediaDevices.enumerateDevices()
+    navigator.mediaDevices.enumerateDevices()
         .then((devices) => {
 
             const cameras = devices.filter(device => device.kind === 'videoinput');
@@ -609,9 +609,9 @@ async function run() {
             // log the real size
         }).catch(function(err) {
             console.log(err.name + ': ' + err.message);
-        });*/
+        });
 
-    navigator.mediaDevices.getUserMedia({
+    /*navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
                 facingMode: "environment",
@@ -628,7 +628,7 @@ async function run() {
         // log the real size
     }).catch(function(err) {
         console.log(err.name + ': ' + err.message);
-    });
+    });*/
 
 }
 
