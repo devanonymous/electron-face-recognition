@@ -128,7 +128,7 @@ body {
   height: 75px;
 }
 .face-box__name-svg {
-  overflow: visible;
+  overflow: visible !important;
   position: absolute;
   bottom: 0;
   left: 0;
