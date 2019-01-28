@@ -5,9 +5,11 @@ const faceapi = require('face-api.js');
 const moment = require('moment');
 const log = require('electron-log');
 
-const commonjs = require('../mods/js/commons');
-const faceBox = require('../modules/face-box');
-const createFoto = require('../modules/create-foto');
+const commonjs = require(path.resolve(__dirname, '../mods/js/commons'));
+const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
+const createFoto = require(path.resolve(__dirname, '../modules/create-foto'));
+
+log.info(path.resolve(__dirname, '../modules/create-foto'));
 
 const opt = {
     width: 1920,
@@ -176,10 +178,10 @@ async function run() {
     })
 
     await faceapi.nets.ssdMobilenetv1.loadFromDisk(path.resolve(__dirname, '../mods/weights'))
-    await faceapi.loadFaceDetectionModel('../mods/weights')
-    await faceapi.loadFaceLandmarkModel('../mods/weights')
-    await faceapi.loadFaceRecognitionModel('../mods/weights')
-    await faceapi.loadFaceExpressionModel('../mods/weights')
+    await faceapi.loadFaceDetectionModel(path.resolve(__dirname, '../mods/weights'))
+    await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../mods/weights'))
+    await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../mods/weights'))
+    await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'))
 
     trainDescriptorsByClass = await commonjs.loadDetectedPeople()
     /* console.log(trainDescriptorsByClass) */

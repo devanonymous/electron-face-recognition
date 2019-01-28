@@ -43,34 +43,22 @@ function createWindow() {
     }
   });
 
-  // win.webContents.openDevTools();
+  win.webContents.on('dom-ready', function () {
+    win.webContents.openDevTools();
+
+    log.info('__dirname', __dirname);
+
+    if ( isDev ) {
+      // win.webContents.openDevTools();
+    }
+  });
 
   win.loadFile(path.join(__dirname, 'src/index.html'));
 
-  if ( isDev ) {
-    win.webContents.openDevTools();
-  }
-
-  /*const firstLoader = (loadobj) => {
-    win.loadURL(url.format(loadobj));
-  }
-
-  firstLoader({
-    pathname: path.join(__dirname, 'src/index.html'),
-    protocol: 'file:',
-    slashes: true
-  })*/
-
-  /* firstLoader({
-    pathname: '//127.0.0.1:3000/mtcnn_face_recognition_webcam',
-    protocol: 'http:',
-    slashes: true
-  }); */
-
   win.on('closed', () => {
     win = null
-  })
-  windows.push(win)
+  });
+  windows.push(win);
 }
 
 app.on('ready', () => {
@@ -92,29 +80,3 @@ app.on('activate', () => {
     // createWindow()
   }
 })
-
-// autoUpdater.on('checking-for-update', () => {
-//   sendStatusToWindow('Checking for update...')
-// })
-// autoUpdater.on('update-available', (info) => {
-//   sendStatusToWindow('Update available.')
-// })
-// autoUpdater.on('update-not-available', (info) => {
-//   sendStatusToWindow('Update not available.')
-// })
-// autoUpdater.on('error', (err) => {
-//   sendStatusToWindow('Error in auto-updater.');
-// })
-// autoUpdater.on('download-progress', (progressObj) => {
-//   sendStatusToWindow('Download progress...');
-// })
-
-// autoUpdater.on('update-downloaded', (info) => {
-//   sendStatusToWindow('Update downloaded')
-//   autoUpdater.quitAndInstall();
-// })
-
-app.on('ready', function () {
-  //autoUpdater.checkForUpdates();
-})
-
