@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const faceapi = require('face-api.js');
 const moment = require('moment');
+const log = require('electron-log');
 
 const commonjs = require('../mods/js/commons');
 const faceBox = require('../modules/face-box');
@@ -27,15 +28,7 @@ var context = canvas.getContext('2d');
 const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 })
 let isBlockedPlay = false;
 
-if ( !fs.existsSync(path.join(electron.remote.app.getPath('home'), `/foto-data/`)) ) {
-    fs.mkdirSync(path.join(electron.remote.app.getPath('home'), `/foto-data/`));
-}
 
-const photoDataPath = (name) => path.join(electron.remote.app.getPath('home'), `/foto-data/${name}.json`);
-
-const getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min)) + min;
-};
 
 const link = document.querySelector('.m_k_enter')
 
@@ -48,7 +41,14 @@ link.addEventListener('pointerdown', function (event) {
     const userPosition = clearStrValue(fieldPosition.value);
 
     if ( userName > '' && userPosition > '' ) {
-        createFoto(userName, userPosition);
+        isBlockedPlay = true;
+        createFoto(userName, userPosition)
+            .then(() => {
+                isBlockedPlay = false;
+            })
+            .catch((err) => {
+                log.error('mod:createFoto() catch error', err);
+            });
     } else if ( userName > '' && !userPosition ) {
         fieldName.classList.remove('field-name-show');
         fieldPosition.classList.add('field-name-show');
@@ -581,13 +581,13 @@ async function run() {
     trainDescriptorsByClass = await commonjs.loadDetectedPeople()
     /* console.log(trainDescriptorsByClass) */
     // console.log(navigator.mediaDevices.getSupportedConstraints())
-    navigator.mediaDevices.enumerateDevices()
+    /*navigator.mediaDevices.enumerateDevices()
         .then((devices) => {
 
             const cameras = devices.filter(device => device.kind === 'videoinput');
             const camera = cameras.find(camera => camera.label.includes('Dummy'));
 
-            console.log(cameras)
+            console.log(cameras, cameras)
 
             if (!camera) {
                 throw new Error('No back camera found.');
@@ -609,26 +609,26 @@ async function run() {
             // log the real size
         }).catch(function(err) {
             console.log(err.name + ': ' + err.message);
-        });
+        });*/
 
-    // navigator.mediaDevices.getUserMedia({
-    //         audio: false,
-    //         video: {
-    //             facingMode: "environment",
-    //             // aspectRatio: canvas.width/canvas.height,
-    //             width: { ideal: 1920 },
-    //             height: { ideal: 1080 },
-    //             frameRate: { ideal: 30, min: 25 }
-    //         }
-    //     },
-    //     stream => videoEl.srcObject = stream,
-    //     err => console.error(err)
-    // ).then(function(stream) {
-    //     videoEl.srcObject = stream;
-    //     // log the real size
-    // }).catch(function(err) {
-    //     console.log(err.name + ': ' + err.message);
-    // });
+    navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: {
+                facingMode: "environment",
+                // aspectRatio: canvas.width/canvas.height,
+                width: { ideal: 1920 },
+                height: { ideal: 1080 },
+                frameRate: { ideal: 30, min: 25 }
+            }
+        },
+        stream => videoEl.srcObject = stream,
+        err => console.error(err)
+    ).then(function(stream) {
+        videoEl.srcObject = stream;
+        // log the real size
+    }).catch(function(err) {
+        console.log(err.name + ': ' + err.message);
+    });
 
 }
 

@@ -1,10 +1,19 @@
+const electron = require('electron') || require('electron').remote;
+const fs = require('fs');
+const path = require('path');
+const faceapi = require('face-api.js');
+
 module.exports = async (name, position = '') => {
+    if ( !fs.existsSync(path.join(electron.app.getPath('home'), `/foto-data/`)) ) {
+        fs.mkdirSync(path.join(electron.app.getPath('home'), `/foto-data/`));
+    }
+
+    const photoDataPath = (name) => path.join(electron.app.getPath('home'), `/foto-data/${name}.json`);
+
     const descriptors = [];
     let totalAttempts = 0;
     const facesRequired = 20;
     const threshold = 40;
-
-    isBlockedPlay = true;
 
     while (totalAttempts < threshold) {
         totalAttempts++;
@@ -43,6 +52,4 @@ module.exports = async (name, position = '') => {
         const toastHTML = `<span>Распознание не удалось</span>`;
         M.toast({ html: toastHTML, classes: 'rounded pulse no-find' });
     }
-
-    isBlockedPlay = false;
 };
