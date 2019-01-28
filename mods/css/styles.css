@@ -333,15 +333,16 @@ body {
   z-index: 10;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: stretch;
   background: url('../../img/bg-buttons-for-login.png')50% 50% no-repeat;
   background-size: auto 100%;
   transition: min-width var(--anim-longer);
 }
 .login-buttons_show {
-  right: 0;
-  min-width: 100vw;
+  right: 50%;
+  margin-right: -360px;
+  min-width: 720px;
   background: none;
 }
 .login-buttons__btn {
@@ -373,17 +374,19 @@ body {
   display: none;
   position: absolute;
   top: 50%;
-  left: 35%;
+  left: 50%;
   z-index: 20;
-  border-width: 0 0 2px;
-  border-style: solid;
-  border-color: #fff;
-  width: 30%;
-  height: auto;
+  margin: 10px 0 0 -250px;
+  border: 0;
+  width: 500px;
+  height: 40px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 53.04%, rgba(0, 0, 0, 0) 100%);
   text-align: center;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
   color: #fff;
-  font-size: 18px;
+  font-size: 24px;
   line-height: 1.5;
+  box-shadow: none;
 }
 #name::placeholder,
 #user-position::placeholder {
