@@ -34,7 +34,10 @@ module.exports = class faceBox {
         if (!smalledStyle) {
             this._showNormal();
         }
-        document.body.appendChild(this.html);
+
+        if ( !this.html.classList.contains('face-box_old-box') ) {
+            document.body.appendChild(this.html);
+        }
     }
 
     toSmalled() {
@@ -61,8 +64,6 @@ module.exports = class faceBox {
     }
 
     setRounds() {//size = 64, strokeWidth = 4
-        return false;
-
         const graphMain = document.querySelector('#b-graphic');
         let $graphics = $(".b-graphic", this.html);
 
@@ -97,11 +98,9 @@ module.exports = class faceBox {
                 return false;
             }
 
-            const value = $this.find('.face-box__expressions-item-percent-value').text().trim();
+            const value = Math.round($this.closest('.face-box__expressions-item').find('.face-box__expressions-item-percent-value').text().trim());
             $parts[0].innerHTML = (value > 0 ? value : 0);
-            $parts[1].innerHTML = 100 - value;
-
-            console.log('value',value)
+            $parts[1].innerHTML = (value > 0 ? 100 - value : 100);
 
             $items.attr("data-index", function (index) {
                 return index;
@@ -248,6 +247,7 @@ module.exports = class faceBox {
     parseExpressions(expressions) {
         expressions.forEach((expressionItem) => {
             if ( expressionItem.probability.toFixed(2) > 0 ) {
+                // console.log(expressionItem.expression, expressionItem.probability);
                 switch (expressionItem.expression) {
                     case "neutral":// exNameRus = `Нейтральны`;
                         break;

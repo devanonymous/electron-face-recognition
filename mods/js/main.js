@@ -124,6 +124,7 @@ async function onPlay(videoEl) {
     const oldFaceBoxes = document.querySelectorAll('.face-box');
     oldFaceBoxes.forEach((box) => {
         box.classList.add('face-box_hidden');
+        box.classList.remove('face-box_old-box');
     });
 
     const faceBoxes = new Map();
@@ -131,7 +132,6 @@ async function onPlay(videoEl) {
 
     for (const face of fullFaceDescriptions) {
         const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
-
         const fb = new faceBox();
         faceBoxes.set(face.descriptor, fb);
         const html = oldFaceBoxes[oldFaceBoxIndex];
@@ -140,6 +140,7 @@ async function onPlay(videoEl) {
             oldFaceBoxIndex++;
             fb.setNewHtml(html);
             html.classList.remove('face-box_hidden');
+            html.classList.add('face-box_old-box');
         }
 
         const userName = (bestMatch.distance < opt.maxDistance ? bestMatch.className.name : '');
