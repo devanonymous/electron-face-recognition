@@ -1,5 +1,3 @@
-const $ = require('jquery');
-
 document.addEventListener("DOMContentLoaded", function () {
     const modals = document.querySelectorAll('.modal');
     const clickKeyboard = function () {
@@ -48,24 +46,4 @@ document.addEventListener("DOMContentLoaded", function () {
             this.classList.add('login-buttons_show');
         });
     });
-
-
-
-
-
-
-    /*{
-        const myVivus = new Vivus('face-box__name-svg-circle', {
-            type: 'delayed',
-            duration: 500,
-            animTimingFunction: Vivus.EASE
-        }, function () {
-            console.log('end myVivus');
-        });
-
-        myVivus.play(function () {
-            console.log('play myVivus');
-        });
-    }*/
-
 });
