@@ -99,6 +99,13 @@ module.exports = class faceBox {
             }
 
             const value = Math.round($this.closest('.face-box__expressions-item').find('.face-box__expressions-item-percent-value').text().trim());
+
+            if ( value > 0 ) {
+                $this.show();
+            } else {
+                $this.hide();
+            }
+
             $parts[0].innerHTML = (value > 0 ? value : 0);
             $parts[1].innerHTML = (value > 0 ? 100 - value : 100);
 
@@ -186,6 +193,7 @@ module.exports = class faceBox {
             let start = 0;
             let end = 0;
             let html = "";
+            const randomFloat = Math.random();
 
             for ( i = 0; $parts.length > i; i++ ) {
                 start = start + (round.finalParts[i - 1] ? round.finalParts[i - 1] : 0);
@@ -227,13 +235,13 @@ module.exports = class faceBox {
                     'stroke-linejoin="miter" ' +
                     'data-active="'+ M + activeL + activeA + Z +'" '+
                     'data-index="'+ i +'" ' +
-                    'mask="url(#svg-cat_'+ graphicIndex +')" ' +
+                    'mask="url(#svg-cat_'+ graphicIndex +'-'+ randomFloat +')" ' +
                     'transform="rotate(-90)" ' +
                     'style="transform-origin: 50%;"></path>';
             }
 
             html+= `<defs>
-            <mask id="svg-cat_${graphicIndex}">
+            <mask id="svg-cat_${graphicIndex}-${randomFloat}">
                 <rect class="svg-cat__rect" width="${size}" height="${size}" fill="white" />
                 <circle class="svg-cat__circle" stroke="white" fill="black"
                 cx="${size/2}" cy="${size/2}" r="${(size - style.strokeWidth)/2}" stroke-width="${style.strokeWidth}" />
@@ -247,27 +255,9 @@ module.exports = class faceBox {
     parseExpressions(expressions) {
         expressions.forEach((expressionItem) => {
             if ( expressionItem.probability.toFixed(2) > 0 ) {
-                // console.log(expressionItem.expression, expressionItem.probability);
-                switch (expressionItem.expression) {
-                    case "neutral":// exNameRus = `Нейтральны`;
-                        break;
-                    case "happy":// exNameRus = `Радость`;
-                        this.setValues({happy: Math.round(expressionItem.probability * 100)});
-                        break;
-                    case "sad":// exNameRus = `Огорчение`;
-                        this.setValues({sad: Math.round(expressionItem.probability * 100)});
-                        break;
-                    case "angry":// exNameRus = `Злы`;
-                        break;
-                    case "fearful":// exNameRus = `Испуг`;
-                        this.setValues({fearful: Math.round(expressionItem.probability * 100)});
-                        break;
-                    case "disgusted":// exNameRus = `Чувствуете отвращение`;
-                        break;
-                    case "surprised":// exNameRus = `Удивление`;
-                        this.setValues({suprised: Math.round(expressionItem.probability * 100)});
-                        break;
-                }
+                this.setValues({[expressionItem.expression]: Math.round(expressionItem.probability * 100)});
+            } else {
+                this.setValues({[expressionItem.expression]: 0});
             }
         });
     }
@@ -302,6 +292,8 @@ module.exports = class faceBox {
         html.querySelectorAll('.face-box__expressions-item').forEach((elem) => {
             elem.classList.add('face-box__expressions-item_smalled');
         });
+
+        this.setRounds();
     }
 
     _updateValues() {

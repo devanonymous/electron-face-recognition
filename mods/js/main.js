@@ -128,7 +128,6 @@ async function onPlay(videoEl) {
     });
 
     const faceBoxes = new Map();
-    let faceboxesLength = 0;
 
     for (const face of fullFaceDescriptions) {
         const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
@@ -148,21 +147,19 @@ async function onPlay(videoEl) {
         const userPosition = (bestMatch.distance < opt.maxDistance ? bestMatch.className.position : '');
         fb.setValues({position: userPosition});
 
-        faceboxesLength++;
-
         if ( face.expressions ) {
             fb.parseExpressions(face.expressions);
         }
 
-        fb.show(face.detection.box, (faceboxesLength > 1), rotateVideo);
-
-        if (faceboxesLength > 1) {
-            faceBoxes.forEach((fb) => {
-                fb.toSmalled();
-            });
-        }
+        fb.show(face.detection.box, (fullFaceDescriptions.length > 1), rotateVideo);
 
         fb.setRounds();
+    }
+
+    if (fullFaceDescriptions.length > 1) {
+        faceBoxes.forEach((fb) => {
+            fb.toSmalled();
+        });
     }
 
     setTimeout(() => onPlay(videoEl), 1000);
