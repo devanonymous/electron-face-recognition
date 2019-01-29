@@ -129,12 +129,12 @@ async function onPlay(videoEl) {
         box.classList.remove('face-box_old-box');
     });
 
-    const faceBoxes = new Map();
+    const faceBoxes = [];
 
     for (const face of fullFaceDescriptions) {
         const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
         const fb = new faceBox();
-        faceBoxes.set(face.descriptor, fb);
+        faceBoxes[faceBoxes.length] = fb;
         const html = oldFaceBoxes[oldFaceBoxIndex];
 
         if ( html ) {
@@ -144,10 +144,12 @@ async function onPlay(videoEl) {
             html.classList.add('face-box_old-box');
         }
 
-        const userName = (bestMatch.distance < opt.maxDistance ? bestMatch.className.name : '');
-        fb.setValues({name: userName});
-        const userPosition = (bestMatch.distance < opt.maxDistance ? bestMatch.className.position : '');
-        fb.setValues({position: userPosition});
+        if (bestMatch.distance < opt.maxDistance) {
+            fb.setValues({
+                name: bestMatch.className.name,
+                position: bestMatch.className.position
+            });
+        }
 
         if ( face.expressions ) {
             fb.parseExpressions(face.expressions);
@@ -164,7 +166,7 @@ async function onPlay(videoEl) {
         });
     }
 
-    setTimeout(() => onPlay(videoEl), 1000);
+    setTimeout(() => onPlay(videoEl), 1000 / 25);
 }
 
 async function run() {
@@ -223,7 +225,7 @@ async function run() {
                 // aspectRatio: canvas.width/canvas.height,
                 width: { ideal: 1920 },
                 height: { ideal: 1080 },
-                frameRate: { ideal: 30, min: 25 }
+                frameRate: { ideal: 25 }
             }
         },
         stream => videoEl.srcObject = stream,
