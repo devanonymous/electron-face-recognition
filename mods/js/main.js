@@ -39,7 +39,7 @@ link.addEventListener('pointerdown', function (event) {
 
     if ( userName > '' && userPosition > '' ) {
         isBlockedPlay = true;
-        createFoto(videoEl, userName, userPosition)
+        createFoto(videoEl, options, userName, userPosition)
             .then(() => {
                 isBlockedPlay = false;
             })

@@ -543,3 +543,30 @@ body {
   left: 50px;
   z-index: 100;
 }
+
+.create-foto {
+  position: absolute;
+  top: 1000%;
+  left: 1000%;
+  z-index: 30;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+}
+.create-foto_show {
+  top: 50%;
+  left: 20px;
+}
+.create-foto__foto-description {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  margin-bottom: 10px;
+}

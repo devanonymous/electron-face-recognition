@@ -7,14 +7,21 @@ if ( !fs.existsSync(path.join(app.getPath('home'), `/foto-data/`)) ) {
     fs.mkdirSync(path.join(app.getPath('home'), `/foto-data/`));
 }
 
-module.exports = async (videoEl, name, position = '') => {
+module.exports = async (videoEl, options, name, position = '') => {
     const photoDataPath = (name) => path.join(app.getPath('home'), `/foto-data/${name}.json`);
     const descriptors = [];
     let totalAttempts = 0;
     const facesRequired = 20;
     const threshold = 40;
+    const $createFoto = document.querySelector('.create-foto');
+    const $fotoDescription = $createFoto.querySelector('.js-create-foto__foto-description');
+    const $fotoIndex = $createFoto.querySelector('.js-create-foto__foto-index');
+    const $fotoMax = $createFoto.querySelector('.js-create-foto__foto-max');
 
-    // TODO: test and set alerts
+    $fotoDescription.innerHTML = '';
+    $fotoIndex.innerHTML = 0;
+    $fotoMax.innerHTML = facesRequired;
+    $createFoto.classList.add('create-foto_show');
 
     while (totalAttempts < threshold) {
         totalAttempts++;
@@ -23,17 +30,10 @@ module.exports = async (videoEl, name, position = '') => {
             .withFaceLandmarks()
             .withFaceDescriptor();
 
-        if (!face) {
-            const toastHTML = `<span>no face</span>`;
-            // M.toast({ html: toastHTML, classes: 'rounded pulse no-find' });
-            continue;
-        }
-
         const descriptorArray = [].slice.call(face.descriptor);
         descriptors.push(descriptorArray);
 
-        const toastHTML = `<span>${descriptors.length}</span>`;
-        // M.toast({ html: toastHTML, classes: 'rounded pulse find' });
+        $fotoIndex.innerHTML = descriptors.length;
 
         if (descriptors.length >= facesRequired) {
             break;
@@ -50,7 +50,10 @@ module.exports = async (videoEl, name, position = '') => {
         }));
         location.reload()
     } else {
-        const toastHTML = `<span>Распознание не удалось</span>`;
-        // M.toast({ html: toastHTML, classes: 'rounded pulse no-find' });
+        $fotoDescription.innerHTML = `Распознание не удалось`;
+
+        setTimeout(() => {
+            $createFoto.classList.remove('create-foto_show');
+        }, 5000);
     }
 };
