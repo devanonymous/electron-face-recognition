@@ -30,6 +30,10 @@ module.exports = async (videoEl, options, name, position = '') => {
             .withFaceLandmarks()
             .withFaceDescriptor();
 
+        if (!face) {
+            continue;
+        }
+
         const descriptorArray = [].slice.call(face.descriptor);
         descriptors.push(descriptorArray);
 
