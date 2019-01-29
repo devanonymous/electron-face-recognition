@@ -1,15 +1,14 @@
-const electron = require('electron') || require('electron').remote;
+const app = require('electron').app || require('electron').remote.app;
 const fs = require('fs');
 const path = require('path');
 const faceapi = require('face-api.js');
 
+if ( !fs.existsSync(path.join(app.getPath('home'), `/foto-data/`)) ) {
+    fs.mkdirSync(path.join(app.getPath('home'), `/foto-data/`));
+}
+
 module.exports = async (videoEl, name, position = '') => {
-    if ( !fs.existsSync(path.join(electron.app.getPath('home'), `/foto-data/`)) ) {
-        fs.mkdirSync(path.join(electron.app.getPath('home'), `/foto-data/`));
-    }
-
-    const photoDataPath = (name) => path.join(electron.app.getPath('home'), `/foto-data/${name}.json`);
-
+    const photoDataPath = (name) => path.join(app.getPath('home'), `/foto-data/${name}.json`);
     const descriptors = [];
     let totalAttempts = 0;
     const facesRequired = 20;
