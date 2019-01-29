@@ -58,8 +58,22 @@ module.exports = class faceBox {
         this._updateValues();
     }
 
+    setDefaultValues() {
+        this.name = `Роман Абрамович`;
+        this.position = `Директор NeuroCity`;
+        this.age = 25;
+        this.neutral = 0;
+        this.happy = 0;
+        this.sad = 0;
+        this.angry = 0;
+        this.fearful = 0;
+        this.disgusted = 0;
+        this.surprised = 0;
+    }
+
     setNewHtml(html) {
         this.html = html;
+        this.setDefaultValues();
         this._updateValues();
     }
 
