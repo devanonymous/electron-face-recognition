@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const faceapi = require('face-api.js');
 
-module.exports = async (name, position = '') => {
+module.exports = async (videoEl, name, position = '') => {
     if ( !fs.existsSync(path.join(electron.app.getPath('home'), `/foto-data/`)) ) {
         fs.mkdirSync(path.join(electron.app.getPath('home'), `/foto-data/`));
     }
@@ -15,16 +15,18 @@ module.exports = async (name, position = '') => {
     const facesRequired = 20;
     const threshold = 40;
 
+    // TODO: test and set alerts
+
     while (totalAttempts < threshold) {
         totalAttempts++;
 
-        const face = await faceapi.detectSingleFace(canvas, options)
+        const face = await faceapi.detectSingleFace(videoEl, options)
             .withFaceLandmarks()
             .withFaceDescriptor();
 
         if (!face) {
             const toastHTML = `<span>no face</span>`;
-            M.toast({ html: toastHTML, classes: 'rounded pulse no-find' });
+            // M.toast({ html: toastHTML, classes: 'rounded pulse no-find' });
             continue;
         }
 
@@ -32,7 +34,7 @@ module.exports = async (name, position = '') => {
         descriptors.push(descriptorArray);
 
         const toastHTML = `<span>${descriptors.length}</span>`;
-        M.toast({ html: toastHTML, classes: 'rounded pulse find' });
+        // M.toast({ html: toastHTML, classes: 'rounded pulse find' });
 
         if (descriptors.length >= facesRequired) {
             break;
@@ -50,6 +52,6 @@ module.exports = async (name, position = '') => {
         location.reload()
     } else {
         const toastHTML = `<span>Распознание не удалось</span>`;
-        M.toast({ html: toastHTML, classes: 'rounded pulse no-find' });
+        // M.toast({ html: toastHTML, classes: 'rounded pulse no-find' });
     }
 };
