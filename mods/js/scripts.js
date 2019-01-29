@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const clickEnter = function () {
         document.querySelector('.modal.open .button').dispatchEvent(new Event('pointerdown'));
     };
-    const instances = M.Modal.init(modals, {
+   /* const instances = M.Modal.init(modals, {
         onOpenEnd: function () {
             const input = this.el.querySelector('#name');
 
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 keyboard.querySelector('.m_k_enter').removeEventListener('click', clickEnter, false);
             }
         }
-    });
+    });*/
 
     document.querySelectorAll('.login-buttons').forEach((btn) => {
         btn.addEventListener('click', function () {
