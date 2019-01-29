@@ -16,6 +16,7 @@ module.exports = class faceBox {
     show(faceDetectionBox, smalledStyle, rotateVideo) {
         this.html.classList.add('face-box');
         this.html.removeAttribute('id');
+
         if ( !rotateVideo ) {
             this.html.style.top = faceDetectionBox.top +'px';
             this.html.style.width = faceDetectionBox.width +'px';
@@ -29,6 +30,7 @@ module.exports = class faceBox {
         }
 
         this._updateValues();
+
         if (!smalledStyle) {
             this._showNormal();
         }
@@ -81,9 +83,9 @@ module.exports = class faceBox {
         const strokeWidth = (size > 64 ? 12 : 4);
 
         $graphics.forEach(function (graphicItem, graphicIndex) {
-            let $graphWrapper = this.querySelectorAll(".b-graphic__graph");
-            let $items = this.querySelectorAll(".b-graphic__items__item");
-            let $parts = $items.querySelectorAll(".b-graphic__items__part");
+            let $graphWrapper = graphicItem.querySelectorAll(".b-graphic__graph");
+            let $items = graphicItem.querySelectorAll(".b-graphic__items__item");
+            let $parts = graphicItem.querySelectorAll(".b-graphic__items__part");
 
             if ( $graphWrapper.length < 1 || $items.length < 1 || $parts.length < 1 ) {
                 console.warn(
@@ -95,13 +97,9 @@ module.exports = class faceBox {
                 return false;
             }
 
-            const getValue = function () {
-
-            };
-
             const value = (() => {
                 let value = '';
-                const $value = this.parentElement.querySelector('.face-box__expressions-item-percent-value');
+                const $value = graphicItem.parentElement.querySelector('.face-box__expressions-item-percent-value');
 
                 if ( $value ) {
                     value = parseInt($value.innerHTML.trim(), 10);
@@ -111,9 +109,9 @@ module.exports = class faceBox {
             })();
 
             if ( value > 0 ) {
-                this.style.display = 'block';
+                graphicItem.style.display = 'block';
             } else {
-                this.style.display = 'none';
+                graphicItem.style.display = 'none';
             }
 
             $parts[0].innerHTML = (value > 0 ? value : 0);
@@ -166,8 +164,8 @@ module.exports = class faceBox {
                 percent.sum+= value;
             });
 
-            round.part = 360 / round.sum;//console.log(round.part)
-            percent.part = 100 / percent.sum;//console.log(percent.part)
+            round.part = 360 / round.sum;//
+            percent.part = 100 / percent.sum;//
 
             // for check need resize small sectors to minValue
             for ( i = 0; round.parts.length > i; i++ ) {
@@ -191,11 +189,11 @@ module.exports = class faceBox {
                 round.finalSum+= round.finalParts[i];
             }
 
-            round.finalPart = 360 / round.finalSum;//console.log(round.finalParts)
+            round.finalPart = 360 / round.finalSum;//
 
-            $graphWrapper.innerHTML("<svg></svg>");
+            $graphWrapper[0].innerHTML = "<svg></svg>";
 
-            let $svg = $graphWrapper.querySelector("svg");
+            let $svg = $graphWrapper[0].querySelector("svg");
             $svg.style.width = size +'px';
             $svg.style.height = size +"px";
             // let $defs = $svg.querySelector('defs');
@@ -258,7 +256,7 @@ module.exports = class faceBox {
             </mask>
         </defs>`;
 
-            $svg.innerHTML(html);
+            $svg.innerHTML = html;
         });
     }
 
