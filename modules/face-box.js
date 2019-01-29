@@ -63,7 +63,7 @@ module.exports = class faceBox {
 
     setRounds() {//size = 64, strokeWidth = 4
         const graphMain = document.querySelector('#b-graphic');
-        let $graphics = $(".b-graphic", this.html);
+        let $graphics = this.html.querySelectorAll(".b-graphic");
 
         if ( $graphics.length < 1 ) {
             this.html.querySelectorAll('.face-box__expressions-item').forEach((fbItem) => {
@@ -74,17 +74,16 @@ module.exports = class faceBox {
                 fbItem.appendChild(graphClone);
             });
 
-            $graphics = $(".b-graphic", this.html);
+            $graphics = this.html.querySelectorAll(".b-graphic");
         }
 
         const size = this.html.querySelector('.face-box__expressions-item').offsetWidth;
         const strokeWidth = (size > 64 ? 12 : 4);
 
-        $graphics.each(function (graphicIndex) {
-            let $this = $(this);
-            let $graphWrapper = $this.find(".b-graphic__graph");
-            let $items = $this.find(".b-graphic__items__item");
-            let $parts = $items.find(".b-graphic__items__part");
+        $graphics.forEach(function (graphicItem, graphicIndex) {
+            let $graphWrapper = this.querySelectorAll(".b-graphic__graph");
+            let $items = this.querySelectorAll(".b-graphic__items__item");
+            let $parts = $items.querySelectorAll(".b-graphic__items__part");
 
             if ( $graphWrapper.length < 1 || $items.length < 1 || $parts.length < 1 ) {
                 console.warn(
@@ -96,19 +95,32 @@ module.exports = class faceBox {
                 return false;
             }
 
-            const value = Math.round($this.closest('.face-box__expressions-item').find('.face-box__expressions-item-percent-value').text().trim());
+            const getValue = function () {
+
+            };
+
+            const value = (() => {
+                let value = '';
+                const $value = this.parentElement.querySelector('.face-box__expressions-item-percent-value');
+
+                if ( $value ) {
+                    value = parseInt($value.innerHTML.trim(), 10);
+                }
+
+                return value;
+            })();
 
             if ( value > 0 ) {
-                $this.show();
+                this.style.display = 'block';
             } else {
-                $this.hide();
+                this.style.display = 'none';
             }
 
             $parts[0].innerHTML = (value > 0 ? value : 0);
             $parts[1].innerHTML = (value > 0 ? 100 - value : 100);
 
-            $items.attr("data-index", function (index) {
-                return index;
+            $items.forEach((item, itemIndex) => {
+                item.setAttribute('data-index', itemIndex);
             });
 
             let style = {
@@ -141,10 +153,10 @@ module.exports = class faceBox {
                 minValue: 3// %
             };
             let i = 0;// clear if use this letiable
-            let textSufix = ($parts.text().trim().indexOf("%") > 0 ? "%" : '');
+            // let textSufix = ($parts.text().trim().indexOf("%") > 0 ? "%" : '');
 
-            $parts.each(function (index, element) {
-                let value = parseFloat($(element).text().trim());
+            $parts.forEach(function (element, index) {
+                let value = parseFloat(element.innerHTML.trim());
 
                 round.parts[index] = value;
                 round.finalParts[index] = value;
@@ -181,11 +193,11 @@ module.exports = class faceBox {
 
             round.finalPart = 360 / round.finalSum;//console.log(round.finalParts)
 
-            $graphWrapper.html("<svg></svg>");
+            $graphWrapper.innerHTML("<svg></svg>");
 
-            let $svg = $graphWrapper.find("svg");
-            $svg.width(size);
-            $svg.height(size);
+            let $svg = $graphWrapper.querySelector("svg");
+            $svg.style.width = size +'px';
+            $svg.style.height = size +"px";
             // let $defs = $svg.querySelector('defs');
 
             let start = 0;
@@ -246,7 +258,7 @@ module.exports = class faceBox {
             </mask>
         </defs>`;
 
-            $svg.html(html);
+            $svg.innerHTML(html);
         });
     }
 
