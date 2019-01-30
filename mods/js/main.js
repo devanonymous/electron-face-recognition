@@ -14,7 +14,7 @@ log.info(path.resolve(__dirname, '../modules/create-foto'));
 const opt = {
     width: 1920,
     height: 1080,
-    maxDistance: 0.5
+    maxDistance: 0.25
 };
 const rotateVideo = window.innerWidth < window.innerHeight;
 
