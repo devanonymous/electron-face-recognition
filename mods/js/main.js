@@ -119,7 +119,6 @@ async function onPlay(videoEl) {
     faceapi.getMediaDimensions(videoEl);
 
     const fullFaceDescriptions = await faceapi.detectAllFaces(videoEl, options)
-        .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
 
@@ -146,6 +145,7 @@ async function onPlay(videoEl) {
         }
 
         if ( bestMatch.distance < opt.maxDistance ) {
+            console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
             fb.setValues({
                 name: bestMatch.className.name,
                 position: bestMatch.className.position
@@ -184,7 +184,7 @@ async function run() {
     await faceapi.loadFaceDetectionModel(path.resolve(__dirname, '../mods/weights'))
     await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../mods/weights'))
     await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../mods/weights'))
-    await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'))
+    // await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'))
 
     trainDescriptorsByClass = await commonjs.loadDetectedPeople()
     /* console.log(trainDescriptorsByClass) */
