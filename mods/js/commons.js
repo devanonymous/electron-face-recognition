@@ -26,10 +26,7 @@ exports.loadDetectedPeople = async function loadDetectedPeople() {
       const content = fs.readFileSync(path.join(dataDir, file), 'utf-8')
       const json = JSON.parse(content)
       return {
-        className: {
-            name: json.className.name,
-            position: json.className.position
-        },
+        className: json.className,
         descriptors: json.descriptors.map(descriptor => new Float32Array(descriptor))
       };
     });
