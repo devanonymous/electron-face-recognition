@@ -22,6 +22,7 @@ const videoEl = document.querySelector('#inputVideo');
 
 const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 })
 let isBlockedPlay = false;
+let trainDescriptorsByClass;
 
 if ( rotateVideo ) {
     videoEl.classList.add('rotate');
@@ -144,10 +145,12 @@ async function onPlay(videoEl) {
             html.classList.add('face-box_old-box');
         }
 
-        const userName = (bestMatch.distance < opt.maxDistance ? bestMatch.className.name : '');
-        fb.setValues({name: userName});
-        const userPosition = (bestMatch.distance < opt.maxDistance ? bestMatch.className.position : '');
-        fb.setValues({position: userPosition});
+        if ( bestMatch.distance < opt.maxDistance ) {
+            fb.setValues({
+                name: bestMatch.className.name,
+                position: bestMatch.className.position
+            });
+        }
 
         if ( face.expressions ) {
             fb.parseExpressions(face.expressions);
