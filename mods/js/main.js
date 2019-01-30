@@ -144,8 +144,9 @@ async function onPlay(videoEl) {
             html.classList.add('face-box_old-box');
         }
 
+        console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
+
         if ( bestMatch.distance < opt.maxDistance ) {
-            console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
             fb.setValues({
                 name: bestMatch.className.name,
                 position: bestMatch.className.position
