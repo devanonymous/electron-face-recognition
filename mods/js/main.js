@@ -130,12 +130,12 @@ async function onPlay(videoEl) {
         box.classList.remove('face-box_old-box');
     });
 
-    const faceBoxes = new Map();
+    const faceBoxes = [];
 
     for (const face of fullFaceDescriptions) {
         const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
         const fb = new faceBox();
-        faceBoxes.set(face.descriptor, fb);
+        faceBoxes[faceBoxes.length] = fb;
         const html = oldFaceBoxes[oldFaceBoxIndex];
 
         if ( html ) {
@@ -167,7 +167,7 @@ async function onPlay(videoEl) {
         });
     }
 
-    setTimeout(() => onPlay(videoEl), 1000);
+    setTimeout(() => onPlay(videoEl), 1000 / 25);
 }
 
 async function run() {
@@ -226,7 +226,7 @@ async function run() {
                 // aspectRatio: canvas.width/canvas.height,
                 width: { ideal: 1920 },
                 height: { ideal: 1080 },
-                frameRate: { ideal: 30, min: 25 }
+                frameRate: { ideal: 25 }
             }
         },
         stream => videoEl.srcObject = stream,
