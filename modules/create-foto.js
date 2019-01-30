@@ -46,7 +46,10 @@ module.exports = async (videoEl, options, name, position = '') => {
 
     if (descriptors.length >= facesRequired) {
         fs.writeFileSync(photoDataPath(name), JSON.stringify({
-            className: name,
+            className: {
+                name:`${name}`,
+                position: `${position}`
+            },
             descriptors
         }));
         location.reload()
