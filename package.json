@@ -14,20 +14,20 @@
   "author": "Maxim",
   "license": "ISC",
   "devDependencies": {
-    "electron": "3.0.10",
-    "electron-builder": "20.38.5",
-    "electron-rebuild": "1.8.2",
-    "jquery": "2.2.4"
+    "electron": "4.1.4",
+    "electron-builder": "20.39.0",
+    "electron-rebuild": "1.8.4",
+    "jquery": "3.4.0"
   },
   "dependencies": {
-    "app-builder-bin": "2.6.3",
-    "app-builder-lib": "20.38.5",
-    "electron-builder-squirrel-windows": "20.38.5",
-    "electron-is-dev": "1.0.1",
-    "electron-log": "2.2.17",
+    "app-builder-bin": "2.6.6",
+    "app-builder-lib": "20.40.2",
+    "electron-builder-squirrel-windows": "20.40.0",
+    "electron-is-dev": "1.1.0",
+    "electron-log": "3.0.5",
     "electron-reload": "1.4.0",
     "electron-updater": "4.0.6",
-    "face-api.js": "0.16.2",
+    "face-api.js": "0.19.0",
     "moment": "2.24.0"
   },
   "build": {
