@@ -27,6 +27,8 @@ function sendStatusToWindow(text) {
 
 function createWindow() {
   win = new BrowserWindow({
+    // width: electron.screen.getPrimaryDisplay().size.width,
+    // height: electron.screen.getPrimaryDisplay().size.height,
     width: electron.screen.getPrimaryDisplay().size.width,
     height: electron.screen.getPrimaryDisplay().size.height,
     // x: 0,
