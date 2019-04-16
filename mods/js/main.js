@@ -106,14 +106,26 @@ document.body.addEventListener('click', function () {
     }, 1000 * 30);
 });
 
-async function onPlay(videoEl) {
+/**
+ *
+ * @param videoEl
+ * @returns {boolean}
+ */
+const isPausedOrEnded = (videoEl) => {
     if (videoEl.paused || videoEl.ended) {
         console.log(`onPlay(): videoEl paused or ended; return;`);
-        return false;
+        return true;
     } else if (isBlockedPlay) {
         console.log(`onPlay(): isBlockedPlay; return;`);
         setTimeout(() => onPlay(videoEl), 1000);
-        return false;
+        return true;
+    }
+    return false
+};
+
+async function onPlay(videoEl) {
+    if (isPausedOrEnded(videoEl)) {
+        return
     }
 
     faceapi.getMediaDimensions(videoEl);
@@ -179,13 +191,13 @@ async function run() {
         Video: HTMLVideoElement,
         createCanvasElement: () => document.createElement('canvas'),
         createImageElement: () => document.createElement('img')
-    })
+    });
 
-    await faceapi.nets.ssdMobilenetv1.loadFromDisk(path.resolve(__dirname, '../mods/weights'))
+    await faceapi.nets.tinyFaceDetector.loadFromDisk(path.resolve(__dirname, '../mods/weights'))
     await faceapi.loadFaceDetectionModel(path.resolve(__dirname, '../mods/weights'))
     await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../mods/weights'))
     await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../mods/weights'))
-    // await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'))
+    await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'))
 
     trainDescriptorsByClass = await commonjs.loadDetectedPeople()
     /* console.log(trainDescriptorsByClass) */
@@ -227,6 +239,7 @@ async function run() {
                 // aspectRatio: canvas.width/canvas.height,
                 width: { ideal: 1920 },
                 height: { ideal: 1080 },
+
                 frameRate: { ideal: 25 }
             }
         },
