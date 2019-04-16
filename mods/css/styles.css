@@ -527,7 +527,7 @@ body {
   width: 1920px;
   height: 1080px;
   z-index: 5;
-  transform: scale(-1,1) translate3d(0,0,0) rotate3d(0,0,1,0);
+  transform: scale(-1,1) translate3d(0,0,0) rotate3d(0,0,0,0);
   transform-origin: 50%;
 }
 #inputVideo.rotate {
@@ -569,4 +569,8 @@ body {
   left: 0;
   bottom: 100%;
   margin-bottom: 10px;
+}
+
+#canvas-one {
+  z-index: 228;
 }

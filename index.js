@@ -29,8 +29,8 @@ function createWindow() {
   win = new BrowserWindow({
     // width: electron.screen.getPrimaryDisplay().size.width,
     // height: electron.screen.getPrimaryDisplay().size.height,
-    width: electron.screen.getPrimaryDisplay().size.width,
-    height: electron.screen.getPrimaryDisplay().size.height,
+    width: 1080,
+    height: 1920,
     // x: 0,
     // y: 0,
     resizable: false,

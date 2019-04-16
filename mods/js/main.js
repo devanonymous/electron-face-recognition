@@ -4,6 +4,7 @@ const fs = require('fs');
 const faceapi = require('face-api.js');
 const moment = require('moment');
 const log = require('electron-log');
+const jimp = require('jimp');
 
 const commonjs = require(path.resolve(__dirname, '../mods/js/commons'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
@@ -20,11 +21,11 @@ const rotateVideo = window.innerWidth < window.innerHeight;
 
 const videoEl = document.querySelector('#inputVideo');
 
-const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 })
+const options = new faceapi.SsdMobilenetv1Options({minConfidence: 0.5})
 let isBlockedPlay = false;
 let trainDescriptorsByClass;
 
-if ( rotateVideo ) {
+if (rotateVideo) {
     videoEl.classList.add('rotate');
 }
 
@@ -38,7 +39,7 @@ link.addEventListener('pointerdown', function (event) {
     const userName = clearStrValue(fieldName.value);
     const userPosition = clearStrValue(fieldPosition.value);
 
-    if ( userName > '' && userPosition > '' ) {
+    if (userName > '' && userPosition > '') {
         isBlockedPlay = true;
         createFoto(videoEl, options, userName, userPosition)
             .then(() => {
@@ -47,7 +48,7 @@ link.addEventListener('pointerdown', function (event) {
             .catch((err) => {
                 log.error('mod:createFoto() catch error', err);
             });
-    } else if ( userName > '' && !userPosition ) {
+    } else if (userName > '' && !userPosition) {
         fieldName.classList.remove('field-name-show');
         fieldPosition.classList.add('field-name-show');
     } else {
@@ -59,13 +60,12 @@ link.addEventListener('pointerdown', function (event) {
 const clearStrValue = function (str) {
     let newStr = str;
 
-    if ( newStr > '' ) {
+    if (newStr > '') {
         newStr = newStr.trim();
     }
 
     return newStr;
 };
-
 
 
 document.querySelector('#name').addEventListener('focus', function () {
@@ -85,9 +85,9 @@ const clickKeyboard = function () {
     const fieldName = document.querySelector('#name');
     const fieldPosition = document.querySelector('#user-position');
     // console.log('$',fieldName.classList.contains('field-name-show'),fieldPosition.classList.contains('field-name-show'));
-    if ( fieldName.classList.contains('field-name-show') ) {
+    if (fieldName.classList.contains('field-name-show')) {
         fieldName.focus();
-    } else if ( fieldPosition.classList.contains('field-name-show') ) {
+    } else if (fieldPosition.classList.contains('field-name-show')) {
         console.log('focus position')
         fieldPosition.focus();
     }
@@ -95,7 +95,8 @@ const clickKeyboard = function () {
 const keyboard = document.querySelector('.keyboard');
 keyboard.addEventListener('click', clickKeyboard, false);
 
-let ti = setTimeout(() => {}, 0);
+let ti = setTimeout(() => {
+}, 0);
 document.body.addEventListener('click', function () {
     clearTimeout(ti);
 
@@ -130,7 +131,35 @@ async function onPlay(videoEl) {
 
     faceapi.getMediaDimensions(videoEl);
 
-    const fullFaceDescriptions = await faceapi.detectAllFaces(videoEl, options)
+    const canvas = document.getElementById('canvas-one');
+    canvas.width = videoEl.videoHeight ? videoEl.videoHeight : 1920;
+    canvas.height = videoEl.videoWidth ?  videoEl.videoWidth : 1080;
+    const context  = canvas.getContext('2d');
+
+    context.setTransform(
+        0,1, // x axis down the screen
+        -1,0, // y axis across the screen from right to left
+        videoEl.videoHeight, // x origin is on the right side of the canvas
+        0             // y origin is at the top
+    );
+
+
+
+    // context.scale(-1,1);
+    // context.translate(canvas.height, 0);
+    // context.scale(-1, 1);
+    context.drawImage(videoEl, 0, 0);
+
+    // context.setTransform(1,0,0,1,0,0);
+
+
+
+
+
+
+
+
+    const fullFaceDescriptions = await faceapi.detectAllFaces(canvas, options)
         .withFaceLandmarks()
         .withFaceDescriptors();
 
@@ -141,6 +170,9 @@ async function onPlay(videoEl) {
         box.classList.remove('face-box_old-box');
     });
 
+    /*  отображение прямоугольника */
+    /*TODO: вынести в отдельную функцию*/
+
     const faceBoxes = [];
 
     for (const face of fullFaceDescriptions) {
@@ -149,7 +181,7 @@ async function onPlay(videoEl) {
         faceBoxes[faceBoxes.length] = fb;
         const html = oldFaceBoxes[oldFaceBoxIndex];
 
-        if ( html ) {
+        if (html) {
             oldFaceBoxIndex++;
             fb.setNewHtml(html);
             html.classList.remove('face-box_hidden');
@@ -158,14 +190,14 @@ async function onPlay(videoEl) {
 
         console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
 
-        if ( bestMatch.distance < opt.maxDistance ) {
+        if (bestMatch.distance < opt.maxDistance) {
             fb.setValues({
                 name: bestMatch.className.name,
                 position: bestMatch.className.position
             });
         }
 
-        if ( face.expressions ) {
+        if (face.expressions) {
             fb.parseExpressions(face.expressions);
         }
 
@@ -184,6 +216,7 @@ async function onPlay(videoEl) {
 }
 
 async function run() {
+
     faceapi.env.monkeyPatch({
         Canvas: HTMLCanvasElement,
         Image: HTMLImageElement,
@@ -237,24 +270,25 @@ async function run() {
             video: {
                 facingMode: "environment",
                 // aspectRatio: canvas.width/canvas.height,
-                width: { ideal: 1920 },
-                height: { ideal: 1080 },
+                width: {ideal: 1920},
+                height: {ideal: 1080},
 
-                frameRate: { ideal: 25 }
+                frameRate: {ideal: 25}
             }
         },
         stream => videoEl.srcObject = stream,
         err => console.error(err)
-    ).then(function(stream) {
+    ).then(function (stream) {
         videoEl.srcObject = stream;
         // log the real size
-    }).catch(function(err) {
+    }).catch(function (err) {
         console.log(err.name + ': ' + err.message);
     });
 
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+
     run();
 
 
