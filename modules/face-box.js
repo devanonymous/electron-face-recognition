@@ -276,6 +276,7 @@ module.exports = class faceBox {
     }
 
     parseExpressions(expressions) {
+        console.log(expressions);
         expressions.forEach((expressionItem) => {
             if ( expressionItem.probability.toFixed(2) > 0 ) {
                 this.setValues({[expressionItem.expression]: Math.round(expressionItem.probability * 100)});

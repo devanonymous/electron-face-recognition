@@ -32,7 +32,7 @@ if (rotateVideo) {
 const link = document.querySelector('.m_k_enter')
 
 link.addEventListener('pointerdown', function (event) {
-    event.preventDefault(event)
+    event.preventDefault();
 
     const fieldName = document.querySelector('#name');
     const fieldPosition = document.querySelector('#user-position');
@@ -109,7 +109,7 @@ document.body.addEventListener('click', function () {
 
 /**
  *
- * @param videoEl
+ * @param {HTMLVideoElement} videoEl видео с вебкамеры
  * @returns {boolean}
  */
 const isPausedOrEnded = (videoEl) => {
@@ -124,13 +124,14 @@ const isPausedOrEnded = (videoEl) => {
     return false
 };
 
-async function onPlay(videoEl) {
-    if (isPausedOrEnded(videoEl)) {
-        return
-    }
-
-    faceapi.getMediaDimensions(videoEl);
-
+/**
+ * берет кадр с вебкамеры, вставляет его в канвас и поворачивает в альбомную ориентацию,
+ * т.к face-api.js распознает лица только в альбомной ориентации
+ *
+ * @param {HTMLVideoElement} videoEl видео с вебкамеры
+ * @returns {HTMLElement}
+ */
+const getCanvas = (videoEl) => {
     const canvas = document.getElementById('canvas-one');
     canvas.width = videoEl.videoHeight ? videoEl.videoHeight : 1920;
     canvas.height = videoEl.videoWidth ?  videoEl.videoWidth : 1080;
@@ -143,23 +144,22 @@ async function onPlay(videoEl) {
         0             // y origin is at the top
     );
 
-
-
-    // context.scale(-1,1);
-    // context.translate(canvas.height, 0);
-    // context.scale(-1, 1);
     context.drawImage(videoEl, 0, 0);
 
-    // context.setTransform(1,0,0,1,0,0);
+    return canvas
+};
+
+async function onPlay(videoEl) {
+    if (isPausedOrEnded(videoEl)) {
+        return
+    }
+
+    faceapi.getMediaDimensions(videoEl);
 
 
 
-
-
-
-
-
-    const fullFaceDescriptions = await faceapi.detectAllFaces(canvas, options)
+    const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl))
+        .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
 
@@ -174,6 +174,7 @@ async function onPlay(videoEl) {
     /*TODO: вынести в отдельную функцию*/
 
     const faceBoxes = [];
+    console.log(fullFaceDescriptions);
 
     for (const face of fullFaceDescriptions) {
         const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
@@ -188,7 +189,7 @@ async function onPlay(videoEl) {
             html.classList.add('face-box_old-box');
         }
 
-        console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
+        // console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance, ex);
 
         if (bestMatch.distance < opt.maxDistance) {
             fb.setValues({
@@ -226,44 +227,14 @@ async function run() {
         createImageElement: () => document.createElement('img')
     });
 
-    await faceapi.nets.tinyFaceDetector.loadFromDisk(path.resolve(__dirname, '../mods/weights'))
-    await faceapi.loadFaceDetectionModel(path.resolve(__dirname, '../mods/weights'))
-    await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../mods/weights'))
-    await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../mods/weights'))
-    await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'))
+    await faceapi.nets.ssdMobilenetv1.loadFromDisk(path.resolve(__dirname, '../mods/weights'));
+    await faceapi.loadFaceDetectionModel(path.resolve(__dirname, '../mods/weights'));
+    await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../mods/weights'));
+    await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../mods/weights'));
+    await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'));
 
-    trainDescriptorsByClass = await commonjs.loadDetectedPeople()
-    /* console.log(trainDescriptorsByClass) */
-    // console.log(navigator.mediaDevices.getSupportedConstraints())
-    /*navigator.mediaDevices.enumerateDevices()
-        .then((devices) => {
+    trainDescriptorsByClass = await commonjs.loadDetectedPeople();
 
-            const cameras = devices.filter(device => device.kind === 'videoinput');
-            const camera = cameras.find(camera => camera.label.includes('Dummy'));
-
-            console.log(cameras, cameras)
-
-            if (!camera) {
-                throw new Error('No back camera found.');
-            }
-
-            console.log(camera, 'camera1')
-
-            return navigator.mediaDevices.getUserMedia({
-                video: { 
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 },
-                    frameRate: { ideal: 30, min: 25 },
-                    deviceId: { exact: camera.deviceId } 
-                },
-                audio: false
-            });
-        }).then(function(stream) {
-            videoEl.srcObject = stream;
-            // log the real size
-        }).catch(function(err) {
-            console.log(err.name + ': ' + err.message);
-        });*/
 
     navigator.mediaDevices.getUserMedia({
             audio: false,
