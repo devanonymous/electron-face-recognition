@@ -2,6 +2,7 @@ const app = require('electron').app || require('electron').remote.app;
 const fs = require('fs');
 const path = require('path');
 const faceapi = require('face-api.js');
+const getCanvas = require('./../helpers/canvas');
 
 if ( !fs.existsSync(path.join(app.getPath('home'), `/foto-data/`)) ) {
     fs.mkdirSync(path.join(app.getPath('home'), `/foto-data/`));
@@ -26,7 +27,7 @@ module.exports = async (videoEl, options, name, position = '') => {
     while (totalAttempts < threshold) {
         totalAttempts++;
 
-        const face = await faceapi.detectSingleFace(videoEl, options)
+        const face = await faceapi.detectSingleFace(getCanvas(videoEl), options)
             .withFaceLandmarks()
             .withFaceDescriptor();
 
