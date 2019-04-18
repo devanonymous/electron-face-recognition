@@ -35,8 +35,9 @@ module.exports = async (videoEl, options, name, position = '') => {
             continue;
         }
 
-        const descriptorArray = [].slice.call(face.descriptor);
-        descriptors.push(descriptorArray);
+        // const descriptorArray = [].slice.call(face.descriptor);
+        console.log('face descriptor ----------------------- ', face.descriptor);
+        descriptors.push(Array.from(face.descriptor));
 
         $fotoIndex.innerHTML = descriptors.length;
 
