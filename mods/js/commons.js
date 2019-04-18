@@ -33,7 +33,7 @@ exports.loadDetectedPeople = async function loadDetectedPeople() {
         descriptors: json.descriptors.map(descriptor => new Float32Array(descriptor))
       };
     });
-}
+};
 
 exports.getBestMatch = function getBestMatch(descriptorsByClass, queryDescriptor) {
   if ( !descriptorsByClass.length ) {

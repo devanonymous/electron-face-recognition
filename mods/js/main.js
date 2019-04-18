@@ -5,7 +5,6 @@ const faceapi = require('face-api.js');
 const moment = require('moment');
 const log = require('electron-log');
 const jimp = require('jimp');
-const getCanvas = require('./../../helpers/canvas');
 
 const commonjs = require(path.resolve(__dirname, '../mods/js/commons'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
@@ -213,6 +212,7 @@ async function run() {
 
     trainDescriptorsByClass = await commonjs.loadDetectedPeople();
 
+    console.log('trainDescriptorsByClass ', trainDescriptorsByClass);
 
     navigator.mediaDevices.getUserMedia({
             audio: false,

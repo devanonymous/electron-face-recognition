@@ -22,3 +22,5 @@ const getCanvas = (videoEl) => {
 
     return canvas
 };
+
+module.exports = getCanvas;
