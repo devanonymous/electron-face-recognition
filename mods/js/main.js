@@ -154,7 +154,8 @@ async function onPlay(videoEl) {
     console.log(fullFaceDescriptions);
 
     for (const face of fullFaceDescriptions) {
-        const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face.descriptor);
+        const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face);
+        console.log('bestMatch ***********************', bestMatch);
         const fb = new faceBox();
         faceBoxes[faceBoxes.length] = fb;
         const html = oldFaceBoxes[oldFaceBoxIndex];
@@ -168,7 +169,7 @@ async function onPlay(videoEl) {
 
         // console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance, ex);
 
-        if (bestMatch.distance < opt.maxDistance) {
+        if (bestMatch) {
             fb.setValues({
                 name: bestMatch.className.name,
                 position: bestMatch.className.position

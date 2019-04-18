@@ -12,7 +12,7 @@ module.exports = async (videoEl, options, name, position = '') => {
     const photoDataPath = (name) => path.join(app.getPath('home'), `/foto-data/${name}.json`);
     const descriptors = [];
     let totalAttempts = 0;
-    const facesRequired = 20;
+    const facesRequired = 2;
     const threshold = 40;
     const $createFoto = document.querySelector('.create-foto');
     const $fotoDescription = $createFoto.querySelector('.js-create-foto__foto-description');
