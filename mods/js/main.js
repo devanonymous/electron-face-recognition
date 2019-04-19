@@ -15,14 +15,16 @@ log.info(path.resolve(__dirname, '../modules/create-foto'));
 const opt = {
     width: 1080,
     height: 1920,
-    maxDistance: 0.25
+    maxDistance: 0.60,
+
 };
+
 const rotateVideo = window.innerWidth < window.innerHeight;
 
 const videoEl = document.querySelector('#inputVideo');
 
 // const options = new faceapi.SsdMobilenetv1Options({minConfidence: 0.5});
-const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.8});
+const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: });
 let isBlockedPlay = false;
 let savedPeople;
 
@@ -141,6 +143,8 @@ async function onPlay(videoEl) {
         .withFaceLandmarks()
         .withFaceDescriptors();
 
+    console.log(fullFaceDescriptions, 'fullFaceDescription!!!!!!!!!!!!!!!!!!!!!!!');
+
     let oldFaceBoxIndex = 0;
     const oldFaceBoxes = document.querySelectorAll('.face-box');
     oldFaceBoxes.forEach((box) => {
@@ -170,15 +174,14 @@ async function onPlay(videoEl) {
         if (bestMatch) {
             fb.setValues({
                 name: bestMatch.className.name,
-                position: bestMatch.className.position
-
+                position: bestMatch.className.position,
+                age: bestMatch.descriptor
             });
             console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
         } else {
             fb.setDefaultValues();
             console.log('name: неопознанный человечишко');
         }
-
 
 
         if (face.expressions) {
@@ -224,12 +227,9 @@ async function run() {
     navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
-                facingMode: "environment",
-                // aspectRatio: canvas.width/canvas.height,
                 width: {ideal: 1920},
                 height: {ideal: 1080},
 
-                frameRate: {ideal: 25}
             }
         },
         stream => videoEl.srcObject = stream,

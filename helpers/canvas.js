@@ -18,7 +18,7 @@ const getCanvas = (videoEl) => {
         0             // y origin is at the top
     );
 
-    context.drawImage(videoEl, 0, 0);
+    context.drawImage(videoEl, 0, 0, canvas.height/2, canvas.width/2);
 
     return canvas
 };

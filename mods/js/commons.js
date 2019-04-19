@@ -37,17 +37,6 @@ exports.loadSavedPeople = async function loadDetectedPeople() {
     return data;
 };
 
-// TODO: эта дрочильня хуйню какую-то считает
-function computeMeanDistance(descriptorsOfClass, faceDescriptor) {
-
-    const divider = (descriptorsOfClass.length || 1);
-
-    const distance = descriptorsOfClass
-        .map(d => faceapi.euclideanDistance(d, faceDescriptor))
-        .reduce((d1, d2) => d1 + d2, 0) / divider;
-
-    return faceapi.round(distance);
-}
 
 /**
  *
@@ -55,7 +44,7 @@ function computeMeanDistance(descriptorsOfClass, faceDescriptor) {
  * @param {object} objectDescriptor
  * @returns {Array}
  */
-const makeArrayFromObectDescriptor = (objectDescriptor) => {
+const makeArrayFromObjectDescriptor = (objectDescriptor) => {
     const descriptorsArray = [];
     for (let key in objectDescriptor) {
         descriptorsArray.push(objectDescriptor[key]);
@@ -66,17 +55,29 @@ const makeArrayFromObectDescriptor = (objectDescriptor) => {
 /**
  *
  * @param {Array} bestMatchers
+ * @param webcamFace
  * @returns {object}
  */
-function createBestResult(bestMatchers) {
+function createBestResult(bestMatchers, webcamFace) {
     const result = bestMatchers.filter(matcher => matcher.bestMatcher.label !== "unknown")[0];
     if (result) {
         return {
             distance: result.bestMatcher.distance,
+            descriptor: webcamFace.descriptor[0],
             className: result.className
         };
     }
-    return false
+    return {
+        distance: 1,
+        descriptor: webcamFace.descriptor[0],
+        className: {
+            className: {
+                name: 'Неопознанный',
+                position: 'пидр'
+            },
+            descriptors: webcamFace.descriptor[0]
+        }
+    };
 }
 
 /**
@@ -90,7 +91,7 @@ exports.getBestMatch = function getBestMatch(savedPeople, face) {
 
     savedPeople.map(({descriptors, className}) => {
         descriptors.forEach((descriptor) => {
-            const desc = new Float32Array(makeArrayFromObectDescriptor(descriptor._descriptors[0]));
+            const desc = new Float32Array(makeArrayFromObjectDescriptor(descriptor._descriptors[0]));
             const label = descriptor._label;
 
             const labeledFaceDescription = new faceapi.LabeledFaceDescriptors(label, [new Float32Array(desc)]);
@@ -100,5 +101,5 @@ exports.getBestMatch = function getBestMatch(savedPeople, face) {
             bestMatchers.push({bestMatcher, className});
         })
     });
-    return createBestResult(bestMatchers);
+    return createBestResult(bestMatchers, face);
 };
