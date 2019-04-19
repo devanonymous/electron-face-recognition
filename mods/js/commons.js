@@ -89,9 +89,7 @@ exports.getBestMatch = function getBestMatch(savedPeople, face) {
     const bestMatchers = [];
 
     savedPeople.map(({descriptors, className}) => {
-        console.log('fucking shit descriptors      ', typeof descriptors, savedPeople);
         descriptors.forEach((descriptor) => {
-
             const desc = new Float32Array(makeArrayFromObectDescriptor(descriptor._descriptors[0]));
             const label = descriptor._label;
 

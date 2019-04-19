@@ -35,8 +35,6 @@ module.exports = async (videoEl, options, name, position = '') => {
             continue;
         }
 
-        // const descriptorArray = [].slice.call(face.descriptor);
-        console.log('face descriptor ----------------------- ', new Float32Array(face.descriptor));
         descriptors.push(new faceapi.LabeledFaceDescriptors(name, [new Float32Array(face.descriptor)]));
 
         $fotoIndex.innerHTML = descriptors.length;

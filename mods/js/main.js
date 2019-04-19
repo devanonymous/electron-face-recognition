@@ -152,11 +152,9 @@ async function onPlay(videoEl) {
     /*TODO: вынести в отдельную функцию*/
 
     const faceBoxes = [];
-    console.log(fullFaceDescriptions);
 
     for (const face of fullFaceDescriptions) {
         const bestMatch = commonjs.getBestMatch(savedPeople, face);
-        console.log('bestMatch ***********************', bestMatch);
         const fb = new faceBox();
         faceBoxes[faceBoxes.length] = fb;
         const html = oldFaceBoxes[oldFaceBoxIndex];
@@ -168,7 +166,7 @@ async function onPlay(videoEl) {
             html.classList.add('face-box_old-box');
         }
 
-        // console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance, ex);
+        console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
 
         if (bestMatch) {
             fb.setValues({
