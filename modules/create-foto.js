@@ -12,7 +12,7 @@ module.exports = async (videoEl, options, name, position = '') => {
     const photoDataPath = (name) => path.join(app.getPath('home'), `/foto-data/${name}.json`);
     const descriptors = [];
     let totalAttempts = 0;
-    const facesRequired = 2;
+    const facesRequired = 1;
     const threshold = 40;
     const $createFoto = document.querySelector('.create-foto');
     const $fotoDescription = $createFoto.querySelector('.js-create-foto__foto-description');
@@ -36,8 +36,8 @@ module.exports = async (videoEl, options, name, position = '') => {
         }
 
         // const descriptorArray = [].slice.call(face.descriptor);
-        console.log('face descriptor ----------------------- ', face.descriptor);
-        descriptors.push(Array.from(face.descriptor));
+        console.log('face descriptor ----------------------- ', new Float32Array(face.descriptor));
+        descriptors.push(new faceapi.LabeledFaceDescriptors(name, [new Float32Array(face.descriptor)]));
 
         $fotoIndex.innerHTML = descriptors.length;
 

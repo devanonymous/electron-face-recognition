@@ -21,9 +21,10 @@ const rotateVideo = window.innerWidth < window.innerHeight;
 
 const videoEl = document.querySelector('#inputVideo');
 
-const options = new faceapi.SsdMobilenetv1Options({minConfidence: 0.5})
+// const options = new faceapi.SsdMobilenetv1Options({minConfidence: 0.5});
+const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.8});
 let isBlockedPlay = false;
-let trainDescriptorsByClass;
+let savedPeople;
 
 if (rotateVideo) {
     videoEl.classList.add('rotate');
@@ -135,7 +136,7 @@ async function onPlay(videoEl) {
 
 
 
-    const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl))
+    const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl),options)
         .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
@@ -154,7 +155,7 @@ async function onPlay(videoEl) {
     console.log(fullFaceDescriptions);
 
     for (const face of fullFaceDescriptions) {
-        const bestMatch = commonjs.getBestMatch(trainDescriptorsByClass, face);
+        const bestMatch = commonjs.getBestMatch(savedPeople, face);
         console.log('bestMatch ***********************', bestMatch);
         const fb = new faceBox();
         faceBoxes[faceBoxes.length] = fb;
@@ -205,15 +206,16 @@ async function run() {
         createImageElement: () => document.createElement('img')
     });
 
-    await faceapi.nets.ssdMobilenetv1.loadFromDisk(path.resolve(__dirname, '../mods/weights'));
+    // await faceapi.nets.ssdMobilenetv1.loadFromDisk(path.resolve(__dirname, '../mods/weights'));
+    await faceapi.nets.tinyFaceDetector.loadFromDisk(path.resolve(__dirname, '../mods/weights'));
     await faceapi.loadFaceDetectionModel(path.resolve(__dirname, '../mods/weights'));
     await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../mods/weights'));
     await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../mods/weights'));
     await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'));
 
-    trainDescriptorsByClass = await commonjs.loadDetectedPeople();
+    savedPeople = await commonjs.loadSavedPeople();
 
-    console.log('trainDescriptorsByClass ', trainDescriptorsByClass);
+    console.log('trainDescriptorsByClass ', savedPeople);
 
     navigator.mediaDevices.getUserMedia({
             audio: false,
