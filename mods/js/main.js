@@ -166,14 +166,20 @@ async function onPlay(videoEl) {
             html.classList.add('face-box_old-box');
         }
 
-        console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
 
         if (bestMatch) {
             fb.setValues({
                 name: bestMatch.className.name,
                 position: bestMatch.className.position
+
             });
+            console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
+        } else {
+            fb.setDefaultValues();
+            console.log('name: неопознанный человечишко');
         }
+
+
 
         if (face.expressions) {
             fb.parseExpressions(face.expressions);
