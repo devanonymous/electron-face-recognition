@@ -162,6 +162,7 @@ const makeFaceBoxesSmall = (faceBoxes) => {
     }
 };
 
+
 const drawFaceBoxes = (detectionsForSize) => {
     let oldFaceBoxIndex = 0;
     const oldFaceBoxes = document.querySelectorAll('.face-box');
@@ -171,8 +172,6 @@ const drawFaceBoxes = (detectionsForSize) => {
     });
 
     /*  отображение прямоугольника */
-    /*TODO: вынести в отдельную функцию*/
-
     const faceBoxes = [];
 
     for (const face of detectionsForSize) {
