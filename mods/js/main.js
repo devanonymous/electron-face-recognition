@@ -24,7 +24,7 @@ const rotateVideo = window.innerWidth < window.innerHeight;
 const videoEl = document.querySelector('#inputVideo');
 
 // const options = new faceapi.SsdMobilenetv1Options({minConfidence: 0.5});
-const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: });
+const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 736});
 let isBlockedPlay = false;
 let savedPeople;
 
@@ -143,7 +143,11 @@ async function onPlay(videoEl) {
         .withFaceLandmarks()
         .withFaceDescriptors();
 
-    console.log(fullFaceDescriptions, 'fullFaceDescription!!!!!!!!!!!!!!!!!!!!!!!');
+
+
+    const detectionsForSize = faceapi.resizeResults(fullFaceDescriptions, { width: 1080, height: 1920 });
+
+    console.log(detectionsForSize, 'detectionsForSize!!!!!!!!!!!!!!!!!!!!!!!');
 
     let oldFaceBoxIndex = 0;
     const oldFaceBoxes = document.querySelectorAll('.face-box');
@@ -188,7 +192,7 @@ async function onPlay(videoEl) {
             fb.parseExpressions(face.expressions);
         }
 
-        fb.show(face.detection.box, (fullFaceDescriptions.length > 1), rotateVideo);
+        fb.show(face.detection.forSize(1080, 1920).box, (fullFaceDescriptions.length > 1), rotateVideo);
 
         fb.setRounds();
     }
