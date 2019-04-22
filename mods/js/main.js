@@ -80,7 +80,7 @@ const clickKeyboard = function () {
     if (fieldName.classList.contains('field-name-show')) {
         fieldName.focus();
     } else if (fieldPosition.classList.contains('field-name-show')) {
-        console.log('focus position')
+        console.log('focus position');
         fieldPosition.focus();
     }
 };
@@ -116,8 +116,6 @@ const isPausedOrEnded = (videoEl) => {
     return false
 };
 
-
-
 async function onPlay(videoEl) {
     if (isPausedOrEnded(videoEl)) {
         return
@@ -125,14 +123,10 @@ async function onPlay(videoEl) {
 
     faceapi.getMediaDimensions(videoEl);
 
-
-
     const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl),options)
         .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
-
-
 
     const detectionsForSize = faceapi.resizeResults(fullFaceDescriptions, { width: 1080, height: 1920 });
 
@@ -195,28 +189,16 @@ async function onPlay(videoEl) {
     setTimeout(() => onPlay(videoEl), 1000 / 25);
 }
 
-async function run() {
 
-    faceapi.env.monkeyPatch({
-        Canvas: HTMLCanvasElement,
-        Image: HTMLImageElement,
-        ImageData: ImageData,
-        Video: HTMLVideoElement,
-        createCanvasElement: () => document.createElement('canvas'),
-        createImageElement: () => document.createElement('img')
-    });
-
-    // await faceapi.nets.ssdMobilenetv1.loadFromDisk(path.resolve(__dirname, '../mods/weights'));
+const loadFaceAPIModels = async () => {
     await faceapi.nets.tinyFaceDetector.loadFromDisk(path.resolve(__dirname, '../mods/weights'));
     await faceapi.loadFaceDetectionModel(path.resolve(__dirname, '../mods/weights'));
     await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../mods/weights'));
     await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../mods/weights'));
     await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'));
+};
 
-    savedPeople = await commonjs.loadSavedPeople();
-
-    console.log('trainDescriptorsByClass ', savedPeople);
-
+const startVideoStreamFromWebCamera = () => {
     navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
@@ -229,17 +211,31 @@ async function run() {
         err => console.error(err)
     ).then(function (stream) {
         videoEl.srcObject = stream;
-        // log the real size
     }).catch(function (err) {
         console.log(err.name + ': ' + err.message);
     });
+};
 
+const initFaceAPIMonkeyPatch = () => {
+    faceapi.env.monkeyPatch({
+        Canvas: HTMLCanvasElement,
+        Image: HTMLImageElement,
+        ImageData: ImageData,
+        Video: HTMLVideoElement,
+        createCanvasElement: () => document.createElement('canvas'),
+        createImageElement: () => document.createElement('img')
+    });
+};
+
+async function run() {
+    initFaceAPIMonkeyPatch();
+    await loadFaceAPIModels();
+    savedPeople = await commonjs.loadSavedPeople();
+    startVideoStreamFromWebCamera();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
     run();
-
 
     const $currentTime = document.querySelector('.js-current-time');
 
