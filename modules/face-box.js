@@ -13,33 +13,20 @@ module.exports = class faceBox {
         this.html = document.querySelector('#face-box').cloneNode(true);
     }
 
-    show(faceDetectionBox, smalledStyle, rotateVideo) {
+    show(faceDetectionBox, smalledStyle) {
         this.html.classList.add('face-box');
         this.html.removeAttribute('id');
-
-        console.log("faceBox: ",faceDetectionBox);
-
-        // if ( !rotateVideo ) {
-        //     this.html.style.top = faceDetectionBox.top + 'px';
-        //     this.html.style.width = faceDetectionBox.width +'px';
-        //     this.html.style.height = faceDetectionBox.height +'px';
-        //     this.html.style.right = faceDetectionBox.left +'px';
-        // } else {
-            this.html.style.top = faceDetectionBox + 'px';
-            this.html.style.width = faceDetectionBox.width  +'px';
-            this.html.style.height = faceDetectionBox.height +'px';
-            // this.html.style.left = faceDetectionBox.right  +'px';
-            // this.html.style.right = (faceDetectionBox.x + faceDetectionBox.width * 2) / (faceDetectionBox.x / faceDetectionBox.width ) - faceDetectionBox.height + 'px';
-            this.html.style.right = faceDetectionBox.left  + 'px';
-        // }
-
+        this.html.style.top = faceDetectionBox.top + 'px';
+        this.html.style.width = faceDetectionBox.width + 'px';
+        this.html.style.height = faceDetectionBox.height + 'px';
+        this.html.style.right = faceDetectionBox.left + 'px';
         this._updateValues();
 
         if (!smalledStyle) {
             this._showNormal();
         }
 
-        if ( !this.html.classList.contains('face-box_old-box') ) {
+        if (!this.html.classList.contains('face-box_old-box')) {
             document.body.appendChild(this.html);
         }
     }
@@ -85,7 +72,7 @@ module.exports = class faceBox {
         const graphMain = document.querySelector('#b-graphic');
         let $graphics = this.html.querySelectorAll(".b-graphic");
 
-        if ( $graphics.length < 1 ) {
+        if ($graphics.length < 1) {
             this.html.querySelectorAll('.face-box__expressions-item').forEach((fbItem) => {
                 const graphClone = graphMain.cloneNode(true);
                 graphClone.classList.add('b-graphic');
@@ -105,11 +92,11 @@ module.exports = class faceBox {
             let $items = graphicItem.querySelectorAll(".b-graphic__items__item");
             let $parts = graphicItem.querySelectorAll(".b-graphic__items__part");
 
-            if ( $graphWrapper.length < 1 || $items.length < 1 || $parts.length < 1 ) {
+            if ($graphWrapper.length < 1 || $items.length < 1 || $parts.length < 1) {
                 console.warn(
-                    "$graphWrapper: "+ parseInt($graphWrapper.length,10) + "\n" +
-                    "$items: "+ parseInt($items.length,10) + "\n" +
-                    "$parts: "+ parseInt($parts.length,10)
+                    "$graphWrapper: " + parseInt($graphWrapper.length, 10) + "\n" +
+                    "$items: " + parseInt($items.length, 10) + "\n" +
+                    "$parts: " + parseInt($parts.length, 10)
                 );
 
                 return false;
@@ -119,14 +106,14 @@ module.exports = class faceBox {
                 let value = '';
                 const $value = graphicItem.parentElement.querySelector('.face-box__expressions-item-percent-value');
 
-                if ( $value ) {
+                if ($value) {
                     value = parseInt($value.innerHTML.trim(), 10);
                 }
 
                 return value;
             })();
 
-            if ( value > 0 ) {
+            if (value > 0) {
                 graphicItem.style.display = 'block';
             } else {
                 graphicItem.style.display = 'none';
@@ -176,35 +163,35 @@ module.exports = class faceBox {
 
                 round.parts[index] = value;
                 round.finalParts[index] = value;
-                round.sum+= value;
+                round.sum += value;
 
                 percent.parts[index] = value;
-                percent.sum+= value;
+                percent.sum += value;
             });
 
             round.part = 360 / round.sum;//
             percent.part = 100 / percent.sum;//
 
             // for check need resize small sectors to minValue
-            for ( i = 0; round.parts.length > i; i++ ) {
-                if ( round.parts[i] * round.part - round.part <= 10 ) {
-                    round.sumMinValues+= round.parts[i];
+            for (i = 0; round.parts.length > i; i++) {
+                if (round.parts[i] * round.part - round.part <= 10) {
+                    round.sumMinValues += round.parts[i];
                     round.finalParts[i] = round.minValue;
                 } else {
                     round.normalValuesLength++;
                 }
             }
 
-            if ( round.sumMinValues > 0 ) {
-                for ( i = 0; round.parts.length > i; i++ ) {
-                    if ( round.parts[i] * round.part - round.part > 10 ) {
+            if (round.sumMinValues > 0) {
+                for (i = 0; round.parts.length > i; i++) {
+                    if (round.parts[i] * round.part - round.part > 10) {
                         round.finalParts[i] = round.parts[i] - (round.sumMinValues / round.normalValuesLength);
                     }
                 }
             }
 
-            for ( i = 0; round.parts.length > i; i++ ) {
-                round.finalSum+= round.finalParts[i];
+            for (i = 0; round.parts.length > i; i++) {
+                round.finalSum += round.finalParts[i];
             }
 
             round.finalPart = 360 / round.finalSum;//
@@ -212,8 +199,8 @@ module.exports = class faceBox {
             $graphWrapper[0].innerHTML = "<svg></svg>";
 
             let $svg = $graphWrapper[0].querySelector("svg");
-            $svg.style.width = size +'px';
-            $svg.style.height = size +"px";
+            $svg.style.width = size + 'px';
+            $svg.style.height = size + "px";
             // let $defs = $svg.querySelector('defs');
 
             let start = 0;
@@ -221,7 +208,7 @@ module.exports = class faceBox {
             let html = "";
             const randomFloat = Math.random();
 
-            for ( i = 0; $parts.length > i; i++ ) {
+            for (i = 0; $parts.length > i; i++) {
                 start = start + (round.finalParts[i - 1] ? round.finalParts[i - 1] : 0);
                 end = end + round.finalParts[i];
 
@@ -240,37 +227,37 @@ module.exports = class faceBox {
                 let endActiveX = round.center + round.activeRadius * Math.cos(endPI);
                 let endActiveY = round.center + round.activeRadius * Math.sin(endPI);
 
-                let M = 'M'+ round.center +','+ round.center;
-                let L = 'L'+ startX +','+ startY;
-                let activeL = 'L'+ startActiveX +','+ startActiveY;
-                let A = 'A'+ round.radius +','+ round.radius +
-                    (100/percent.sum * percent.parts[i] > 50 ? ' 0 1,1 ' : ' 0 0,1 ') +
-                    endX +','+ endY;
-                let activeA = 'A'+ round.activeRadius +','+round.activeRadius +
-                    (100/percent.sum * percent.parts[i] > 50 ? ' 0 1,1 ' : ' 0 0,1 ') +
-                    endActiveX +','+ endActiveY;
+                let M = 'M' + round.center + ',' + round.center;
+                let L = 'L' + startX + ',' + startY;
+                let activeL = 'L' + startActiveX + ',' + startActiveY;
+                let A = 'A' + round.radius + ',' + round.radius +
+                    (100 / percent.sum * percent.parts[i] > 50 ? ' 0 1,1 ' : ' 0 0,1 ') +
+                    endX + ',' + endY;
+                let activeA = 'A' + round.activeRadius + ',' + round.activeRadius +
+                    (100 / percent.sum * percent.parts[i] > 50 ? ' 0 1,1 ' : ' 0 0,1 ') +
+                    endActiveX + ',' + endActiveY;
                 let Z = 'Z';
 
                 // document.querySelector('#svg-cat path').setAttribute('d', M + L + A + Z);
 
-                html+= ''+
-                    '<path d="'+ M + L + A + Z +'" '+
-                    'fill="'+ style.fill +'" '+
-                    'stroke="'+ (i < 1 ? style.stroke : 'none') +'" '+
-                    'stroke-width="'+ style.strokeWidth +'" '+
+                html += '' +
+                    '<path d="' + M + L + A + Z + '" ' +
+                    'fill="' + style.fill + '" ' +
+                    'stroke="' + (i < 1 ? style.stroke : 'none') + '" ' +
+                    'stroke-width="' + style.strokeWidth + '" ' +
                     'stroke-linejoin="miter" ' +
-                    'data-active="'+ M + activeL + activeA + Z +'" '+
-                    'data-index="'+ i +'" ' +
-                    'mask="url(#svg-cat_'+ graphicIndex +'-'+ randomFloat +')" ' +
+                    'data-active="' + M + activeL + activeA + Z + '" ' +
+                    'data-index="' + i + '" ' +
+                    'mask="url(#svg-cat_' + graphicIndex + '-' + randomFloat + ')" ' +
                     'transform="rotate(-90)" ' +
                     'style="transform-origin: 50%;"></path>';
             }
 
-            html+= `<defs>
+            html += `<defs>
             <mask id="svg-cat_${graphicIndex}-${randomFloat}">
                 <rect class="svg-cat__rect" width="${size}" height="${size}" fill="white" />
                 <circle class="svg-cat__circle" stroke="white" fill="black"
-                cx="${size/2}" cy="${size/2}" r="${(size - style.strokeWidth)/2}" stroke-width="${style.strokeWidth}" />
+                cx="${size / 2}" cy="${size / 2}" r="${(size - style.strokeWidth) / 2}" stroke-width="${style.strokeWidth}" />
             </mask>
         </defs>`;
 
@@ -280,7 +267,7 @@ module.exports = class faceBox {
 
     parseExpressions(expressions) {
         expressions.forEach((expressionItem) => {
-            if ( expressionItem.probability.toFixed(2) > 0 ) {
+            if (expressionItem.probability.toFixed(2) > 0) {
                 this.setValues({[expressionItem.expression]: Math.round(expressionItem.probability * 100)});
             } else {
                 this.setValues({[expressionItem.expression]: 0});

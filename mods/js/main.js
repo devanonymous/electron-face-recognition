@@ -1,10 +1,7 @@
-const electron = require('electron');
 const path = require('path');
-const fs = require('fs');
 const faceapi = require('face-api.js');
 const moment = require('moment');
 const log = require('electron-log');
-const jimp = require('jimp');
 
 const commonjs = require(path.resolve(__dirname, '../mods/js/commons'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
@@ -12,18 +9,10 @@ const createFoto = require(path.resolve(__dirname, '../modules/create-foto'));
 
 log.info(path.resolve(__dirname, '../modules/create-foto'));
 
-const opt = {
-    width: 1080,
-    height: 1920,
-    maxDistance: 0.60,
-
-};
-
 const rotateVideo = window.innerWidth < window.innerHeight;
 
 const videoEl = document.querySelector('#inputVideo');
 
-// const options = new faceapi.SsdMobilenetv1Options({minConfidence: 0.5});
 const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 736});
 let isBlockedPlay = false;
 let savedPeople;
@@ -32,7 +21,7 @@ if (rotateVideo) {
     videoEl.classList.add('rotate');
 }
 
-const link = document.querySelector('.m_k_enter')
+const link = document.querySelector('.m_k_enter');
 
 link.addEventListener('pointerdown', function (event) {
     event.preventDefault();
