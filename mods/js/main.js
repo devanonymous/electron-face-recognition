@@ -5,7 +5,7 @@ const log = require('electron-log');
 
 const commonjs = require(path.resolve(__dirname, '../mods/js/commons'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
-const createFoto = require(path.resolve(__dirname, '../modules/savePerson'));
+const savePerson = require(path.resolve(__dirname, '../modules/savePerson'));
 
 log.info(path.resolve(__dirname, '../modules/savePerson'));
 
@@ -33,7 +33,7 @@ link.addEventListener('pointerdown', function (event) {
 
     if (userName > '' && userPosition > '') {
         isBlockedPlay = true;
-        createFoto(videoEl, options, userName, userPosition)
+        savePerson(videoEl, options, userName, userPosition)
             .then(() => {
                 isBlockedPlay = false;
             })
@@ -210,12 +210,9 @@ async function onPlay(videoEl) {
     if (isPausedOrEnded(videoEl)) {
         return
     }
-
     faceapi.getMediaDimensions(videoEl);
-
     await detectFaces();
-
-    setTimeout(() => onPlay(videoEl), 1000 / 25); /*TODO: может этот таймаут нахуй не нужен?*/
+    setTimeout(() => onPlay(videoEl));
 }
 
 
@@ -236,8 +233,6 @@ const startVideoStreamFromWebCamera = () => {
 
             }
         },
-        stream => videoEl.srcObject = stream,
-        err => console.error(err)
     ).then(function (stream) {
         videoEl.srcObject = stream;
     }).catch(function (err) {

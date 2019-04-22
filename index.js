@@ -7,11 +7,12 @@ if ( isDev ) {
   require('electron-reload');
 }
 
-app.commandLine.appendSwitch('ignore-gpu-blacklist');
+app.commandLine.appendSwitch('--ignore-gpu-blacklist', 'true');
 log.info('App starting...');
 
 let windows = [];
 let win = null;
+
 
 function sendStatusToWindow(text) {
   log.info(text);
