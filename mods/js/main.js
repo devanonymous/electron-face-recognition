@@ -130,6 +130,38 @@ const getFullFaceDescriptions = async () => {
     return faceapi.resizeResults(fullFaceDescriptions, {width: 1080, height: 1920});
 };
 
+/**
+ *
+ * @param {object} fb
+ * @param {object} bestMatch
+ */
+const setValueToFaceBox = (fb, bestMatch) => {
+    if (bestMatch) {
+        fb.setValues({
+            name: bestMatch.className.name,
+            position: bestMatch.className.position,
+            age: bestMatch.descriptor
+        });
+        console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
+    } else {
+        fb.setDefaultValues();
+        console.log('name: неопознанный человечишко');
+    }
+};
+
+/**
+ *  если кол-во ФейсБоксов больше одного, то  сделать их уменьшенными
+ *
+ * @param {Array} faceBoxes
+ */
+const makeFaceBoxesSmall = (faceBoxes) => {
+    if (faceBoxes.length > 1) {
+        faceBoxes.forEach((fb) => {
+            fb.toSmalled();
+        });
+    }
+};
+
 const drawFaceBoxes = (detectionsForSize) => {
     let oldFaceBoxIndex = 0;
     const oldFaceBoxes = document.querySelectorAll('.face-box');
@@ -146,7 +178,7 @@ const drawFaceBoxes = (detectionsForSize) => {
     for (const face of detectionsForSize) {
         const bestMatch = commonjs.getBestMatch(savedPeople, face);
         const fb = new faceBox();
-        faceBoxes[faceBoxes.length] = fb;
+        faceBoxes.push(fb);
         const html = oldFaceBoxes[oldFaceBoxIndex];
 
         if (html) {
@@ -156,17 +188,7 @@ const drawFaceBoxes = (detectionsForSize) => {
             html.classList.add('face-box_old-box');
         }
 
-        if (bestMatch) {
-            fb.setValues({
-                name: bestMatch.className.name,
-                position: bestMatch.className.position,
-                age: bestMatch.descriptor
-            });
-            console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
-        } else {
-            fb.setDefaultValues();
-            console.log('name: неопознанный человечишко');
-        }
+        setValueToFaceBox(fb, bestMatch);
 
         if (face.expressions) {
             fb.parseExpressions(face.expressions);
@@ -177,11 +199,7 @@ const drawFaceBoxes = (detectionsForSize) => {
         fb.setRounds();
     }
 
-    if (detectionsForSize.length > 1) {
-        faceBoxes.forEach((fb) => {
-            fb.toSmalled();
-        });
-    }
+    makeFaceBoxesSmall(faceBoxes);
 };
 
 const detectFaces = async () => {
