@@ -1,6 +1,7 @@
 /**
- * берет кадр с вебкамеры, вставляет его в канвас и поворачивает в альбомную ориентацию,
- * т.к face-api.js распознает лица только в альбомной ориентации
+ * берет кадр с вебкамеры, вставляет его в канвас, поворачивает в альбомную ориентацию и уменьшает его до разрешения 540x960,
+ * т.к face-api.js распознает лица только в альбомной ориентации и изобрашение в fullHD почемуто распознаёт некорректно,
+ * поэтому прежде чем передать канвас в faceAPI мы сначала уменьшаем его в 2 раза
  *
  * @param {HTMLVideoElement} videoEl видео с вебкамеры
  * @returns {HTMLElement}
@@ -21,12 +22,7 @@ const getCanvas = (videoEl) => {
     context.save();
     context.restore();
 
-    // context.translate(canvas.height/2, 0);
-    // context.scal;
-
     context.drawImage(videoEl, 0, 540, canvas.height, canvas.width);
-
-    console.log("all about canvas ",canvas.width, canvas.height);
 
     return canvas
 };

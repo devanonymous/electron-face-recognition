@@ -5,9 +5,9 @@ const log = require('electron-log');
 
 const commonjs = require(path.resolve(__dirname, '../mods/js/commons'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
-const createFoto = require(path.resolve(__dirname, '../modules/create-foto'));
+const createFoto = require(path.resolve(__dirname, '../modules/savePerson'));
 
-log.info(path.resolve(__dirname, '../modules/create-foto'));
+log.info(path.resolve(__dirname, '../modules/savePerson'));
 
 const rotateVideo = window.innerWidth < window.innerHeight;
 
@@ -116,22 +116,21 @@ const isPausedOrEnded = (videoEl) => {
     return false
 };
 
-async function onPlay(videoEl) {
-    if (isPausedOrEnded(videoEl)) {
-        return
-    }
-
-    faceapi.getMediaDimensions(videoEl);
-
-    const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl),options)
+/**
+ * Распозднает лица, и возврашает полное описание всех распознанных лиц увеличенное до разрешения экрана устройства,
+ * чтобы получить корректные координаты прямоуголька (faceBox'a)
+ * @returns {Promise<({} & {detection: FaceDetection} & {expressions: FaceExpressionPrediction[]} & {landmarks: FaceLandmarks68; unshiftedLandmarks: FaceLandmarks68; alignedRect: FaceDetection}) | any>}
+ */
+const getFullFaceDescriptions = async () => {
+    const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl), options)
         .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
 
-    const detectionsForSize = faceapi.resizeResults(fullFaceDescriptions, { width: 1080, height: 1920 });
+    return faceapi.resizeResults(fullFaceDescriptions, {width: 1080, height: 1920});
+};
 
-    console.log(detectionsForSize, 'detectionsForSize!!!!!!!!!!!!!!!!!!!!!!!');
-
+const drawFaceBoxes = (detectionsForSize) => {
     let oldFaceBoxIndex = 0;
     const oldFaceBoxes = document.querySelectorAll('.face-box');
     oldFaceBoxes.forEach((box) => {
@@ -157,7 +156,6 @@ async function onPlay(videoEl) {
             html.classList.add('face-box_old-box');
         }
 
-
         if (bestMatch) {
             fb.setValues({
                 name: bestMatch.className.name,
@@ -169,7 +167,6 @@ async function onPlay(videoEl) {
             fb.setDefaultValues();
             console.log('name: неопознанный человечишко');
         }
-
 
         if (face.expressions) {
             fb.parseExpressions(face.expressions);
@@ -185,8 +182,23 @@ async function onPlay(videoEl) {
             fb.toSmalled();
         });
     }
+};
 
-    setTimeout(() => onPlay(videoEl), 1000 / 25);
+const detectFaces = async () => {
+    const detectionsForSize = await getFullFaceDescriptions();
+    drawFaceBoxes(detectionsForSize);
+};
+
+async function onPlay(videoEl) {
+    if (isPausedOrEnded(videoEl)) {
+        return
+    }
+
+    faceapi.getMediaDimensions(videoEl);
+
+    await detectFaces();
+
+    setTimeout(() => onPlay(videoEl), 1000 / 25); /*TODO: может этот таймаут нахуй не нужен?*/
 }
 
 
