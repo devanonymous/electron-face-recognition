@@ -161,7 +161,7 @@ async function onPlay(videoEl) {
 
     const faceBoxes = [];
 
-    for (const face of fullFaceDescriptions) {
+    for (const face of detectionsForSize) {
         const bestMatch = commonjs.getBestMatch(savedPeople, face);
         const fb = new faceBox();
         faceBoxes[faceBoxes.length] = fb;
@@ -192,12 +192,12 @@ async function onPlay(videoEl) {
             fb.parseExpressions(face.expressions);
         }
 
-        fb.show(face.detection.forSize(1080, 1920).box, (fullFaceDescriptions.length > 1), rotateVideo);
+        fb.show(face.detection.box, (detectionsForSize.length > 1), rotateVideo);
 
         fb.setRounds();
     }
 
-    if (fullFaceDescriptions.length > 1) {
+    if (detectionsForSize.length > 1) {
         faceBoxes.forEach((fb) => {
             fb.toSmalled();
         });

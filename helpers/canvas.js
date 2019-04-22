@@ -7,8 +7,8 @@
  */
 const getCanvas = (videoEl) => {
     const canvas = document.getElementById('canvas-one');
-    canvas.width = videoEl.videoHeight ? videoEl.videoHeight : 1920;
-    canvas.height = videoEl.videoWidth ?  videoEl.videoWidth : 1080;
+    canvas.width = videoEl.videoHeight ? videoEl.videoHeight / 2 : 1920;
+    canvas.height = videoEl.videoWidth ?  videoEl.videoWidth / 2 : 1080;
     const context  = canvas.getContext('2d');
 
     context.setTransform(
@@ -18,7 +18,15 @@ const getCanvas = (videoEl) => {
         0             // y origin is at the top
     );
 
-    context.drawImage(videoEl, 0, 0, canvas.height/2, canvas.width/2);
+    context.save();
+    context.restore();
+
+    // context.translate(canvas.height/2, 0);
+    // context.scal;
+
+    context.drawImage(videoEl, 0, 540, canvas.height, canvas.width);
+
+    console.log("all about canvas ",canvas.width, canvas.height);
 
     return canvas
 };

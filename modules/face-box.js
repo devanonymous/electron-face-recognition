@@ -26,8 +26,8 @@ module.exports = class faceBox {
         //     this.html.style.right = faceDetectionBox.left +'px';
         // } else {
             this.html.style.top = faceDetectionBox + 'px';
-            this.html.style.width = faceDetectionBox.width * 2 +'px';
-            this.html.style.height = faceDetectionBox.height * 2 +'px';
+            this.html.style.width = faceDetectionBox.width  +'px';
+            this.html.style.height = faceDetectionBox.height +'px';
             // this.html.style.left = faceDetectionBox.right  +'px';
             // this.html.style.right = (faceDetectionBox.x + faceDetectionBox.width * 2) / (faceDetectionBox.x / faceDetectionBox.width ) - faceDetectionBox.height + 'px';
             this.html.style.right = faceDetectionBox.left  + 'px';
