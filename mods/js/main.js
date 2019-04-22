@@ -6,6 +6,9 @@ const log = require('electron-log');
 const commonjs = require(path.resolve(__dirname, '../mods/js/commons'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
 const savePerson = require(path.resolve(__dirname, '../modules/savePerson'));
+const Keyboard = require(path.resolve(__dirname, '../modules/Keyboard_input/keyboard'));
+
+console.log(Keyboard, "-----------------------------------------------------------------")
 
 log.info(path.resolve(__dirname, '../modules/savePerson'));
 
@@ -21,33 +24,33 @@ if (rotateVideo) {
     videoEl.classList.add('rotate');
 }
 
-const link = document.querySelector('.m_k_enter');
-
-link.addEventListener('pointerdown', function (event) {
-    event.preventDefault();
-
-    const fieldName = document.querySelector('#name');
-    const fieldPosition = document.querySelector('#user-position');
-    const userName = clearStrValue(fieldName.value);
-    const userPosition = clearStrValue(fieldPosition.value);
-
-    if (userName > '' && userPosition > '') {
-        isBlockedPlay = true;
-        savePerson(videoEl, options, userName, userPosition)
-            .then(() => {
-                isBlockedPlay = false;
-            })
-            .catch((err) => {
-                log.error('mod:createFoto() catch error', err);
-            });
-    } else if (userName > '' && !userPosition) {
-        fieldName.classList.remove('field-name-show');
-        fieldPosition.classList.add('field-name-show');
-    } else {
-        fieldName.classList.add('field-name-show');
-        fieldPosition.classList.remove('field-name-show');
-    }
-});
+// const link = document.querySelector('.m_k_enter');
+//
+// link.addEventListener('pointerdown', function (event) {
+//     event.preventDefault();
+//
+//     const fieldName = document.querySelector('#name');
+//     const fieldPosition = document.querySelector('#user-position');
+//     const userName = clearStrValue(fieldName.value);
+//     const userPosition = clearStrValue(fieldPosition.value);
+//
+//     if (userName > '' && userPosition > '') {
+//         isBlockedPlay = true;
+//         savePerson(videoEl, options, userName, userPosition)
+//             .then(() => {
+//                 isBlockedPlay = false;
+//             })
+//             .catch((err) => {
+//                 log.error('mod:createFoto() catch error', err);
+//             });
+//     } else if (userName > '' && !userPosition) {
+//         fieldName.classList.remove('field-name-show');
+//         fieldPosition.classList.add('field-name-show');
+//     } else {
+//         fieldName.classList.add('field-name-show');
+//         fieldPosition.classList.remove('field-name-show');
+//     }
+// });
 
 const clearStrValue = function (str) {
     let newStr = str;
@@ -84,8 +87,8 @@ const clickKeyboard = function () {
         fieldPosition.focus();
     }
 };
-const keyboard = document.querySelector('.keyboard');
-keyboard.addEventListener('click', clickKeyboard, false);
+// const keyboard = document.querySelector('.keyboard');
+// keyboard.addEventListener('click', clickKeyboard, false);
 
 let ti = setTimeout(() => {
 }, 0);
@@ -260,6 +263,15 @@ async function run() {
 
 document.addEventListener("DOMContentLoaded", () => {
     run();
+
+    const keyboard = new Keyboard({
+        input: ".input-text",   // селектор в формате .class-name
+        maxWidth: 800,          // примерная максимальная ширина инпута
+        sendEvent: false,       // отправка кастомного эвента
+        debug: true,           // сообщения в консоли
+    });
+    keyboard.init();
+
 
     const $currentTime = document.querySelector('.js-current-time');
 
