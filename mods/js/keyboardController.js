@@ -1,6 +1,6 @@
-const savePerson = require(path.resolve(__dirname, '../modules/savePerson'));
+const {savePerson} = require(path.resolve(__dirname, '../modules/savePerson'));
 
-const clearStrValue = function (str) {
+const clearStrValue =  (str) => {
     let newStr = str;
 
     if (newStr > '') {
@@ -10,12 +10,52 @@ const clearStrValue = function (str) {
     return newStr;
 };
 
+/**
+ *
+ * @param {string} userName
+ * @param {string} userPosition
+ */
+const savePersonToFile = (userName, userPosition) => {
+    isBlockedPlay = true;
+    savePerson(videoEl, options, userName, userPosition)
+        .then(() => {
+            isBlockedPlay = false;
+        })
+        .catch((err) => {
+            log.error('mod:createFoto() catch error', err);
+        });
+};
 
+/**
+ * показывает поле ввода должности, скрывает поле ввода имени
+ *
+ * @param {HTMLElement} fieldName
+ * @param {HTMLElement} fieldPosition
+ */
+const enterUserPosition = (fieldName, fieldPosition) => {
+    fieldName.classList.remove('field-name-show');
+    fieldPosition.classList.add('field-name-show');
+    keyboard.changeInput('#user-position');
+    keyboard.init();
+};
 
-document.addEventListener("DOMContentLoaded", function () {
-    const link = document.querySelector('.btn-enter');
+/**
+ * показывает поле ввода имени, скрывает поле ввода должности
+ *
+ * @param {HTMLElement} fieldName
+ * @param {HTMLElement} fieldPosition
+ */
+const enterUserName = (fieldName, fieldPosition) => {
+    fieldName.classList.add('field-name-show');
+    fieldPosition.classList.remove('field-name-show');
+    keyboard.changeInput('#name');
+    keyboard.init();
+};
 
-    link.addEventListener('pointerdown', function (event) {
+const enterButtonOnClick = () => {
+    const enterButton = document.querySelector('.btn-enter');
+
+    enterButton.addEventListener('pointerdown', function (event) {
         event.preventDefault();
 
         const fieldName = document.querySelector('#name');
@@ -24,36 +64,32 @@ document.addEventListener("DOMContentLoaded", function () {
         const userPosition = clearStrValue(fieldPosition.value);
 
         if (userName > '' && userPosition > '') {
-            isBlockedPlay = true;
-            savePerson(videoEl, options, userName, userPosition)
-                .then(() => {
-                    isBlockedPlay = false;
-                })
-                .catch((err) => {
-                    log.error('mod:createFoto() catch error', err);
-                });
+            savePersonToFile(userName, userPosition);
         } else if (userName > '' && !userPosition) {
-            fieldName.classList.remove('field-name-show');
-            fieldPosition.classList.add('field-name-show');
-            keyboard.changeInput('#user-position');
-            keyboard.init();
+            enterUserPosition(fieldName, fieldPosition);
         } else {
-            fieldName.classList.add('field-name-show');
-            fieldPosition.classList.remove('field-name-show');
-            keyboard.changeInput('#name');
-            keyboard.init();
+            enterUserName(fieldName, fieldPosition)
         }
     });
+};
 
-
+/**
+ * Клик на кнопку показать/скрыть клавиатуру
+ */
+const showKeyboardButtonOnClick = () => {
     document.querySelectorAll('.login-buttons').forEach((btn) => {
         btn.addEventListener('click', function () {
             const $name = document.querySelector('#name');
-            $name.classList.add('field-name-show');
+            $name.classList.toggle('field-name-show');
             $name.focus();
 
-            this.classList.add('login-buttons_show');
-            keyboard.show();
+            this.classList.toggle('login-buttons_show');
+            keyboard.toggle();
         });
     });
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+    enterButtonOnClick();
+    showKeyboardButtonOnClick();
 });

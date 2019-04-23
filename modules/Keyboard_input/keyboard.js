@@ -51,6 +51,10 @@ class Keyboard {
         this.hide();
     }
 
+    toggle() {
+        this.wrapper.classList.toggle("keyboard-active");
+    }
+
     show() {
         this.wrapper.classList.add("keyboard-active");
     }

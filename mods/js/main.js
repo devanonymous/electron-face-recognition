@@ -4,9 +4,9 @@ const moment = require('moment');
 const log = require('electron-log');
 
 const keyboard = require(path.resolve(__dirname, '../helpers/keyboard'));
-const commonjs = require(path.resolve(__dirname, '../mods/js/commons'));
+const findPerson = require(path.resolve(__dirname, '../mods/js/findPerson'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
-
+const {loadSavedPersons} = require(path.resolve(__dirname, '../modules/savePerson'));
 
 
 log.info(path.resolve(__dirname, '../modules/savePerson'));
@@ -22,6 +22,8 @@ let savedPeople;
 if (rotateVideo) {
     videoEl.classList.add('rotate');
 }
+
+/*TODO: what the fuck is this?*/
 
 let ti = setTimeout(() => {
 }, 0);
@@ -55,7 +57,7 @@ const isPausedOrEnded = (videoEl) => {
 /**
  * Распозднает лица, и возврашает полное описание всех распознанных лиц увеличенное до разрешения экрана устройства,
  * чтобы получить корректные координаты прямоуголька (faceBox'a)
- * @returns {Promise<({} & {detection: FaceDetection} & {expressions: FaceExpressionPrediction[]} & {landmarks: FaceLandmarks68; unshiftedLandmarks: FaceLandmarks68; alignedRect: FaceDetection}) | any>}
+ * @returns {Promise<{} & {detection: FaceDetection} & {expressions: FaceExpressionPrediction[]} & {landmarks: FaceLandmarks68; unshiftedLandmarks: FaceLandmarks68; alignedRect: FaceDetection}>}
  */
 const getFullFaceDescriptions = async () => {
     const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl), options)
@@ -111,7 +113,7 @@ const drawFaceBoxes = (detectionsForSize) => {
     const faceBoxes = [];
 
     for (const face of detectionsForSize) {
-        const bestMatch = commonjs.getBestMatch(savedPeople, face);
+        const bestMatch = findPerson.getBestMatch(savedPeople, face);
         const fb = new faceBox();
         faceBoxes.push(fb);
         const html = oldFaceBoxes[oldFaceBoxIndex];
@@ -190,10 +192,12 @@ const initFaceAPIMonkeyPatch = () => {
 async function run() {
     initFaceAPIMonkeyPatch();
     await loadFaceAPIModels();
-    savedPeople = await commonjs.loadSavedPeople();
+    savedPeople = await loadSavedPersons();
     startVideoStreamFromWebCamera();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    run();
+    run().catch(err => {
+        console.log('ERROR:', err)
+    });
 });

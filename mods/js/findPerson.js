@@ -4,29 +4,6 @@ const fs = require('fs');
 const faceapi = require('face-api.js');
 
 
-exports.loadSavedPeople = async function loadDetectedPeople() {
-    const dataDir = path.join(electron.remote.app.getPath('home'), `/foto-data/`);
-    const dirContent = fs.readdirSync(dataDir);
-
-    const data = dirContent
-        .filter(file => file.endsWith('.json'))
-        .map(file => {
-            const content = fs.readFileSync(path.join(dataDir, file), 'utf-8')
-            const json = JSON.parse(content);
-            console.log('json', json);
-            return {
-                className: {
-                    name: json.className.name,
-                    position: json.className.position
-                },
-                descriptors: json.descriptors
-            };
-        });
-    console.log('загруженные данные: ================================== ', data);
-    return data;
-};
-
-
 /**
  *
  *
