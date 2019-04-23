@@ -242,6 +242,15 @@ body {
   margin-left: 163px;
   margin-top: -15px;
 }
+
+.face-box__expressions-item_angry {
+  top: 0;
+  left: 30%;
+  /*margin-right: 65px;*/
+  /*margin-bottom: 310px;*/
+  margin-top: -400px;
+}
+
 .face-box__expressions-item_surprised {
   top: 0;
   right: 100%;

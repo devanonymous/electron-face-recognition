@@ -6,10 +6,14 @@
  * @param {HTMLVideoElement} videoEl видео с вебкамеры
  * @returns {HTMLElement}
  */
+
+// во сколько раз уменьшить изображение
+const REDUCE_BY = 2;
+
 const getCanvas = (videoEl) => {
     const canvas = document.getElementById('canvas-one');
-    canvas.width = videoEl.videoHeight ? videoEl.videoHeight / 2 : 1920;
-    canvas.height = videoEl.videoWidth ?  videoEl.videoWidth / 2 : 1080;
+    canvas.width = videoEl.videoHeight ? videoEl.videoHeight / REDUCE_BY : 1920;
+    canvas.height = videoEl.videoWidth ?  videoEl.videoWidth / REDUCE_BY : 1080;
     const context  = canvas.getContext('2d');
 
     context.setTransform(
@@ -22,7 +26,9 @@ const getCanvas = (videoEl) => {
     context.save();
     context.restore();
 
-    context.drawImage(videoEl, 0, 540, canvas.height, canvas.width);
+    // console.log(`width: ${canvas.width} height: ${canvas.height}`);
+
+    context.drawImage(videoEl, 0, canvas.width, canvas.height, canvas.width);
 
     return canvas
 };

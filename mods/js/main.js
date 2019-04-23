@@ -15,7 +15,7 @@ const rotateVideo = window.innerWidth < window.innerHeight;
 
 const videoEl = document.querySelector('#inputVideo');
 
-const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 736});
+const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 672});
 let isBlockedPlay = false;
 let savedPeople;
 
@@ -80,7 +80,7 @@ const setValueToFaceBox = (fb, bestMatch) => {
             position: bestMatch.className.position,
             age: bestMatch.descriptor
         });
-        console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance);
+        console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance, 'desc', bestMatch.descriptor);
     } else {
         fb.setDefaultValues();
         console.log('name: неопознанный человечишко');

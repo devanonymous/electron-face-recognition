@@ -68,6 +68,9 @@ module.exports = class faceBox {
         this._updateValues();
     }
 
+    /**
+     * Рисует заполнение крожочков с эмоциями градиентом
+     */
     setRounds() {//size = 64, strokeWidth = 4
         const graphMain = document.querySelector('#b-graphic');
         let $graphics = this.html.querySelectorAll(".b-graphic");
@@ -331,6 +334,9 @@ module.exports = class faceBox {
         });
         html.querySelectorAll('.js-face-box__user-fearful').forEach((elem) => {
             elem.innerHTML = this.fearful;
+        });
+        html.querySelectorAll('.js-face-box__user-angry').forEach((elem) => {
+            elem.innerHTML = this.angry;
         });
     }
 };
