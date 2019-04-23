@@ -3,17 +3,6 @@ const path = require('path');
 const fs = require('fs');
 const faceapi = require('face-api.js');
 
-function getImageUri(imageName) {
-    return `../mods/img/${imageName}`
-}
-
-function getFaceImageUri(className, idx) {
-    return path.resolve(__dirname, `../mods/img/${className}/${className}${idx}.png`);
-}
-
-async function fetchImage(uri) {
-    return (await fetch(uri)).blob()
-}
 
 exports.loadSavedPeople = async function loadDetectedPeople() {
     const dataDir = path.join(electron.remote.app.getPath('home'), `/foto-data/`);
@@ -55,7 +44,7 @@ const makeArrayFromObjectDescriptor = (objectDescriptor) => {
 /**
  *
  * @param {Array} bestMatchers
- * @param webcamFace
+ * @param {object} webcamFace
  * @returns {object}
  */
 function createBestResult(bestMatchers, webcamFace) {
@@ -73,7 +62,7 @@ function createBestResult(bestMatchers, webcamFace) {
         className: {
             className: {
                 name: 'Неопознанный',
-                position: 'пидр'
+                position: 'человек'
             },
             descriptors: webcamFace.descriptor[0]
         }

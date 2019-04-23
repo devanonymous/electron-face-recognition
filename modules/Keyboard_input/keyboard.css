@@ -1,6 +1,7 @@
 /* Имба клавиатура (с) Владимир Г.*/
 /* дефолтные настройки*/
 .keyboard{
+  margin-top: 1000px;
   position: relative;
   width: 100%;
   padding-bottom: 26%; /* пропорция 3/1 */

@@ -3,12 +3,11 @@ const faceapi = require('face-api.js');
 const moment = require('moment');
 const log = require('electron-log');
 
+const keyboard = require(path.resolve(__dirname, '../helpers/keyboard'));
 const commonjs = require(path.resolve(__dirname, '../mods/js/commons'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
-const savePerson = require(path.resolve(__dirname, '../modules/savePerson'));
-const Keyboard = require(path.resolve(__dirname, '../modules/Keyboard_input/keyboard'));
 
-console.log(Keyboard, "-----------------------------------------------------------------")
+
 
 log.info(path.resolve(__dirname, '../modules/savePerson'));
 
@@ -23,72 +22,6 @@ let savedPeople;
 if (rotateVideo) {
     videoEl.classList.add('rotate');
 }
-
-// const link = document.querySelector('.m_k_enter');
-//
-// link.addEventListener('pointerdown', function (event) {
-//     event.preventDefault();
-//
-//     const fieldName = document.querySelector('#name');
-//     const fieldPosition = document.querySelector('#user-position');
-//     const userName = clearStrValue(fieldName.value);
-//     const userPosition = clearStrValue(fieldPosition.value);
-//
-//     if (userName > '' && userPosition > '') {
-//         isBlockedPlay = true;
-//         savePerson(videoEl, options, userName, userPosition)
-//             .then(() => {
-//                 isBlockedPlay = false;
-//             })
-//             .catch((err) => {
-//                 log.error('mod:createFoto() catch error', err);
-//             });
-//     } else if (userName > '' && !userPosition) {
-//         fieldName.classList.remove('field-name-show');
-//         fieldPosition.classList.add('field-name-show');
-//     } else {
-//         fieldName.classList.add('field-name-show');
-//         fieldPosition.classList.remove('field-name-show');
-//     }
-// });
-
-const clearStrValue = function (str) {
-    let newStr = str;
-
-    if (newStr > '') {
-        newStr = newStr.trim();
-    }
-
-    return newStr;
-};
-
-
-document.querySelector('#name').addEventListener('focus', function () {
-    document.querySelector('.keyboard').classList.add('open');
-});
-document.querySelector('#name').addEventListener('click', function () {
-    document.querySelector('.keyboard').classList.add('open');
-});
-document.querySelector('#user-position').addEventListener('focus', function () {
-    document.querySelector('.keyboard').classList.add('open');
-});
-document.querySelector('#user-position').addEventListener('click', function () {
-    document.querySelector('.keyboard').classList.add('open');
-});
-
-const clickKeyboard = function () {
-    const fieldName = document.querySelector('#name');
-    const fieldPosition = document.querySelector('#user-position');
-    // console.log('$',fieldName.classList.contains('field-name-show'),fieldPosition.classList.contains('field-name-show'));
-    if (fieldName.classList.contains('field-name-show')) {
-        fieldName.focus();
-    } else if (fieldPosition.classList.contains('field-name-show')) {
-        console.log('focus position');
-        fieldPosition.focus();
-    }
-};
-// const keyboard = document.querySelector('.keyboard');
-// keyboard.addEventListener('click', clickKeyboard, false);
 
 let ti = setTimeout(() => {
 }, 0);
@@ -263,50 +196,4 @@ async function run() {
 
 document.addEventListener("DOMContentLoaded", () => {
     run();
-
-    const keyboard = new Keyboard({
-        input: ".input-text",   // селектор в формате .class-name
-        maxWidth: 800,          // примерная максимальная ширина инпута
-        sendEvent: false,       // отправка кастомного эвента
-        debug: true,           // сообщения в консоли
-    });
-    keyboard.init();
-
-
-    const $currentTime = document.querySelector('.js-current-time');
-
-    setInterval(() => {
-        $currentTime.innerHTML = `${moment().format('HH:mm:ss')}`;
-    }, 1000);
-
-    {
-        const weather = require('../modules/weather');
-
-        weather().then((re) => {
-            document.querySelector('.js-current-weather').innerHTML = `${re}`;
-        });
-    }
-
-    {
-        const $gidButton = document.querySelector('.js-gid-button');
-        const $gids = document.querySelector('.f-gid');
-        const $videos = document.querySelectorAll('.f-gid__video');
-
-        $videos.forEach((video) => {
-            video.addEventListener('ended', function () {
-                $gids.classList.remove('f-gid_showed');
-            });
-        });
-
-        $gidButton.addEventListener('click', function () {
-            $videos[0].currentTime = 0;
-            $videos[0].play()
-                .then(() => {
-                    $gids.classList.add('f-gid_showed');
-                })
-                .catch((err) => {
-                    log.error(err);
-                });
-        });
-    }
 });
