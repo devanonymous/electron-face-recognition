@@ -3,6 +3,7 @@ const faceapi = require('face-api.js');
 const moment = require('moment');
 const log = require('electron-log');
 
+const dataBase = require(path.resolve(__dirname, '../modules/dataBase'));
 const keyboard = require(path.resolve(__dirname, '../helpers/keyboard'));
 const findPerson = require(path.resolve(__dirname, '../mods/js/findPerson'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
