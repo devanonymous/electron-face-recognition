@@ -3,6 +3,8 @@ const path = require('path');
 const log = require('electron-log');
 const isDev = require('electron-is-dev');
 
+const startMessageListening = require('./helpers/messageListener');
+
 if ( isDev ) {
   require('electron-reload');
 }
@@ -55,6 +57,7 @@ function createWindow() {
 
 app.on('ready', () => {
   createWindow();
+  startMessageListening(win);
 });
 
 app.on('window-all-closed', () => {

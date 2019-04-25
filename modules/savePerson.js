@@ -4,38 +4,26 @@ const path = require('path');
 const faceapi = require('face-api.js');
 const electron = require('electron');
 
+const dataBase = require('./dataBase');
 const getCanvas = require('./../helpers/canvas');
 
-
-if ( !fs.existsSync(path.join(app.getPath('home'), `/foto-data/`)) ) {
-    fs.mkdirSync(path.join(app.getPath('home'), `/foto-data/`));
-}
-
-module.exports.loadSavedPersons = async function loadDetectedPeople() {
-    const dataDir = path.join(electron.remote.app.getPath('home'), `/foto-data/`);
-    const dirContent = fs.readdirSync(dataDir);
-
-    const data = dirContent
-        .filter(file => file.endsWith('.json'))
-        .map(file => {
-            const content = fs.readFileSync(path.join(dataDir, file), 'utf-8')
-            const json = JSON.parse(content);
-            console.log('json', json);
-            return {
-                className: {
-                    name: json.className.name,
-                    position: json.className.position
-                },
-                descriptors: json.descriptors
-            };
-        });
+/*TODO после сохранения человека вызывать этот метод еще раз*/
+module.exports.loadSavedPersons = async () => {
+    const data = await dataBase.getAllPersons();
     console.log('загруженные данные: ================================== ', data);
     return data;
 };
 
 /* TODO: отрефакторить этот быдлокод*/
+/**
+ *
+ * @param {HTMLVideoElement} videoEl
+ * @param {object} options
+ * @param {string} name
+ * @param {string} position
+ * @returns {Promise<void>}
+ */
 module.exports.savePerson = async (videoEl, options, name, position = '') => {
-    const photoDataPath = (name) => path.join(app.getPath('home'), `/foto-data/${name}.json`);
     const descriptors = [];
     let totalAttempts = 0;
     const facesRequired = 1;
@@ -71,14 +59,14 @@ module.exports.savePerson = async (videoEl, options, name, position = '') => {
     }
 
     if (descriptors.length >= facesRequired) {
-        fs.writeFileSync(photoDataPath(name), JSON.stringify({
-            className: {
-                name:`${name}`,
-                position: `${position}`
-            },
-            descriptors
-        }));
-        location.reload()
+        dataBase.addPerson({
+                className: {
+                    name:`${name}`,
+                    position: `${position}`
+                },
+                descriptors
+            });
+        $createFoto.classList.remove('create-foto_show');
     } else {
         $fotoDescription.innerHTML = `Распознание не удалось`;
 

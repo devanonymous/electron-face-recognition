@@ -2,13 +2,15 @@ const path = require('path');
 const faceapi = require('face-api.js');
 const moment = require('moment');
 const log = require('electron-log');
+const { ipcRenderer } = require("electron");
+
+
 
 const dataBase = require(path.resolve(__dirname, '../modules/dataBase'));
 const keyboard = require(path.resolve(__dirname, '../helpers/keyboard'));
 const findPerson = require(path.resolve(__dirname, '../mods/js/findPerson'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
 const {loadSavedPersons} = require(path.resolve(__dirname, '../modules/savePerson'));
-
 
 log.info(path.resolve(__dirname, '../modules/savePerson'));
 
@@ -23,6 +25,13 @@ let savedPeople;
 if (rotateVideo) {
     videoEl.classList.add('rotate');
 }
+
+
+/* после того как пользователь добавился в базу данных приходит сообщение и мы загружаем базу заново */
+ipcRenderer.on('PersonHasBeenAdded', async () => {
+    savedPeople = await loadSavedPersons();
+});
+
 
 /*TODO: what the fuck is this?*/
 
@@ -189,6 +198,8 @@ const initFaceAPIMonkeyPatch = () => {
         createImageElement: () => document.createElement('img')
     });
 };
+
+
 
 async function run() {
     initFaceAPIMonkeyPatch();

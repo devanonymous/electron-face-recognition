@@ -406,6 +406,11 @@ body {
   display: block;
 }
 
+#name.field-name-hide,
+#user-position.field-name-hide {
+  display: none;
+}
+
 .keyboard {
   top: 55% !important;
 }

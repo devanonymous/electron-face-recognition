@@ -1,4 +1,7 @@
 const {savePerson} = require(path.resolve(__dirname, '../modules/savePerson'));
+const fieldName = document.querySelector('#name');
+const fieldPosition = document.querySelector('#user-position');
+const loginButtons = document.getElementById('login-buttons_group');
 
 const clearStrValue =  (str) => {
     let newStr = str;
@@ -10,12 +13,13 @@ const clearStrValue =  (str) => {
     return newStr;
 };
 
+
 /**
  *
  * @param {string} userName
  * @param {string} userPosition
  */
-const savePersonToFile = (userName, userPosition) => {
+const savePersonToDB = (userName, userPosition) => {
     isBlockedPlay = true;
     savePerson(videoEl, options, userName, userPosition)
         .then(() => {
@@ -52,19 +56,28 @@ const enterUserName = (fieldName, fieldPosition) => {
     keyboard.init();
 };
 
+
+const hideInputs = () => {
+    fieldName.classList.remove('field-name-show');
+    fieldPosition.classList.remove('field-name-show');
+    keyboard.hide();
+    loginButtons.classList.toggle('login-buttons_show');
+    fieldName.value = '';
+    fieldPosition.value = '';
+};
+
 const enterButtonOnClick = () => {
     const enterButton = document.querySelector('.btn-enter');
 
     enterButton.addEventListener('pointerdown', function (event) {
         event.preventDefault();
 
-        const fieldName = document.querySelector('#name');
-        const fieldPosition = document.querySelector('#user-position');
         const userName = clearStrValue(fieldName.value);
         const userPosition = clearStrValue(fieldPosition.value);
 
         if (userName > '' && userPosition > '') {
-            savePersonToFile(userName, userPosition);
+            savePersonToDB(userName, userPosition);
+            hideInputs();
         } else if (userName > '' && !userPosition) {
             enterUserPosition(fieldName, fieldPosition);
         } else {
@@ -82,8 +95,9 @@ const showKeyboardButtonOnClick = () => {
             const $name = document.querySelector('#name');
             $name.classList.toggle('field-name-show');
             $name.focus();
-
             this.classList.toggle('login-buttons_show');
+            keyboard.changeInput('#name');
+            // keyboard.init();
             keyboard.toggle();
         });
     });

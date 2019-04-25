@@ -1,5 +1,6 @@
 const faceapi = require('face-api.js');
 const db = require('pouchdb');
+const  { ipcRenderer } = require('electron');
 
 const localDB = new db('savedPeople');
 const remoteDB = new db('http://localhost:5984/savedPeople');
@@ -28,16 +29,26 @@ class DataBase {
         return true;
     };
 
-    addUser(face) {
-        if (this.isUniqueUser(face)) {
-            localDB.put(face.descriptor);
-        }
+    addPerson(user) {
+        localDB.post(user);
+        this.sendMessageThatPersonHasBeenAdded();
+    }
+
+    sendMessageThatPersonHasBeenAdded () {
+        ipcRenderer.send('PersonHasBeenAdded');
+    };
+
+    _transformDBData(dataFromDB) {
+        return dataFromDB.rows.map(item => item.doc)
     }
 
     async getAllPersons() {
-        return await localDB.allDocs({
+        const dataFromDB = await localDB.allDocs({
             include_docs: true
         });
+        const allPersons = this._transformDBData(dataFromDB);
+        console.log('allPersons', dataFromDB.rows)
+        return allPersons
     }
 
     getPersonsCount() {
