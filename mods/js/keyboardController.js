@@ -3,6 +3,8 @@ const fieldName = document.querySelector('#name');
 const fieldPosition = document.querySelector('#user-position');
 const loginButtons = document.getElementById('login-buttons_group');
 
+let isKeyboardButtonActive = false;
+
 const clearStrValue =  (str) => {
     let newStr = str;
 
@@ -64,6 +66,7 @@ const hideInputs = () => {
     loginButtons.classList.toggle('login-buttons_show');
     fieldName.value = '';
     fieldPosition.value = '';
+    isKeyboardButtonActive = !isKeyboardButtonActive;
 };
 
 const enterButtonOnClick = () => {
@@ -92,13 +95,21 @@ const enterButtonOnClick = () => {
 const showKeyboardButtonOnClick = () => {
     document.querySelectorAll('.login-buttons').forEach((btn) => {
         btn.addEventListener('click', function () {
-            const $name = document.querySelector('#name');
-            $name.classList.toggle('field-name-show');
-            $name.focus();
-            this.classList.toggle('login-buttons_show');
-            keyboard.changeInput('#name');
-            // keyboard.init();
-            keyboard.toggle();
+            if (!isKeyboardButtonActive) {
+                fieldName.classList.toggle('field-name-show');
+                fieldName.focus();
+                this.classList.toggle('login-buttons_show');
+                keyboard.changeInput('#name');
+                keyboard.toggle();
+                isKeyboardButtonActive = !isKeyboardButtonActive;
+            } else {
+                this.classList.toggle('login-buttons_show');
+                fieldName.classList.remove('field-name-show');
+                fieldPosition.classList.remove('field-name-show');
+                keyboard.changeInput('#name');
+                keyboard.toggle();
+                isKeyboardButtonActive = !isKeyboardButtonActive;
+            }
         });
     });
 };

@@ -344,7 +344,7 @@ body {
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: stretch;
-  background: url('../../img/bg-buttons-for-login.png')50% 50% no-repeat;
+  /*background: url('../../img/bg-buttons-for-login.png')50% 50% no-repeat;*/
   background-size: auto 100%;
   transition: min-width var(--anim-longer);
 }
@@ -382,6 +382,7 @@ body {
 #user-position {
   display: none;
   position: absolute;
+  font: normal 22px Circe;
   top: 50%;
   left: 50%;
   z-index: 20;
@@ -389,13 +390,19 @@ body {
   border: 0;
   width: 500px;
   height: 40px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 53.04%, rgba(0, 0, 0, 0) 100%);
+  /*background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 53.04%, rgba(0, 0, 0, 0) 100%);*/
   text-align: center;
-  text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  /*text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);*/
   color: #fff;
   font-size: 24px;
   line-height: 1.5;
-  box-shadow: none;
+  outline: none;
+  /*box-shadow: none;*/
+  transition-property: opacity;
+  transition-duration: 0s;
+  transition-delay: 0s;
+  transition-timing-function: ease-out;
+  background: transparent;
 }
 #name::placeholder,
 #user-position::placeholder {
