@@ -4,13 +4,14 @@ const moment = require('moment');
 const log = require('electron-log');
 const { ipcRenderer } = require("electron");
 
-
-
 const dataBase = require(path.resolve(__dirname, '../modules/dataBase'));
 const keyboard = require(path.resolve(__dirname, '../helpers/keyboard'));
 const findPerson = require(path.resolve(__dirname, '../mods/js/findPerson'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
 const {loadSavedPersons} = require(path.resolve(__dirname, '../modules/savePerson'));
+
+
+const IS_VERTICAL_ORIENTATION = true;
 
 log.info(path.resolve(__dirname, '../modules/savePerson'));
 
@@ -67,15 +68,14 @@ const isPausedOrEnded = (videoEl) => {
 /**
  * Распозднает лица, и возврашает полное описание всех распознанных лиц увеличенное до разрешения экрана устройства,
  * чтобы получить корректные координаты прямоуголька (faceBox'a)
- * @returns {Promise<{} & {detection: FaceDetection} & {expressions: FaceExpressionPrediction[]} & {landmarks: FaceLandmarks68; unshiftedLandmarks: FaceLandmarks68; alignedRect: FaceDetection}>}
  */
 const getFullFaceDescriptions = async () => {
-    const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl), options)
+    const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl, IS_VERTICAL_ORIENTATION), options)
         .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
 
-    return faceapi.resizeResults(fullFaceDescriptions, {width: 1080, height: 1920});
+    return  faceapi.resizeResults(fullFaceDescriptions, IS_VERTICAL_ORIENTATION ? {width: 1080, height: 1920} : {width: 1920, height: 1080});
 };
 
 /**
@@ -155,6 +155,8 @@ const detectFaces = async () => {
 };
 
 async function onPlay(videoEl) {
+
+
     if (isPausedOrEnded(videoEl)) {
         return
     }
@@ -209,6 +211,10 @@ async function run() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    if (!IS_VERTICAL_ORIENTATION) {
+        videoEl.style.transform = "scaleX(-1)"
+    }
+
     run().catch(err => {
         console.log('ERROR:', err)
     });

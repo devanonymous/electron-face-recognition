@@ -13,7 +13,7 @@ module.exports = class faceBox {
         this.html = document.querySelector('#face-box').cloneNode(true);
     }
 
-    show(faceDetectionBox, smalledStyle) {
+    show(faceDetectionBox, smalledStyle, isVerticalOrientation) {
         this.html.classList.add('face-box');
         this.html.removeAttribute('id');
         this.html.style.top = faceDetectionBox.top + 'px';
