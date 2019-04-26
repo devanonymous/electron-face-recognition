@@ -135,8 +135,9 @@ function showBubble() {
     isBubbleShow = true;
     if (bubble.classList.contains('hide-background-wrap')) {
         bubble.classList.remove('hide-background-wrap');
+        guidVideo.play();
     }
-    guidVideo.play();
+
 }
 
 const drawFaceBoxes = (detectionsForSize) => {

@@ -10,6 +10,7 @@ if ( isDev ) {
 }
 
 app.commandLine.appendSwitch('--ignore-gpu-blacklist', 'true');
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 log.info('App starting...');
 
 let windows = [];
