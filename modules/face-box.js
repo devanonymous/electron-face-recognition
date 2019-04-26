@@ -1,7 +1,7 @@
 module.exports = class faceBox {
     constructor(name, position, age, neutral, happy, sad, angry, fearful, disgusted, surprised) {
-        this.name = name || `Роман Абрамович`;
-        this.position = position || `Директор NeuroCity`;
+        this.name = name || `Незнакомец`;
+        this.position = position || ``;
         this.age = age || 25;
         this.neutral = neutral || 0;
         this.happy = happy || 0;
@@ -50,8 +50,8 @@ module.exports = class faceBox {
     }
 
     setDefaultValues() {
-        this.name = `Роман Абрамович`;
-        this.position = `Директор NeuroCity`;
+        this.name = `Незнакомец`;
+        this.position = ``;
         this.age = 25;
         this.neutral = 0;
         this.happy = 0;

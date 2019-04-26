@@ -3,9 +3,13 @@ const fieldName = document.querySelector('#name');
 const fieldPosition = document.querySelector('#user-position');
 const loginButtons = document.getElementById('login-buttons_group');
 
+
+bubble.addEventListener('click', handleBubbleClick);
+
+
 let isKeyboardButtonActive = false;
 
-const clearStrValue =  (str) => {
+const clearStrValue = (str) => {
     let newStr = str;
 
     if (newStr > '') {
@@ -14,6 +18,17 @@ const clearStrValue =  (str) => {
 
     return newStr;
 };
+
+
+function handleBubbleClick() {
+    bubble.classList.add('hide-background-wrap');
+    fieldName.classList.toggle('field-name-show');
+    fieldName.focus();
+    keyboard.changeInput('#name');
+    keyboard.toggle();
+    isKeyboardButtonActive = !isKeyboardButtonActive;
+    document.getElementById('keyboard-button').classList.remove('hide-keyboard-button');
+}
 
 
 /**
@@ -63,10 +78,12 @@ const hideInputs = () => {
     fieldName.classList.remove('field-name-show');
     fieldPosition.classList.remove('field-name-show');
     keyboard.hide();
-    loginButtons.classList.toggle('login-buttons_show');
+    // loginButtons.classList.toggle('login-buttons_show');
     fieldName.value = '';
     fieldPosition.value = '';
     isKeyboardButtonActive = !isKeyboardButtonActive;
+    document.getElementById('keyboard-button').classList.add('hide-keyboard-button');
+    bubble.classList.remove('hide-background-wrap');
 };
 
 const enterButtonOnClick = () => {
@@ -91,30 +108,30 @@ const enterButtonOnClick = () => {
 
 /**
  * Клик на кнопку показать/скрыть клавиатуру
+ * TODO: refactoring
  */
 const showKeyboardButtonOnClick = () => {
     document.querySelectorAll('.login-buttons').forEach((btn) => {
         btn.addEventListener('click', function () {
-            if (!isKeyboardButtonActive) {
-                fieldName.classList.toggle('field-name-show');
-                fieldName.focus();
-                this.classList.toggle('login-buttons_show');
-                keyboard.changeInput('#name');
-                keyboard.toggle();
-                isKeyboardButtonActive = !isKeyboardButtonActive;
-            } else {
-                this.classList.toggle('login-buttons_show');
-                fieldName.classList.remove('field-name-show');
-                fieldPosition.classList.remove('field-name-show');
-                keyboard.changeInput('#name');
-                keyboard.toggle();
-                isKeyboardButtonActive = !isKeyboardButtonActive;
-            }
+            // if (!isKeyboardButtonActive) {
+            //     fieldName.classList.toggle('field-name-show');
+            //     fieldName.focus();
+            //     this.classList.toggle('login-buttons_show');
+            //     keyboard.changeInput('#name');
+            //     keyboard.toggle();
+            //     isKeyboardButtonActive = !isKeyboardButtonActive;
+            // } else {
+                // this.classList.toggle('login-buttons_show');
+            hideInputs()
+            // bubble.classList.remove('hide-background-wrap');
+            // }
         });
     });
 };
 
+
 document.addEventListener("DOMContentLoaded", function () {
     enterButtonOnClick();
+    document.getElementById('keyboard-button').classList.add('hide-keyboard-button');
     showKeyboardButtonOnClick();
 });

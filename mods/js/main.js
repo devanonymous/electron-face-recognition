@@ -10,6 +10,9 @@ const findPerson = require(path.resolve(__dirname, '../mods/js/findPerson'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
 const {loadSavedPersons} = require(path.resolve(__dirname, '../modules/savePerson'));
 
+const bubble = document.getElementById('background-wrap');
+
+let isBubbleShow = true;
 
 const IS_VERTICAL_ORIENTATION = true;
 
@@ -26,6 +29,23 @@ let savedPeople;
 if (rotateVideo) {
     videoEl.classList.add('rotate');
 }
+
+
+const hideBubble = () => {
+    if (!bubble.classList.contains('hide-background-wrap')) {
+        bubble.classList.add('hide-background-wrap')
+    }
+};
+
+
+let timerId = setTimeout(function tick() {
+    if (!isBubbleShow) {
+        hideBubble()
+    } else {
+        isBubbleShow = false;
+    }
+    timerId = setTimeout(tick, 30000);
+}, 30000);
 
 
 /* после того как пользователь добавился в базу данных приходит сообщение и мы загружаем базу заново */
@@ -111,6 +131,13 @@ const makeFaceBoxesSmall = (faceBoxes) => {
 };
 
 
+function showBubble() {
+    isBubbleShow = true;
+    if (bubble.classList.contains('hide-background-wrap')) {
+        bubble.classList.remove('hide-background-wrap');
+    }
+}
+
 const drawFaceBoxes = (detectionsForSize) => {
     let oldFaceBoxIndex = 0;
     const oldFaceBoxes = document.querySelectorAll('.face-box');
@@ -144,6 +171,8 @@ const drawFaceBoxes = (detectionsForSize) => {
         fb.show(face.detection.box, (detectionsForSize.length > 1), rotateVideo);
 
         fb.setRounds();
+
+        showBubble();
     }
 
     makeFaceBoxesSmall(faceBoxes);
