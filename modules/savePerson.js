@@ -23,7 +23,7 @@ module.exports.loadSavedPersons = async () => {
  * @param {string} position
  * @returns {Promise<void>}
  */
-module.exports.savePerson = async (videoEl, options, name, position = '') => {
+module.exports.savePerson = async (videoEl, options, name, position = '', isVerticalOrientation) => {
     const descriptors = [];
     let totalAttempts = 0;
     const facesRequired = 1;
@@ -41,7 +41,7 @@ module.exports.savePerson = async (videoEl, options, name, position = '') => {
     while (totalAttempts < threshold) {
         totalAttempts++;
 
-        const face = await faceapi.detectSingleFace(getCanvas(videoEl), options)
+        const face = await faceapi.detectSingleFace(getCanvas(videoEl, isVerticalOrientation), options)
             .withFaceLandmarks()
             .withFaceDescriptor();
 
