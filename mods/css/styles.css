@@ -591,10 +591,19 @@ body {
 
 .f-gid {
     position: absolute;
-    left: 100%;
-    bottom: -100%;
-    z-index: 10;
-    visibility: hidden;
+    /*left: 100%;*/
+    /*bottom: -100%;*/
+    z-index: 1000000000000;
+    /*visibility: hidden;*/
+}
+
+.f-gid__video {
+    position: absolute;
+    /*left: 100%;*/
+    bottom: -400px;
+    height: 900px;
+    z-index: 1000000000000;
+    /*visibility: hidden;*/
 }
 
 .f-gid_showed {

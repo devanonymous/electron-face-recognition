@@ -9,6 +9,7 @@ const keyboard = require(path.resolve(__dirname, '../helpers/keyboard'));
 const findPerson = require(path.resolve(__dirname, '../mods/js/findPerson'));
 const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
 const {loadSavedPersons} = require(path.resolve(__dirname, '../modules/savePerson'));
+const guidVideo = document.getElementById('f-gid__video');
 
 const bubble = document.getElementById('background-wrap');
 
@@ -108,7 +109,6 @@ const setValueToFaceBox = (fb, bestMatch) => {
         fb.setValues({
             name: bestMatch.className.name,
             position: bestMatch.className.position,
-            age: bestMatch.descriptor
         });
         console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance, 'desc', bestMatch.descriptor);
     } else {
@@ -136,6 +136,7 @@ function showBubble() {
     if (bubble.classList.contains('hide-background-wrap')) {
         bubble.classList.remove('hide-background-wrap');
     }
+    guidVideo.play();
 }
 
 const drawFaceBoxes = (detectionsForSize) => {
