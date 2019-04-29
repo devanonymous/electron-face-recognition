@@ -36,7 +36,15 @@ const getCanvas = (videoEl, isVerticalOrientation) => {
         context.drawImage(videoEl, 0, canvas.width, canvas.height, canvas.width);
     }
 
+    context.putImageData(context.getImageData(0, canvas.width, canvas.height, canvas.width),0, canvas.width);
+
     return canvas
 };
 
-module.exports = getCanvas;
+const getCanvasData = (videoEl, isVerticalOrientation) => {
+    const canvas = getCanvas(videoEl, isVerticalOrientation);
+    const context = canvas.getContext('2d');
+    return [context.getImageData(0, canvas.width, canvas.height, canvas.width), 0, canvas.width]
+};
+
+module.exports = {getCanvas:getCanvas, getCanvasData:getCanvasData};

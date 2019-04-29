@@ -5,8 +5,8 @@ const isDev = require('electron-is-dev');
 
 const startMessageListening = require('../renderer/js/helpers/messageListener');
 
-if ( isDev ) {
-  require('electron-reload');
+if (isDev) {
+    require('electron-reload');
 }
 
 app.commandLine.appendSwitch('--ignore-gpu-blacklist', 'true');
@@ -16,60 +16,59 @@ log.info('App starting...');
 let windows = [];
 let win = null;
 
-
 function sendStatusToWindow(text) {
-  log.info(text);
-  win.webContents.send('message', text);
+    log.info(text);
+    win.webContents.send('message', text);
 }
 
+
 function createWindow() {
-  win = new BrowserWindow({
-    width: 1080,
-    height: 1920,
-    resizable: false,
-    movable: false,
-    frame: false,
-    kiosk: true,
-    fullscreen: true,
-    alwaysOnTop: false,
-    webPreferences: {
-      defaultEncoding: 'utf8',
-      nodeIntegration: true
-    }
-  });
+    win = new BrowserWindow({
+        width: 1080,
+        height: 1920,
+        resizable: false,
+        movable: false,
+        frame: false,
+        kiosk: true,
+        fullscreen: true,
+        alwaysOnTop: false,
+        webPreferences: {
+            defaultEncoding: 'utf8',
+            nodeIntegration: true
+        }
+    });
 
-  win.webContents.on('dom-ready', function () {
-    // win.webContents.openDevTools();
+    win.webContents.on('dom-ready', function () {
+        // win.webContents.openDevTools();
 
-    log.info('__dirname', __dirname);
+        log.info('__dirname', __dirname);
 
-    if ( isDev ) {
-      // win.webContents.openDevTools();
-    }
-  });
+        if (isDev) {
+            // win.webContents.openDevTools();
+        }
+    });
 
-  // win.loadFile('./../renderer/html/mainWindow.html');
-  win.loadURL(`file://${__dirname}/../renderer/html/mainWindow.html`);
+    win.loadURL(`file://${__dirname}/../renderer/html/mainWindow.html`);
 
-  win.on('closed', () => {
-    win = null
-  });
-  windows.push(win);
+    win.on('closed', () => {
+        win = null
+    });
+    windows.push(win);
 }
 
 app.on('ready', () => {
-  createWindow();
-  startMessageListening(win);
+    createWindow();
+    startMessageListening(win);
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
 });
 
 app.on('activate', () => {
-  if (windows === null) {
-    // createWindow()
-  }
+    if (windows === null) {
+        // createWindow()
+    }
 });

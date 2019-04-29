@@ -21,6 +21,7 @@ module.exports.loadSavedPersons = async () => {
  * @param {object} options
  * @param {string} name
  * @param {string} position
+ * @param {boolean} isVerticalOrientation
  * @returns {Promise<void>}
  */
 module.exports.savePerson = async (videoEl, options, name, position = '', isVerticalOrientation) => {
