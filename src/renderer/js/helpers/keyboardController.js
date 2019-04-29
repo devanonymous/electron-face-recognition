@@ -1,4 +1,4 @@
-const {savePerson} = require(path.resolve(__dirname, '../modules/savePerson'));
+const {savePerson} = require(path.resolve(__dirname, '../../modules/savePerson'));
 const fieldName = document.querySelector('#name');
 const fieldPosition = document.querySelector('#user-position');
 const loginButtons = document.getElementById('login-buttons_group');

@@ -4,11 +4,11 @@ const moment = require('moment');
 const log = require('electron-log');
 const { ipcRenderer } = require("electron");
 
-const dataBase = require(path.resolve(__dirname, '../modules/dataBase'));
-const keyboard = require(path.resolve(__dirname, '../helpers/keyboard'));
-const findPerson = require(path.resolve(__dirname, '../mods/js/findPerson'));
-const faceBox = require(path.resolve(__dirname, '../modules/face-box'));
-const {loadSavedPersons} = require(path.resolve(__dirname, '../modules/savePerson'));
+const dataBase = require(path.resolve(__dirname, '../../modules/dataBase'));
+const keyboard = require(path.resolve(__dirname,'./../js/helpers/keyboard'));
+const findPerson = require(path.resolve(__dirname, './../js/helpers/findPerson'));
+const faceBox = require(path.resolve(__dirname, './../../modules/face-box'));
+const {loadSavedPersons} = require('./../../modules/savePerson');
 const guidVideo = document.getElementById('f-gid__video');
 
 const bubble = document.getElementById('background-wrap');
@@ -30,7 +30,6 @@ let savedPeople;
 if (rotateVideo) {
     videoEl.classList.add('rotate');
 }
-
 
 const hideBubble = () => {
     if (!bubble.classList.contains('hide-background-wrap')) {
@@ -198,11 +197,11 @@ async function onPlay(videoEl) {
 
 
 const loadFaceAPIModels = async () => {
-    await faceapi.nets.tinyFaceDetector.loadFromDisk(path.resolve(__dirname, '../mods/weights'));
-    await faceapi.loadFaceDetectionModel(path.resolve(__dirname, '../mods/weights'));
-    await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../mods/weights'));
-    await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../mods/weights'));
-    await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../mods/weights'));
+    await faceapi.nets.tinyFaceDetector.loadFromDisk(path.resolve(__dirname, '../../../weights'));
+    await faceapi.loadFaceDetectionModel(path.resolve(__dirname, '../../../weights'));
+    await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../../../weights'));
+    await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../../../weights'));
+    await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../../../weights'));
 };
 
 const startVideoStreamFromWebCamera = () => {

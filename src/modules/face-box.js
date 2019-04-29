@@ -1,3 +1,5 @@
+/*TODO: нужно как-нибудь переписать это говнище*/
+
 module.exports = class faceBox {
     constructor(name, position, age, neutral, happy, sad, angry, fearful, disgusted, surprised) {
         this.name = name || `Незнакомец`;

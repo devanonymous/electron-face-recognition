@@ -1,4 +1,4 @@
-const faceapi = require('face-api.js');
+const faceapi = require('face-api.js/build/commonjs/index.js');
 const db = require('pouchdb');
 const  { ipcRenderer } = require('electron');
 

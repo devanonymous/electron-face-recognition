@@ -114,14 +114,14 @@ body {
     z-index: 10;
     width: 408px;
     height: 288px;*/
-    background: url('../../img/face.svg') 50% 50% no-repeat;
+    background: url('../../assets/img/face.svg') 50% 50% no-repeat;
     background-size: 100% 100%;
 }
 
 .face-box {
     position: absolute;
     z-index: 2;
-    background: url('../../img/face.svg') 50% 50% no-repeat;
+    background: url('../../assets/img/face.svg') 50% 50% no-repeat;
     background-size: 100% 100%;
 }
 
@@ -248,7 +248,7 @@ body {
     align-items: center;
     width: 165px;
     height: 165px;
-    background: url('../../img/ellipse-dark-gray.png') 50% 50% no-repeat;
+    background: url('../../assets/img/ellipse-dark-gray.png') 50% 50% no-repeat;
     background-size: contain;
     color: #fff;
     text-align: center;
@@ -413,13 +413,13 @@ body {
 
 .login-buttons__btn_keyboard {
     border-radius: 50%;
-    background: url('../../img/keyboard.svg') 50% 50% no-repeat, linear-gradient(230.25deg, #52B694, #5594C5, #FF2A57);
+    background: url('../../assets/img/keyboard.svg') 50% 50% no-repeat, linear-gradient(230.25deg, #52B694, #5594C5, #FF2A57);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 }
 
 .login-buttons__btn_voice {
     border-radius: 50%;
-    background: url('../../img/voice.svg') 50% 50% no-repeat #F03461;
+    background: url('../../assets/img/voice.svg') 50% 50% no-repeat #F03461;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 }
 

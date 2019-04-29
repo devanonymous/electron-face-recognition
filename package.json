@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "Desc",
   "productName": "neuro-id",
-  "main": "index.js",
+  "main": "src/main/index.js",
   "scripts": {
-    "start": "electron index.js",
+    "start": "electron src/main/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "electron-builder --dir",
     "dist:linux": "electron-builder --linux",

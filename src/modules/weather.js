@@ -1,5 +1,5 @@
 // const fetch = require('node-fetch');
-const log = require('electron-log');
+const log = require('electron-log/electron-log');
 
 module.exports = function () {
     try {

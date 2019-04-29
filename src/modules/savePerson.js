@@ -1,11 +1,11 @@
 const app = require('electron').app || require('electron').remote.app;
 const fs = require('fs');
 const path = require('path');
-const faceapi = require('face-api.js');
+const faceapi = require('face-api.js/build/commonjs/index.js');
 const electron = require('electron');
 
 const dataBase = require('./dataBase');
-const getCanvas = require('./../helpers/canvas');
+const getCanvas = require('../renderer/js/helpers/canvas');
 
 /*TODO после сохранения человека вызывать этот метод еще раз*/
 module.exports.loadSavedPersons = async () => {

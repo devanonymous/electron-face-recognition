@@ -3,7 +3,7 @@ const path = require('path');
 const log = require('electron-log');
 const isDev = require('electron-is-dev');
 
-const startMessageListening = require('./helpers/messageListener');
+const startMessageListening = require('../renderer/js/helpers/messageListener');
 
 if ( isDev ) {
   require('electron-reload');
@@ -48,7 +48,8 @@ function createWindow() {
     }
   });
 
-  win.loadFile(path.join(__dirname, 'src/index.html'));
+  // win.loadFile('./../renderer/html/mainWindow.html');
+  win.loadURL(`file://${__dirname}/../renderer/html/mainWindow.html`);
 
   win.on('closed', () => {
     win = null

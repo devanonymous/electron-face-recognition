@@ -1,7 +1,7 @@
 const electron = require('electron');
 const path = require('path');
 const fs = require('fs');
-const faceapi = require('face-api.js');
+const faceapi = require('face-api.js/build/commonjs/index.js');
 
 
 /**
