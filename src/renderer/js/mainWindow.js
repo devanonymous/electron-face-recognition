@@ -2,31 +2,27 @@ const path = require('path');
 const faceapi = require('face-api.js');
 const moment = require('moment');
 const log = require('electron-log');
-const { ipcRenderer } = require("electron");
+const {ipcRenderer} = require("electron");
 
 const dataBase = require(path.resolve(__dirname, '../../modules/dataBase'));
-const keyboard = require(path.resolve(__dirname,'./../js/helpers/keyboard'));
+const keyboard = require(path.resolve(__dirname, './../js/helpers/keyboard'));
 const findPerson = require(path.resolve(__dirname, './../js/helpers/findPerson'));
 const faceBox = require(path.resolve(__dirname, './../../modules/face-box'));
 const {loadSavedPersons} = require('./../../modules/savePerson');
 const guidVideo = document.getElementById('f-gid__video');
 
 const bubble = document.getElementById('background-wrap');
+const videoEl = document.querySelector('#inputVideo');
 
 let isBubbleShow = true;
-
 const IS_VERTICAL_ORIENTATION = true;
 
-log.info(path.resolve(__dirname, '../modules/savePerson'));
-
-const rotateVideo = window.innerWidth < window.innerHeight;
-
-const videoEl = document.querySelector('#inputVideo');
 
 const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 672});
 let isBlockedPlay = false;
 let savedPeople;
 
+const rotateVideo = window.innerWidth < window.innerHeight;
 if (rotateVideo) {
     videoEl.classList.add('rotate');
 }
@@ -34,38 +30,25 @@ if (rotateVideo) {
 const hideBubble = () => {
     if (!bubble.classList.contains('hide-background-wrap')) {
         bubble.classList.add('hide-background-wrap')
+        // keyboard.hide();
     }
 };
 
 
 let timerId = setTimeout(function tick() {
     if (!isBubbleShow) {
-        hideBubble()
+        hideBubble();
+        console.log('hide bubble');
     } else {
         isBubbleShow = false;
     }
-    timerId = setTimeout(tick, 30000);
-}, 30000);
+    timerId = setTimeout(tick, 10000);
+}, 10000);
 
 
 /* после того как пользователь добавился в базу данных приходит сообщение и мы загружаем базу заново */
 ipcRenderer.on('PersonHasBeenAdded', async () => {
     savedPeople = await loadSavedPersons();
-});
-
-
-/*TODO: what the fuck is this?*/
-
-let ti = setTimeout(() => {
-}, 0);
-document.body.addEventListener('click', function () {
-    clearTimeout(ti);
-
-    ti = setTimeout(() => {
-        document.querySelector('.keyboard').classList.remove('open');
-        document.querySelector('#name').value = '';
-        document.querySelector('#user-position').value = '';
-    }, 1000 * 30);
 });
 
 /**
@@ -129,14 +112,47 @@ const makeFaceBoxesSmall = (faceBoxes) => {
     }
 };
 
-
-function showBubble() {
-    isBubbleShow = true;
-    if (bubble.classList.contains('hide-background-wrap')) {
-        bubble.classList.remove('hide-background-wrap');
-        guidVideo.play();
+/**
+ * @param {string} name
+ */
+function changeGuidVideo(name) {
+    if (name) {
+        switch (name.toLowerCase()) {
+            case "анна":
+                guidVideo.src = "../../assets/video/анна.webm";
+                break;
+            case "владимир":
+                guidVideo.src = "../../assets/video/владимир.webm";
+                break;
+            case "павел":
+                guidVideo.src = "../../assets/video/павел.webm";
+                break;
+            case "цвия":
+                guidVideo.src = "../../assets/video/цвия.webm";
+                break;
+            case "яков":
+                guidVideo.src = "../../assets/video/яков.webm";
+                break;
+            default:
+                guidVideo.src = "../../assets/video/helloMotherfucker.webm";
+        }
+    } else {
+        guidVideo.src = "../../assets/video/helloMotherfucker.webm";
     }
+}
 
+/**
+ * @param {string} name
+ */
+function showBubble(name) {
+    if (!keyboard.isShown()) {
+        isBubbleShow = true;
+        if (bubble.classList.contains('hide-background-wrap')) {
+            bubble.classList.remove('hide-background-wrap');
+            changeGuidVideo(name);
+            guidVideo.play();
+        }
+    }
 }
 
 const drawFaceBoxes = (detectionsForSize) => {
@@ -173,7 +189,7 @@ const drawFaceBoxes = (detectionsForSize) => {
 
         fb.setRounds();
 
-        showBubble();
+        showBubble(bestMatch.className.name);
     }
 
     makeFaceBoxesSmall(faceBoxes);
@@ -185,8 +201,6 @@ const detectFaces = async () => {
 };
 
 async function onPlay(videoEl) {
-
-
     if (isPausedOrEnded(videoEl)) {
         return
     }
@@ -210,7 +224,6 @@ const startVideoStreamFromWebCamera = () => {
             video: {
                 width: {ideal: 1920},
                 height: {ideal: 1080},
-
             }
         },
     ).then(function (stream) {
@@ -230,7 +243,6 @@ const initFaceAPIMonkeyPatch = () => {
         createImageElement: () => document.createElement('img')
     });
 };
-
 
 
 async function run() {

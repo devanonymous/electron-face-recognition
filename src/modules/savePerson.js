@@ -5,9 +5,9 @@ const faceapi = require('face-api.js/build/commonjs/index.js');
 const electron = require('electron');
 
 const dataBase = require('./dataBase');
-const getCanvas = require('../renderer/js/helpers/canvas');
+const {getCanvas} = require('../renderer/js/helpers/canvas');
 
-/*TODO после сохранения человека вызывать этот метод еще раз*/
+
 module.exports.loadSavedPersons = async () => {
     const data = await dataBase.getAllPersons();
     console.log('загруженные данные: ================================== ', data);

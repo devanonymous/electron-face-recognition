@@ -593,7 +593,7 @@ body {
     position: absolute;
     /*left: 100%;*/
     /*bottom: -100%;*/
-    z-index: 1000000000000;
+    z-index: 9999;
     /*visibility: hidden;*/
 }
 
@@ -602,7 +602,7 @@ body {
     /*left: 100%;*/
     bottom: -400px;
     height: 900px;
-    z-index: 1000000000000;
+    z-index: 9999;
     /*visibility: hidden;*/
 }
 
@@ -679,7 +679,7 @@ body {
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 99999;
+    z-index: 9998;
 }
 
 .hide-background-wrap {

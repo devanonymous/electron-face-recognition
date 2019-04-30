@@ -21,6 +21,7 @@ const clearStrValue = (str) => {
 
 
 function handleBubbleClick() {
+    isBubbleShow = false;
     bubble.classList.add('hide-background-wrap');
     fieldName.classList.toggle('field-name-show');
     fieldName.focus();
@@ -113,18 +114,7 @@ const enterButtonOnClick = () => {
 const showKeyboardButtonOnClick = () => {
     document.querySelectorAll('.login-buttons').forEach((btn) => {
         btn.addEventListener('click', function () {
-            // if (!isKeyboardButtonActive) {
-            //     fieldName.classList.toggle('field-name-show');
-            //     fieldName.focus();
-            //     this.classList.toggle('login-buttons_show');
-            //     keyboard.changeInput('#name');
-            //     keyboard.toggle();
-            //     isKeyboardButtonActive = !isKeyboardButtonActive;
-            // } else {
-                // this.classList.toggle('login-buttons_show');
             hideInputs()
-            // bubble.classList.remove('hide-background-wrap');
-            // }
         });
     });
 };

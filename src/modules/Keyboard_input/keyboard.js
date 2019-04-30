@@ -63,6 +63,10 @@ class Keyboard {
         this.wrapper.classList.remove("keyboard-active");
     }
 
+    isShown() {
+        return this.wrapper.classList.contains("keyboard-active");
+    }
+
     clear() {
         this.input.value = "";
         this.caret = 0;
@@ -78,24 +82,11 @@ class Keyboard {
         return {startPos: startPos, endPos: endPos};
     }
 
-    // setCustomFocus(pos){
-    //     if( this.input.firstChild ){
-    //         let range = document.createRange();
-    //         let sel = window.getSelection();
-    //         range.setStart( this.input.firstChild, pos );
-    //         range.collapse( true );
-    //         sel.removeAllRanges();
-    //         sel.addRange( range );
-    //     } else{
-    //         this.input.focus();
-    //     }
-    // }
     writeToInput(text) {
         this.input.value = text;
         if (this.sendEvent) {
             this.textChanged(this.input.value);
         }  // отправка в эвент
-        // this.clone();
     }
 
     inputChangeHandler(event) {
@@ -106,12 +97,8 @@ class Keyboard {
         if (this.sendEvent) {
             this.textChanged(this.input.value);
         }  // отправка в эвент
-        // this.clone();
     }
 
-    // clone(){
-    //     this.cloneDiv.innerText = this.input.value;
-    // }
     // обработчик потери фокуса
     inputBlurHandler(event) {
         this.input.focus();
@@ -134,11 +121,7 @@ class Keyboard {
         if (this.debug) {
             console.log("клик на элементе", element);
         }
-        // if ( element ==  this.input ){
-        //     // console.log("это инпут")
-        //     this.caret = this.getCustomFocus();
-        //     return;
-        // }
+
         // обработка кнопок с символами
         if (element.tagname !== "I") {
             element = element.closest("I")

@@ -8,13 +8,13 @@
   font-family: sans-serif;
   color: #333;
   transform: scaleX(0); /*  свёрнута */
-  z-index: -1; 
+  z-index: -1;
   user-select: none;
   -webkit-user-select:none;
 }
 .keyboard-wrap.keyboard-active .keyboard{ /* развёрнута */
   animation: heightAnimOp .35s .1s forwards;
-  z-index: 1100;
+  z-index: 99999;
 }
 .keyboard.caps-active i:not([data-lng]):not(.btn-enter){
   text-transform: uppercase;

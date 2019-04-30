@@ -36,7 +36,6 @@ const getCanvas = (videoEl, isVerticalOrientation) => {
         context.drawImage(videoEl, 0, canvas.width, canvas.height, canvas.width);
     }
 
-    context.putImageData(context.getImageData(0, canvas.width, canvas.height, canvas.width),0, canvas.width);
 
     return canvas
 };
