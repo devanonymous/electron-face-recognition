@@ -72,7 +72,7 @@ const isPausedOrEnded = (videoEl) => {
  * Распозднает лица, и возврашает полное описание всех распознанных лиц увеличенное до разрешения экрана устройства,
  * чтобы получить корректные координаты прямоуголька (faceBox'a)
  */
-const getFullFaceDescriptions = async () => {
+const getFullFaceDescriptions = async (videoEl) => {
     const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl, IS_VERTICAL_ORIENTATION), options)
         .withFaceExpressions()
         .withFaceLandmarks()
@@ -195,8 +195,8 @@ const drawFaceBoxes = (detectionsForSize) => {
     makeFaceBoxesSmall(faceBoxes);
 };
 
-const detectFaces = async () => {
-    const detectionsForSize = await getFullFaceDescriptions();
+const detectFaces = async (videoEl) => {
+    const detectionsForSize = await getFullFaceDescriptions(videoEl);
     drawFaceBoxes(detectionsForSize);
 };
 
@@ -205,7 +205,7 @@ async function onPlay(videoEl) {
         return
     }
     faceapi.getMediaDimensions(videoEl);
-    await detectFaces();
+    await detectFaces(videoEl);
     setTimeout(() => onPlay(videoEl));
 }
 

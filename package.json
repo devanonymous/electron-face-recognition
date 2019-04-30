@@ -22,7 +22,6 @@
   "dependencies": {
     "app-builder-bin": "2.6.6",
     "app-builder-lib": "20.40.2",
-    "canvas": "^2.4.1",
     "electron-builder-squirrel-windows": "20.40.0",
     "electron-is-dev": "1.1.0",
     "electron-log": "3.0.5",

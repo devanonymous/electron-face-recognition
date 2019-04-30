@@ -2,7 +2,7 @@ const faceapi = require('face-api.js/build/commonjs/index.js');
 const db = require('pouchdb');
 const  { ipcRenderer } = require('electron');
 
-const localDB = new db('DB/savedPeople');
+const localDB = new db('./DB/savedPeople');
 const remoteDB = new db('http://localhost:5984/savedPeople');
 
 localDB.sync(remoteDB, {
