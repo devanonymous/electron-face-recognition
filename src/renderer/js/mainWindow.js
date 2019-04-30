@@ -44,8 +44,8 @@ let timerId = setTimeout(function tick() {
     } else {
         isBubbleShow = false;
     }
-    timerId = setTimeout(tick, 10000);
-}, 10000);
+    timerId = setTimeout(tick, 1000);
+}, 1000);
 
 
 /* после того как пользователь добавился в базу данных приходит сообщение и мы загружаем базу заново */
