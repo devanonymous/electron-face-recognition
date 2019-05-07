@@ -25,10 +25,11 @@ module.exports = class faceBox {
             this.html.style.height = faceDetectionBox.height + 'px';
             this.html.style.right = faceDetectionBox.left + 'px';
         } else {
-            this.html.style.top = faceDetectionBox.bottom + 'px';
+            const indent = 1920/4; // т.к видео находится на 25% ниже верха экрана
+            this.html.style.top = faceDetectionBox.top + indent + 'px';
             this.html.style.width = faceDetectionBox.width + 'px';
             this.html.style.height = faceDetectionBox.height + 'px';
-            this.html.style.left = faceDetectionBox.top + 'px';
+            this.html.style.right = faceDetectionBox.left + 'px';
         }
 
 

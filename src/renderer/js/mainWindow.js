@@ -79,7 +79,7 @@ const getFullFaceDescriptions = async (videoEl) => {
         .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
-        return faceapi.resizeResults(fullFaceDescriptions, IS_VERTICAL_ORIENTATION ? {width: 1080, height: 1920} : {width: 1920, height: 1080});
+        return faceapi.resizeResults(fullFaceDescriptions, IS_VERTICAL_ORIENTATION ? {width: 1080, height: 1920} : {width: videoEl.videoWidth, height: videoEl.videoHeight});
 };
 
 /**
@@ -197,6 +197,7 @@ const drawFaceBoxes = (detectionsForSize) => {
 };
 
 const detectFaces = async (videoEl) => {
+    console.log(videoEl.videoWidth, videoEl.videoHeight);
     const detectionsForSize = await getFullFaceDescriptions(videoEl);
     drawFaceBoxes(detectionsForSize);
 };
@@ -223,7 +224,7 @@ const startVideoStreamFromWebCamera = () => {
     navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
-                width: {ideal: 1920},
+                width: {ideal: IS_VERTICAL_ORIENTATION ? 1920 : 1080},
                 height: {ideal: 1080},
             }
         },
