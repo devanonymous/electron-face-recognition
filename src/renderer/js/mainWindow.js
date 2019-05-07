@@ -15,16 +15,18 @@ const bubble = document.getElementById('background-wrap');
 const videoEl = document.querySelector('#inputVideo');
 
 let isBubbleShow = true;
-const IS_VERTICAL_ORIENTATION = true;
 
 
-const options = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 672});
+const IS_VERTICAL_ORIENTATION = false;
+const OPTIONS = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 672});
+
 let isBlockedPlay = false;
 let savedPeople;
 
-const rotateVideo = window.innerWidth < window.innerHeight;
-if (rotateVideo) {
+if (IS_VERTICAL_ORIENTATION) {
     videoEl.classList.add('rotate');
+} else {
+    videoEl.classList.add('rotate-horizontal');
 }
 
 const hideBubble = () => {
@@ -73,12 +75,11 @@ const isPausedOrEnded = (videoEl) => {
  * чтобы получить корректные координаты прямоуголька (faceBox'a)
  */
 const getFullFaceDescriptions = async (videoEl) => {
-    const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl, IS_VERTICAL_ORIENTATION), options)
+    const fullFaceDescriptions = await faceapi.detectAllFaces(IS_VERTICAL_ORIENTATION ? getCanvas(videoEl, IS_VERTICAL_ORIENTATION) : videoEl, OPTIONS)
         .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
-
-    return  faceapi.resizeResults(fullFaceDescriptions, IS_VERTICAL_ORIENTATION ? {width: 1080, height: 1920} : {width: 1920, height: 1080});
+        return faceapi.resizeResults(fullFaceDescriptions, IS_VERTICAL_ORIENTATION ? {width: 1080, height: 1920} : {width: 1920, height: 1080});
 };
 
 /**
@@ -185,7 +186,7 @@ const drawFaceBoxes = (detectionsForSize) => {
             fb.parseExpressions(face.expressions);
         }
 
-        fb.show(face.detection.box, (detectionsForSize.length > 1), rotateVideo);
+        fb.show(face.detection.box, (detectionsForSize.length > 1), IS_VERTICAL_ORIENTATION);
 
         fb.setRounds();
 

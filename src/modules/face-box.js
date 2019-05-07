@@ -18,10 +18,20 @@ module.exports = class faceBox {
     show(faceDetectionBox, smalledStyle, isVerticalOrientation) {
         this.html.classList.add('face-box');
         this.html.removeAttribute('id');
-        this.html.style.top = faceDetectionBox.top + 'px';
-        this.html.style.width = faceDetectionBox.width + 'px';
-        this.html.style.height = faceDetectionBox.height + 'px';
-        this.html.style.right = faceDetectionBox.left + 'px';
+
+        if (isVerticalOrientation) {
+            this.html.style.top = faceDetectionBox.top + 'px';
+            this.html.style.width = faceDetectionBox.width + 'px';
+            this.html.style.height = faceDetectionBox.height + 'px';
+            this.html.style.right = faceDetectionBox.left + 'px';
+        } else {
+            this.html.style.top = faceDetectionBox.bottom + 'px';
+            this.html.style.width = faceDetectionBox.width + 'px';
+            this.html.style.height = faceDetectionBox.height + 'px';
+            this.html.style.left = faceDetectionBox.top + 'px';
+        }
+
+
         this._updateValues();
 
         if (!smalledStyle) {
