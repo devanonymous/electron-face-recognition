@@ -13,11 +13,12 @@ const guidVideo = document.getElementById('f-gid__video');
 
 const bubble = document.getElementById('background-wrap');
 const videoEl = document.querySelector('#inputVideo');
+const backgroundBluredVideo = document.getElementById('background-blur-video');
 
 let isBubbleShow = true;
 
 
-const IS_VERTICAL_ORIENTATION = true;
+const IS_VERTICAL_ORIENTATION = false;
 const OPTIONS = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 672});
 
 let isBlockedPlay = false;
@@ -232,6 +233,7 @@ const startVideoStreamFromWebCamera = () => {
         },
     ).then(function (stream) {
         videoEl.srcObject = stream;
+        backgroundBluredVideo.srcObject = stream;
     }).catch(function (err) {
         console.log(err.name + ': ' + err.message);
     });

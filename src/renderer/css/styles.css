@@ -616,6 +616,21 @@ body {
 
 /* --gid */
 
+#background-blur-video {
+    /*position: absolute;*/
+    display:block;
+    overflow:hidden;
+    z-index: 5;
+    transform-origin: 50%;
+    /*transform: scaleX(5);*/
+    /*transform: scaleY(2);*/
+    width: 1080px;
+    height: 1920px;
+    filter: blur(20px);
+    transform: scaleX(-2);
+    object-fit: fill;
+}
+
 #inputVideo {
     position: absolute;
     left: 0;
