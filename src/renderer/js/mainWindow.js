@@ -19,6 +19,7 @@ let isBubbleShow = true;
 
 
 const IS_VERTICAL_ORIENTATION = false;
+
 const OPTIONS = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 672});
 
 let isBlockedPlay = false;
@@ -233,7 +234,7 @@ const startVideoStreamFromWebCamera = () => {
         },
     ).then(function (stream) {
         videoEl.srcObject = stream;
-        backgroundBluredVideo.srcObject = stream;
+        if (!IS_VERTICAL_ORIENTATION) backgroundBluredVideo.srcObject = stream;
     }).catch(function (err) {
         console.log(err.name + ': ' + err.message);
     });

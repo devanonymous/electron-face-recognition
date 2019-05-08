@@ -643,9 +643,15 @@ body {
 }
 
 #inputVideo.rotate {
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    z-index: 5;
+    transform-origin: 50%;
+
     left: 50%;
     top: 50%;
-    transform: translate3d(-50%, -50%, 0) rotate(-90deg) scaleX(-1);
+    transform: translate3d(-50%,-50%,0) rotate(-90deg) scaleX(-1);
 }
 
 #inputVideo.rotate-horizontal {
