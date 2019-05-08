@@ -39,7 +39,7 @@ function handleBubbleClick() {
  */
 const savePersonToDB = (userName, userPosition) => {
     isBlockedPlay = true;
-    savePerson(videoEl, options, userName, userPosition, IS_VERTICAL_ORIENTATION)
+    savePerson(videoEl, OPTIONS, userName, userPosition, IS_VERTICAL_ORIENTATION)
         .then(() => {
             isBlockedPlay = false;
         })

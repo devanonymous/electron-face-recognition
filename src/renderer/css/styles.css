@@ -684,7 +684,7 @@ body {
 /* bubble */
 
 #background-wrap {
-    bottom: 2000px;
+    bottom: 1700px;
     left: 750px;
     position: fixed;
     right: 0;
@@ -702,9 +702,9 @@ body {
 
 #bubble-text {
     padding: 5px;
-    margin-top: 90px;
+    margin-top: 45px;
     color: white;
-    font-size: 15px;
+    font-size: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -775,25 +775,44 @@ body {
     -moz-border-radius: 50%;
     border-radius: 50%;
 
-    border: 7px solid rgb(0, 109, 147);
-    background-color: rgba(0, 58, 79, 0.9);
+    border: 3px solid rgb(0, 109, 147);
+    background-color: rgba(0, 58, 79, 1);
     height: 300px;
     position: absolute;
     width: 300px;
+    /*z-index: 900;*/
 }
 
 .bubble:after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 50%;
+    bottom: 7px;
+    left: 25%;
     width: 0;
     height: 0;
     border: 40px solid transparent;
-    border-top-color: rgb(0, 109, 147);
-    border-bottom: 0;
+    border-top-color: rgba(0, 58, 79, 1);
+    border-bottom:0;
+    /*border-bottom-color: rgb(0, 109, 147);*/
     border-left: 0;
-    margin-left: -20px;
-    margin-bottom: -40px;
+    margin-left: 18px;
+    margin-bottom: -37px;
+    z-index: -1;
+}
+
+.bubble:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 24%;
+    width: 0;
+    height: 0;
+    border: 45px solid transparent;
+    border-top-color: rgb(0, 109, 147);
+    border-bottom:0;
+    border-left: 0;
+    margin-left: 18px;
+    margin-bottom: -37px;
+    z-index: -1;
 }
 

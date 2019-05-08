@@ -17,7 +17,7 @@ const videoEl = document.querySelector('#inputVideo');
 let isBubbleShow = true;
 
 
-const IS_VERTICAL_ORIENTATION = false;
+const IS_VERTICAL_ORIENTATION = true;
 const OPTIONS = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 672});
 
 let isBlockedPlay = false;
@@ -37,6 +37,8 @@ const hideBubble = () => {
 };
 
 
+/* таймер скрытия бабла */
+const TIMEOUT = 10000;
 let timerId = setTimeout(function tick() {
     if (!isBubbleShow) {
         hideBubble();
@@ -44,8 +46,8 @@ let timerId = setTimeout(function tick() {
     } else {
         isBubbleShow = false;
     }
-    timerId = setTimeout(tick, 1000);
-}, 1000);
+    timerId = setTimeout(tick, TIMEOUT);
+}, TIMEOUT);
 
 
 /* после того как пользователь добавился в базу данных приходит сообщение и мы загружаем базу заново */

@@ -13,7 +13,7 @@
 
     <style>
         /* временные стили */
-        html,body{
+        html, body {
             width: 100%;
             height: 100%;
             margin: 0;
@@ -21,11 +21,13 @@
             overflow: hidden;
             background: rgb(135, 177, 211)
         }
-        .keyboard{
+
+        .keyboard {
             top: 100px;
             /* background: #777; */
         }
-        .input-wrap{
+
+        .input-wrap {
             width: 100%;
             height: 100px;
             display: flex;
@@ -33,7 +35,8 @@
             justify-content: center;
             z-index: 9999;
         }
-        .input-text{
+
+        .input-text {
             background: transparent;
             border: none;
             height: 80px;
@@ -47,6 +50,7 @@
             font-family: sans-serif;
             z-index: 9999;
         }
+
         /**/
     </style>
 
@@ -109,7 +113,7 @@
                 <tspan class="face-box__user-position face-box__user-position_age face-box__user-position_age_show"
                        x="0" dy="25" stroke="url(#face-box__name-svg-gradient_2)">
                     <tspan class="js-face-box__user-age">25</tspan>
-<!--                    <tspan class="">лет</tspan>-->
+                    <!--                    <tspan class="">лет</tspan>-->
                 </tspan>
             </text>
         </svg>
@@ -174,14 +178,14 @@
 
 <div id="login-buttons_group" class="login-buttons">
     <div id="keyboard-button" class="login-buttons__btn login-buttons__btn_keyboard"></div>
-<!--    <div class="login-buttons__btn login-buttons__btn_voice"></div>-->
+    <!--    <div class="login-buttons__btn login-buttons__btn_voice"></div>-->
 </div>
 
 <!--------------------------------------------------------------------------------------->
 
 
 <div class="input-wrap">
-<!--     <span class="input-text" contenteditable></span>-->
+    <!--     <span class="input-text" contenteditable></span>-->
     <input class="input-text" type="text" value="" tabindex="0">
 </div>
 <!--  -->
@@ -191,19 +195,23 @@
         <div class="keyboard-ru kb active">
             <i>й</i><i>ц</i><i>у</i><i>к</i><i>е</i><i>н</i><i>г</i><i>ш</i><i>щ</i><i>з</i><i>х</i><i>ъ</i><b></b>
             <i>ф</i><i>ы</i><i>в</i><i>а</i><i>п</i><i>р</i><i>о</i><i>л</i><i>д</i><i>ж</i><i>э</i><i>ё</i><b></b>
-            <i>я</i><i>ч</i><i>с</i><i>м</i><i>и</i><i>т</i><i>ь</i><i>б</i><i>ю</i><i>@</i><i>-</i><i class="btn-bsp arrow"></i><b></b>
-            <i class="btn-caps arrow"></i><i data-lng="num">123</i><i data-lng="en">En</i><i class="btn-space"></i><i class="btn-enter">Ввод</i>
+            <i>я</i><i>ч</i><i>с</i><i>м</i><i>и</i><i>т</i><i>ь</i><i>б</i><i>ю</i><i>@</i><i>-</i><i
+                class="btn-bsp arrow"></i><b></b>
+            <i class="btn-caps arrow"></i><i data-lng="num">123</i><i data-lng="en">En</i><i class="btn-space"></i><i
+                class="btn-enter">Ввод</i>
         </div>
         <div class="keyboard-en kb">
             <i>q</i><i>w</i><i>e</i><i>r</i><i>t</i><i>y</i><i>u</i><i>i</i><i>o</i><i>p</i><b></b>
             <i>a</i><i>s</i><i>d</i><i>f</i><i>g</i><i>h</i><i>j</i><i>k</i><i>l</i><b></b>
             <i>z</i><i>x</i><i>c</i><i>v</i><i>b</i><i>n</i><i>m</i><i>@</i><i>-</i><i class="btn-bsp arrow"></i><b></b>
-            <i class="btn-caps arrow"></i><i data-lng="num">123</i><i data-lng="ru">Ru</i><i class="btn-space"></i><i class="btn-enter">Ввод</i>
+            <i class="btn-caps arrow"></i><i data-lng="num">123</i><i data-lng="ru">Ru</i><i class="btn-space"></i><i
+                class="btn-enter">Ввод</i>
         </div>
         <div class="keyboard-num kb">
             <i>(</i><i>)</i><i>&lt;</i><i>></i><i>/</i><i>*</i><i>_</i><i>=</i><i>7</i><i>8</i><i>9</i><i>-</i><b></b>
             <i>{</i><i>}</i><i>&</i><i>%</i><i>$</i><i>#</i><i>'</i><i>"</i><i>4</i><i>5</i><i>6</i><i>+</i><b></b>
-            <i>[</i><i>]</i><i>!</i><i>?</i><i>@</i><i>,</i><i>.</i><i>0</i><i>1</i><i>2</i><i>3</i><i class="btn-bsp arrow"></i><b></b>
+            <i>[</i><i>]</i><i>!</i><i>?</i><i>@</i><i>,</i><i>.</i><i>0</i><i>1</i><i>2</i><i>3</i><i
+                class="btn-bsp arrow"></i><b></b>
             <i data-lng="ru">Ru</i><i data-lng="en">En</i><i class="btn-space"></i><i class="btn-enter">Ввод</i>
         </div>
     </div>
@@ -246,21 +254,16 @@
 
 <div id="background-wrap">
     <div class="bubble x2">
-        <div id="bubble-text">Привет! В Афимолле  баллы и скидки теперь за улыбки. Да, я хочу чтобы меня узнавали по лицу и предоставляли скидки в "Афимолле"</div>
-        <!--        <span id="bubble-yes">ДА</span>-->
-        <!--        <span id="bubble-no">ПОЗЖЕ</span>-->
+        <div id="bubble-text">Привет! В Афимолле баллы и скидки теперь за улыбки. Да, я хочу чтобы меня узнавали по лицу
+            и предоставляли скидки в "Афимолле"
+        </div>
     </div>
-
 </div>
 
 <script src="../js/helpers/canvas.js"></script>
 <script src="../js/mainWindow.js"></script>
 <script src="../js/helpers/keyboardController.js"></script>
 
-
-<!--<svg id="svg" style="position:absolute;top:100px;left:100px;z-index: 100;">
-    <path d="M200,200 v-150 a150,150 0 0,0 -150,150 z" stroke="url(#gradientName)" fill="none" stroke-width="4"></path>
-</svg>-->
 <svg>
     <defs>
         <linearGradient id="face-box__name-svg-gradient_1" x1="0%" y1="100%" x2="100%" y2="0%">
