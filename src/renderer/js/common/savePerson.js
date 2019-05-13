@@ -5,7 +5,7 @@ const faceapi = require('face-api.js/build/commonjs/index.js');
 const electron = require('electron');
 
 const dataBase = require('./dataBase');
-const {getCanvas} = require('../renderer/js/helpers/canvas');
+const {getCanvas} = require('../helpers/canvas');
 
 
 module.exports.loadSavedPersons = async () => {

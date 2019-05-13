@@ -1,4 +1,4 @@
-const Keyboard = require('../../../modules/Keyboard_input/keyboard');
+const Keyboard = require('../common/Keyboard_input/keyboard');
 
 
 const keyboard = new Keyboard({

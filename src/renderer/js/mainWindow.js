@@ -4,11 +4,11 @@ const moment = require('moment');
 const log = require('electron-log');
 const {ipcRenderer} = require("electron");
 
-const dataBase = require(path.resolve(__dirname, '../../modules/dataBase'));
+const dataBase = require(path.resolve(__dirname, '../js/common/dataBase'));
 const keyboard = require(path.resolve(__dirname, './../js/helpers/keyboard'));
 const findPerson = require(path.resolve(__dirname, './../js/helpers/findPerson'));
-const faceBox = require(path.resolve(__dirname, './../../modules/face-box'));
-const {loadSavedPersons} = require('./../../modules/savePerson');
+const faceBox = require(path.resolve(__dirname, './../js/common/face-box'));
+const {loadSavedPersons} = require(path.resolve(__dirname,'./../js/common/savePerson'));
 const guidVideo = document.getElementById('f-gid__video');
 
 const bubble = document.getElementById('background-wrap');
@@ -20,7 +20,7 @@ let isBubbleShow = true;
 
 const IS_VERTICAL_ORIENTATION = false;
 
-const OPTIONS = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 672});
+const OPTIONS = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 320});
 
 let isBlockedPlay = false;
 let savedPeople;
@@ -34,7 +34,6 @@ if (IS_VERTICAL_ORIENTATION) {
 const hideBubble = () => {
     if (!bubble.classList.contains('hide-background-wrap')) {
         bubble.classList.add('hide-background-wrap')
-        // keyboard.hide();
     }
 };
 

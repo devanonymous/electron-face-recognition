@@ -1,4 +1,3 @@
-const faceapi = require('face-api.js/build/commonjs/index.js');
 const db = require('pouchdb');
 const  { ipcRenderer } = require('electron');
 
@@ -32,9 +31,7 @@ class DataBase {
         const dataFromDB = await localDB.allDocs({
             include_docs: true
         });
-        const allPersons = this._transformDBData(dataFromDB);
-        console.log('allPersons', dataFromDB.rows)
-        return allPersons
+        return this._transformDBData(dataFromDB);
     }
 }
 
