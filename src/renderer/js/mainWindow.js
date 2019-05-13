@@ -153,8 +153,10 @@ function showBubble(name) {
         isBubbleShow = true;
         if (bubble.classList.contains('hide-background-wrap')) {
             bubble.classList.remove('hide-background-wrap');
-            changeGuidVideo(name);
-            guidVideo.play();
+            setTimeout(() => {
+                changeGuidVideo(name);
+                guidVideo.play();
+            }, 1000)
         }
     }
 }
