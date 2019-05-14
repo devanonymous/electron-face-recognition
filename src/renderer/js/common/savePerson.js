@@ -1,8 +1,4 @@
-const app = require('electron').app || require('electron').remote.app;
-const fs = require('fs');
-const path = require('path');
 const faceapi = require('face-api.js/build/commonjs/index.js');
-const electron = require('electron');
 
 const dataBase = require('./dataBase');
 const {getCanvas} = require('../helpers/canvas');
@@ -16,6 +12,8 @@ module.exports.loadSavedPersons = async () => {
 
 /* TODO: отрефакторить этот быдлокод*/
 /**
+ *
+ *
  *
  * @param {HTMLVideoElement} videoEl
  * @param {object} options
@@ -46,7 +44,9 @@ module.exports.savePerson = async (videoEl, options, name, position = '', isVert
             .withFaceLandmarks()
             .withFaceDescriptor();
 
-        if (!face) {
+        const distanceThreshold = new faceapi.FaceMatcher(face).distanceThreshold;
+
+        if (!face || distanceThreshold === 0) {
             continue;
         }
 

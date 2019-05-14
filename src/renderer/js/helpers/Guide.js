@@ -51,6 +51,7 @@ class Guide {
     }
 
     /**
+     * Если в объективе камеры несколь человек, то проигрываем столько видео, сколько людей в камере
      *
      * @param {Set} personNames
      * @param {HTMLVideoElement} guideVideoElement
@@ -75,13 +76,11 @@ class Guide {
     }
 
     /**
-     *
      * @param {Set} personNames
      * @param {HTMLVideoElement} guideVideoElement
      */
     _play(personNames, guideVideoElement) {
         this.isPlaingVideo = true;
-
         if (personNames.size === 1) {
             this._playSingleVideo(personNames, guideVideoElement)
         } else {
@@ -90,7 +89,6 @@ class Guide {
     }
 
     /**
-     *
      * @param {Set} personNames
      * @param {HTMLVideoElement} guideVideoElement
      */

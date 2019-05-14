@@ -200,9 +200,7 @@ const drawFaceBoxes = (detectionsForSize) => {
     personNames = new Set(names);
     if (detectionsForSize.length > 0) {
         showBubble(personNames);
-
     }
-
     names = [];
 
     makeFaceBoxesSmall(faceBoxes);
