@@ -25,7 +25,7 @@ module.exports = class faceBox {
             this.html.style.height = faceDetectionBox.height + 'px';
             this.html.style.right = faceDetectionBox.left + 'px';
         } else {
-            const indent = 1920/4; // т.к видео находится на 25% ниже верха экрана
+            const indent = 1920 / 4; // т.к видео находится на 25% ниже верха экрана
             this.html.style.top = faceDetectionBox.top + indent + 'px';
             this.html.style.width = faceDetectionBox.width + 'px';
             this.html.style.height = faceDetectionBox.height + 'px';
@@ -64,7 +64,7 @@ module.exports = class faceBox {
 
     setDefaultValues() {
         this.name = `Незнакомец`;
-        this.position = ``;
+        this.position = `неизвестно`;
         this.age = 25;
         this.neutral = 0;
         this.happy = 0;
@@ -282,13 +282,14 @@ module.exports = class faceBox {
     }
 
     parseExpressions(expressions) {
-        expressions.forEach((expressionItem) => {
-            if (expressionItem.probability.toFixed(2) > 0) {
-                this.setValues({[expressionItem.expression]: Math.round(expressionItem.probability * 100)});
-            } else {
-                this.setValues({[expressionItem.expression]: 0});
-            }
+        Object.keys(expressions).forEach((expressionItem) => {
+            this.setValues({[expressionItem]: Math.round(expressions[expressionItem] * 100)});
         });
+    }
+
+    setAgeAndGender(age, gender) {
+        this.age = `${Math.ceil(age)} лет`;
+        this.gender = gender === "male" ? "мужчина" : "женщина";
     }
 
     _showNormal() {
@@ -333,7 +334,7 @@ module.exports = class faceBox {
         html.querySelectorAll('.js-face-box__user-position').forEach((elem) => {
             elem.innerHTML = this.position;
         });
-        html.querySelectorAll('.js-face-box__user-age').forEach((elem) => {
+        html.querySelectorAll('.face-box__user-position_age').forEach((elem) => {
             elem.innerHTML = this.age;
         });
         html.querySelectorAll('.js-face-box__user-surprised').forEach((elem) => {
@@ -350,6 +351,9 @@ module.exports = class faceBox {
         });
         html.querySelectorAll('.js-face-box__user-angry').forEach((elem) => {
             elem.innerHTML = this.angry;
+        });
+        html.querySelectorAll('.face-box__about-user_sex').forEach((elem) => {
+            elem.innerHTML = this.gender;
         });
     }
 };

@@ -1,4 +1,4 @@
-const db = require('pouchdb');
+const db = require('pouchdb-browser');
 const  { ipcRenderer } = require('electron');
 
 const localDB = new db(require('os').homedir() + '/NEURO_ID_DB');

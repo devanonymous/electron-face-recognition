@@ -168,7 +168,7 @@ body {
 }
 
 .face-box__user-position_age {
-    display: none;
+    /*display: none;*/
 }
 
 .face-box__user-position_age_show {
@@ -216,9 +216,9 @@ body {
 }
 
 .face-box__about-user_sex {
-    margin-top: 30px;
+    margin-top: -20px;
     line-height: 25px;
-    font-size: 18px;
+    font-size: 15px;
     text-align: center;
     color: #fff;
 }
@@ -440,7 +440,7 @@ body {
     top: 50%;
     left: 50%;
     z-index: 20;
-    margin: 10px 0 0 -250px;
+    margin: 20px 0 10px -250px;
     border: 0;
     width: 500px;
     height: 40px;

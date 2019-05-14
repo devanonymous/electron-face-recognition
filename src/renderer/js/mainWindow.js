@@ -117,9 +117,13 @@ const isPausedOrEnded = (videoEl) => {
  */
 const getFullFaceDescriptions = async (videoEl) => {
     const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl, IS_VERTICAL_ORIENTATION), OPTIONS)
-        .withFaceExpressions()
         .withFaceLandmarks()
+        .withFaceExpressions()
+        .withAgeAndGender()
         .withFaceDescriptors();
+
+    console.log(fullFaceDescriptions);
+
     return faceapi.resizeResults(fullFaceDescriptions, IS_VERTICAL_ORIENTATION ? {
         width: 1080,
         height: 1920
@@ -190,6 +194,7 @@ const drawFaceBoxes = (detectionsForSize) => {
 
         if (face.expressions) {
             fb.parseExpressions(face.expressions);
+            fb.setAgeAndGender(face.age, face.gender);
         }
         fb.show(face.detection.box, (detectionsForSize.length > 1), IS_VERTICAL_ORIENTATION);
         fb.setRounds();
@@ -227,6 +232,7 @@ const loadFaceAPIModels = async () => {
     await faceapi.loadFaceLandmarkModel(path.resolve(__dirname, '../../../weights'));
     await faceapi.loadFaceRecognitionModel(path.resolve(__dirname, '../../../weights'));
     await faceapi.loadFaceExpressionModel(path.resolve(__dirname, '../../../weights'));
+    await faceapi.loadAgeGenderModel(path.resolve(__dirname, '../../../weights'));
 };
 
 const startVideoStreamFromWebCamera = () => {
