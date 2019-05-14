@@ -23,7 +23,7 @@ let isBubbleShow = false;
 
 const IS_VERTICAL_ORIENTATION = false;
 
-const OPTIONS = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 320});
+const OPTIONS = new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.5, inputSize: 288});
 
 let isBlockedPlay = false;
 let savedPeople;
