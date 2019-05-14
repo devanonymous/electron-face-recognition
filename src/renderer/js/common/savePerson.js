@@ -42,7 +42,7 @@ module.exports.savePerson = async (videoEl, options, name, position = '', isVert
     while (totalAttempts < threshold) {
         totalAttempts++;
 
-        const face = await faceapi.detectSingleFace(isVerticalOrientation ? getCanvas(videoEl, isVerticalOrientation) : videoEl, options)
+        const face = await faceapi.detectSingleFace(getCanvas(videoEl, isVerticalOrientation), options)
             .withFaceLandmarks()
             .withFaceDescriptor();
 

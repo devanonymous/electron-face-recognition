@@ -6,16 +6,19 @@ const {ipcRenderer} = require("electron");
 
 const dataBase = require(path.resolve(__dirname, '../js/common/dataBase'));
 const keyboard = require(path.resolve(__dirname, './../js/helpers/keyboard'));
+const guide = require(path.resolve(__dirname, './../js/helpers/Guide'));
 const findPerson = require(path.resolve(__dirname, './../js/helpers/findPerson'));
 const faceBox = require(path.resolve(__dirname, './../js/common/face-box'));
-const {loadSavedPersons} = require(path.resolve(__dirname,'./../js/common/savePerson'));
+const {loadSavedPersons} = require(path.resolve(__dirname, './../js/common/savePerson'));
 const guidVideo = document.getElementById('f-gid__video');
 
 const bubble = document.getElementById('background-wrap');
 const videoEl = document.querySelector('#inputVideo');
 const backgroundBluredVideo = document.getElementById('background-blur-video');
 
-let isBubbleShow = true;
+let personNames = new Set();
+
+let isBubbleShow = false;
 
 
 const IS_VERTICAL_ORIENTATION = false;
@@ -31,19 +34,54 @@ if (IS_VERTICAL_ORIENTATION) {
     videoEl.classList.add('rotate-horizontal');
 }
 
+/*
+* TODO:  вынести бабл в отдельный файл
+*/
+
 const hideBubble = () => {
     if (!bubble.classList.contains('hide-background-wrap')) {
         bubble.classList.add('hide-background-wrap')
     }
 };
 
+let guidTimerId = null;
+
+/**
+ *
+ * Отображать гида через каждые n секунд
+ *
+ */
+const setGuideTimeout = () => {
+    const TIMEOUT = 15 * 1000;
+    if (!guidTimerId) {
+        guidTimerId = setTimeout(() => {
+            guide.update(personNames, guidVideo);
+            clearTimeout(guidTimerId);
+            guidTimerId = null;
+        }, TIMEOUT);
+    }
+};
+
+
+/**
+ * @param {Set} personNames
+ */
+function showBubble(personNames) {
+    if (!keyboard.isShown()) {
+        isBubbleShow = true;
+        setGuideTimeout(personNames);
+        if (bubble.classList.contains('hide-background-wrap')) {
+            bubble.classList.remove('hide-background-wrap');
+            guide.update(personNames, guidVideo) /* Когда появляется бабл проигрываем гида */
+        }
+    }
+}
 
 /* таймер скрытия бабла */
 const TIMEOUT = 10000;
 let timerId = setTimeout(function tick() {
     if (!isBubbleShow) {
         hideBubble();
-        console.log('hide bubble');
     } else {
         isBubbleShow = false;
     }
@@ -78,11 +116,14 @@ const isPausedOrEnded = (videoEl) => {
  * чтобы получить корректные координаты прямоуголька (faceBox'a)
  */
 const getFullFaceDescriptions = async (videoEl) => {
-    const fullFaceDescriptions = await faceapi.detectAllFaces(IS_VERTICAL_ORIENTATION ? getCanvas(videoEl, IS_VERTICAL_ORIENTATION) : videoEl, OPTIONS)
+    const fullFaceDescriptions = await faceapi.detectAllFaces(getCanvas(videoEl, IS_VERTICAL_ORIENTATION), OPTIONS)
         .withFaceExpressions()
         .withFaceLandmarks()
         .withFaceDescriptors();
-        return faceapi.resizeResults(fullFaceDescriptions, IS_VERTICAL_ORIENTATION ? {width: 1080, height: 1920} : {width: videoEl.videoWidth, height: videoEl.videoHeight});
+    return faceapi.resizeResults(fullFaceDescriptions, IS_VERTICAL_ORIENTATION ? {
+        width: 1080,
+        height: 1920
+    } : {width: videoEl.videoWidth, height: videoEl.videoHeight});
 };
 
 /**
@@ -92,11 +133,13 @@ const getFullFaceDescriptions = async (videoEl) => {
  */
 const setValueToFaceBox = (fb, bestMatch) => {
     if (bestMatch) {
-        fb.setValues({
-            name: bestMatch.className.name,
-            position: bestMatch.className.position,
-        });
-        console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance, 'desc', bestMatch.descriptor);
+        if (bestMatch.distance !== 0) { /* решение бага в либе, который заключается в том, что если лицо занимаем большую часть изображени, то распознавание происходит не правильно */
+            fb.setValues({
+                name: bestMatch.className.name,
+                position: bestMatch.className.position,
+            });
+            console.log('name:', bestMatch.className.name, 'dist:', bestMatch.distance, 'desc', bestMatch.descriptor);
+        }
     } else {
         fb.setDefaultValues();
         console.log('name: неопознанный человечишко');
@@ -116,50 +159,6 @@ const makeFaceBoxesSmall = (faceBoxes) => {
     }
 };
 
-/**
- * @param {string} name
- */
-function changeGuidVideo(name) {
-    if (name) {
-        switch (name.toLowerCase()) {
-            case "анна":
-                guidVideo.src = "../../assets/video/анна.webm";
-                break;
-            case "владимир":
-                guidVideo.src = "../../assets/video/владимир.webm";
-                break;
-            case "павел":
-                guidVideo.src = "../../assets/video/павел.webm";
-                break;
-            case "цвия":
-                guidVideo.src = "../../assets/video/цвия.webm";
-                break;
-            case "яков":
-                guidVideo.src = "../../assets/video/яков.webm";
-                break;
-            default:
-                guidVideo.src = "../../assets/video/helloMotherfucker.webm";
-        }
-    } else {
-        guidVideo.src = "../../assets/video/helloMotherfucker.webm";
-    }
-}
-
-/**
- * @param {string} name
- */
-function showBubble(name) {
-    if (!keyboard.isShown()) {
-        isBubbleShow = true;
-        if (bubble.classList.contains('hide-background-wrap')) {
-            bubble.classList.remove('hide-background-wrap');
-            setTimeout(() => {
-                changeGuidVideo(name);
-                guidVideo.play();
-            }, 1000)
-        }
-    }
-}
 
 const drawFaceBoxes = (detectionsForSize) => {
     let oldFaceBoxIndex = 0;
@@ -171,6 +170,8 @@ const drawFaceBoxes = (detectionsForSize) => {
 
     /*  отображение прямоугольника */
     const faceBoxes = [];
+
+    let names = [];
 
     for (const face of detectionsForSize) {
         const bestMatch = findPerson.getBestMatch(savedPeople, face);
@@ -190,19 +191,24 @@ const drawFaceBoxes = (detectionsForSize) => {
         if (face.expressions) {
             fb.parseExpressions(face.expressions);
         }
-
         fb.show(face.detection.box, (detectionsForSize.length > 1), IS_VERTICAL_ORIENTATION);
-
         fb.setRounds();
 
-        showBubble(bestMatch.className.name);
+        names.push(bestMatch.className.name)
     }
+
+    personNames = new Set(names);
+    if (detectionsForSize.length > 0) {
+        showBubble(personNames);
+
+    }
+
+    names = [];
 
     makeFaceBoxesSmall(faceBoxes);
 };
 
 const detectFaces = async (videoEl) => {
-    console.log(videoEl.videoWidth, videoEl.videoHeight);
     const detectionsForSize = await getFullFaceDescriptions(videoEl);
     drawFaceBoxes(detectionsForSize);
 };

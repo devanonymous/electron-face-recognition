@@ -39,12 +39,12 @@ function createWindow() {
     });
 
     win.webContents.on('dom-ready', function () {
-        // win.webContents.openDevTools();
+        win.webContents.openDevTools();
 
         log.info('__dirname', __dirname);
 
         if (isDev) {
-            // win.webContents.openDevTools();
+            win.webContents.openDevTools();
         }
     });
 

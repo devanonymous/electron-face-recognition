@@ -14,8 +14,8 @@ const REDUCE_BY = 2;
  */
 const getCanvas = (videoEl, isVerticalOrientation) => {
     const canvas = document.getElementById('canvas-one');
-    canvas.width = isVerticalOrientation ? videoEl.videoHeight / REDUCE_BY : 1920 / REDUCE_BY;
-    canvas.height = isVerticalOrientation ? videoEl.videoWidth / REDUCE_BY : 1080 / REDUCE_BY;
+    canvas.width = isVerticalOrientation ? videoEl.videoHeight / REDUCE_BY : 1080 / 3;
+    canvas.height = isVerticalOrientation ? videoEl.videoWidth / REDUCE_BY : 1080 / 3;
     const context  = canvas.getContext('2d');
 
     if (isVerticalOrientation) {
