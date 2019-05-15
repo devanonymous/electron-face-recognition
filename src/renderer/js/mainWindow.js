@@ -47,7 +47,7 @@ const hideBubble = () => {
 let guidTimerId = null;
 
 /**
- *
+ * TODO: перенести в класс гида
  * Отображать гида через каждые n секунд
  *
  */

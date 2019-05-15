@@ -1,3 +1,5 @@
+const USERS = ["анна", "владимир", "павел", "цвия", "яков"];
+
 class Guide {
     constructor() {
         this.isPlaingVideo = false;
@@ -8,26 +10,11 @@ class Guide {
      * @param {HTMLVideoElement} guideVideoElement
      */
     _setGuideVideoSrc(personName, guideVideoElement) {
-        console.log(personName);
         if (personName) {
-            switch (personName.toLowerCase()) {
-                case "анна":
-                    guideVideoElement.src = "../../assets/video/anna.webm";
-                    break;
-                case "владимир":
-                    guideVideoElement.src = "../../assets/video/vladimir.webm";
-                    break;
-                case "павел":
-                    guideVideoElement.src = "../../assets/video/pavel.webm";
-                    break;
-                case "цвия":
-                    guideVideoElement.src = "../../assets/video/chvia.webm";
-                    break;
-                case "яков":
-                    guideVideoElement.src = "../../assets/video/yakow.webm";
-                    break;
-                default:
-                    guideVideoElement.src = "../../assets/video/helloMotherfucker.webm";
+            if (USERS.includes(personName)) {
+                guideVideoElement.src = `../../assets/video/${personName}.webm`
+            } else {
+                guideVideoElement.src = "../../assets/video/helloMotherfucker.webm";
             }
         } else {
             guideVideoElement.src = "../../assets/video/helloMotherfucker.webm";
@@ -50,6 +37,30 @@ class Guide {
         })
     }
 
+
+    /**
+     * удаляем из personNames имена которые не содержаться в массиве USERS и в место них добавляем одно значение undefined
+     * Это нужно для того, чтобы в случае если в personNames содержаться несколько человек, которые не содержаться в массиве users
+     * ролик который проигрывается для неизвестного человека проигрывался только один раз
+     *
+     * TODO: возможно следует перенести эту логику в mainWindow и там проверять сужествует ли такой пользователь и если нет, то добавлять в множество undefined
+     *
+     * @param {Set} personNames
+     * @private
+     */
+    _clearSetFromUnknownUsers(personNames) {
+        let thereWereUnknownUsers = false;
+        personNames.forEach((name => {
+            if (!USERS.includes(name)) {
+                personNames.delete(name);
+                thereWereUnknownUsers = true;
+            }
+        }));
+        if (thereWereUnknownUsers) {
+            personNames.add(undefined)
+        }
+    }
+
     /**
      * Если в объективе камеры несколь человек, то проигрываем столько видео, сколько людей в камере
      *
@@ -57,6 +68,8 @@ class Guide {
      * @param {HTMLVideoElement} guideVideoElement
      */
     _playSeveralVideos(personNames, guideVideoElement) {
+        this._clearSetFromUnknownUsers(personNames);
+
         const iterator = personNames.values();
         let personName = iterator.next();
 
