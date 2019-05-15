@@ -1,201 +1,239 @@
 /* Имба клавиатура (с) Владимир Г.*/
 /* дефолтные настройки*/
-.keyboard{
-  margin-top: 1000px;
-  position: relative;
-  width: 100%;
-  padding-bottom: 26%; /* пропорция 3/1 */
-  font-family: sans-serif;
-  color: #333;
-  transform: scaleX(0); /*  свёрнута */
-  z-index: -1;
-  user-select: none;
-  -webkit-user-select:none;
+.keyboard {
+    margin-top: 1100px;
+    position: relative;
+    width: 100%;
+    padding-bottom: 26%; /* пропорция 3/1 */
+    font-family: sans-serif;
+    color: #333;
+    transform: scaleX(0); /*  свёрнута */
+    z-index: -1;
+    user-select: none;
+    -webkit-user-select: none;
 }
-.keyboard-wrap.keyboard-active .keyboard{ /* развёрнута */
-  animation: heightAnimOp .35s .1s forwards;
-  z-index: 99999;
+
+.keyboard-wrap.keyboard-active .keyboard { /* развёрнута */
+    animation: heightAnimOp .35s .1s forwards;
+    z-index: 99999;
+    background: rgba(1,1,1, 0.3);
+    box-shadow: 0 20px rgba(1,1,1, 0.3);
 }
-.keyboard.caps-active i:not([data-lng]):not(.btn-enter){
-  text-transform: uppercase;
+
+.keyboard.caps-active i:not([data-lng]):not(.btn-enter) {
+    text-transform: uppercase;
 }
+
 .keyboard i {
-  background-color: transparent;
-  border-color: #333;
-  border-radius: 4px;
-  border-width: 2px;
-  transition-property: color, border-color, box-shadow;
-  transition-duration: .2s;
-  transition-timing-function: ease;
+    background-color: transparent;
+    border-color: #333;
+    border-radius: 4px;
+    border-width: 2px;
+    transition-property: color, border-color, box-shadow;
+    transition-duration: .2s;
+    transition-timing-function: ease;
 }
-.keyboard i.click{
-  box-shadow: 0 0 5px 1px #555;
+
+.keyboard i.click {
+    box-shadow: 0 0 5px 1px #555;
 }
-.keyboard .arrow:before{
-  border-color: #333;
+
+.keyboard .arrow:before {
+    border-color: #333;
 }
-.keyboard .arrow:after{
-  background: #333;
+
+.keyboard .arrow:after {
+    background: #333;
 }
+
 /* / */
 
 /* глубина */
-.keyboard.perspective{
-  perspective: 500px;
+.keyboard.perspective {
+    perspective: 500px;
 }
-.keyboard.perspective .kb{
-  transform: rotateX(17deg);
+
+.keyboard.perspective .kb {
+    transform: rotateX(17deg);
 }
+
 /* шрифты */
-.keyboard.font-Isotext{
-  font-family: 'Isotext', sans-serif;
+.keyboard.font-Isotext {
+    font-family: 'Isotext', sans-serif;
 }
+
 /* цвет */
-.keyboard.color-white{
-  color: #fff;
+.keyboard.color-white {
+    color: #fff;
 }
+
 .keyboard.color-white i {
-  border-color: #fff;
+    border-color: #fff;
 }
-.keyboard.color-white i.click{
-  box-shadow: 0 0 5px 1px #fff;
+
+.keyboard.color-white i.click {
+    box-shadow: 0 0 5px 1px #fff;
 }
-.keyboard.color-white .arrow:before{
-  border-color: #fff;
+
+.keyboard.color-white .arrow:before {
+    border-color: #fff;
 }
-.keyboard.color-white .arrow:after{
-  background: #fff;
+
+.keyboard.color-white .arrow:after {
+    background: #fff;
 }
 
 /* цвет фона кнопок */
-.keyboard.bg-blue i{
-  background-color: rgba(0,145,197,.3);
+.keyboard.bg-blue i {
+    background-color: rgba(0, 145, 197, .3);
 }
+
 /* цвет подсветки рамки при кликах */
-.keyboard.highlight-blue i.click{
-  box-shadow: 0 0 5px 1px #0091C5;
-  border-color: #0091C5;
-  color: #0091C5;
+.keyboard.highlight-blue i.click {
+    box-shadow: 0 0 5px 1px #0091C5;
+    border-color: #0091C5;
+    color: #0091C5;
 }
-.keyboard.highlight-blue i.arrow.click:before{
-  border-color: #0091C5;
+
+.keyboard.highlight-blue i.arrow.click:before {
+    border-color: #0091C5;
 }
-.keyboard.highlight-blue i.arrow.click:after{
-  background: #0091C5;
+
+.keyboard.highlight-blue i.arrow.click:after {
+    background: #0091C5;
 }
+
 /* стиль углов */
-.keyboard.angle-angular{
-  border-radius: 0;
+.keyboard.angle-angular {
+    border-radius: 0;
 }
-.keyboard.angle-rounded-10{
-  border-radius: 10px;
+
+.keyboard.angle-rounded-10 {
+    border-radius: 10px;
 }
+
 /* размер букв */
-.keyboard.font-size-16{
-  font-size: 1rem; /* 16px */
+.keyboard.font-size-16 {
+    font-size: 1rem; /* 16px */
 }
-.keyboard.font-size-24{
-  font-size: 1.5rem; /* 24px */
+
+.keyboard.font-size-24 {
+    font-size: 1.5rem; /* 24px */
 }
-.keyboard.font-size-32{
-  font-size: 2rem; /* 32px */
+
+.keyboard.font-size-32 {
+    font-size: 2rem; /* 32px */
 }
+
 /* / */
-.keyboard .kb{
-  position: absolute;
-  display: none;
-  flex-flow: row wrap;
-  align-items: flex-start;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* opacity: 0; */
-  /* z-index: -1; */
+.keyboard .kb {
+    position: absolute;
+    display: none;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* opacity: 0; */
+    /* z-index: -1; */
 }
+
 /* активная клавиатуры */
-.keyboard .kb.active{
-  display: flex;
-  /* opacity: 1;
-  z-index: auto;
-  height: 100%; */
+.keyboard .kb.active {
+    display: flex;
+    /* opacity: 1;
+    z-index: auto;
+    height: 100%; */
 }
-.keyboard i{
-  display: block;
-  height: 20.5%;
-  width: 6.8%;
-  float: left;
-  font-style: normal;
-  font-weight: normal;
-  margin: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-style: solid;
-  box-sizing: border-box;
+
+.keyboard i {
+    display: block;
+    height: 20.5%;
+    width: 6.8%;
+    float: left;
+    font-style: normal;
+    font-weight: normal;
+    margin: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+    box-sizing: border-box;
 }
-.keyboard i.btn-enter{
-  width: 12%;
+
+.keyboard i.btn-enter {
+    width: 12%;
 }
-.keyboard i.btn-space{
-  width: 43.5%;
+
+.keyboard i.btn-space {
+    width: 43.5%;
 }
-.keyboard b{
-  flex-basis: 100%;
-  width: 0px; 
-  height: 0px; 
-  overflow: hidden;
+
+.keyboard b {
+    flex-basis: 100%;
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
 }
-.keyboard .arrow{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+.keyboard .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.keyboard .arrow:before{
-  content: "";
-  display: block;
-  width: 10%;
-  height: 13%;
-  position: relative;
-  top: -1px;
-  left: 11%;
-  border-left-style: solid;
-  border-bottom-style: solid;
-  border-left-width: 2px;
-  border-bottom-width: 2px;
-  transform: rotate(45deg);
+
+.keyboard .arrow:before {
+    content: "";
+    display: block;
+    width: 10%;
+    height: 13%;
+    position: relative;
+    top: -1px;
+    left: 11%;
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-left-width: 2px;
+    border-bottom-width: 2px;
+    transform: rotate(45deg);
 }
-.keyboard .arrow:after{
-  content: "";
-  display: block;
-  width: 50%;
-  height: 2px;
+
+.keyboard .arrow:after {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 2px;
 }
-.keyboard .btn-caps.arrow{
-  flex-direction: column;
+
+.keyboard .btn-caps.arrow {
+    flex-direction: column;
 }
-.keyboard .btn-caps.arrow:before{
-  top: 14%;
-  left: .5px;
-  transform: rotate(135deg);
+
+.keyboard .btn-caps.arrow:before {
+    top: 14%;
+    left: .5px;
+    transform: rotate(135deg);
 }
-.keyboard.caps-active .btn-caps.arrow:before{
-  top: 31%;
-  transform: rotate(-45deg);
-  left: 0;
+
+.keyboard.caps-active .btn-caps.arrow:before {
+    top: 31%;
+    transform: rotate(-45deg);
+    left: 0;
 }
-.keyboard .btn-caps.arrow:after{
-  width: 2px;
-  height: 30%;
+
+.keyboard .btn-caps.arrow:after {
+    width: 2px;
+    height: 30%;
 }
+
 @keyframes heightAnimOp {
-  0%{
-      transform: scaleX(0);
-      height: 0;
-  }
-  100%{
-      transform: scaleX(1);
-      height: auto;
-  }
+    0% {
+        transform: scaleX(0);
+        height: 0;
+    }
+    100% {
+        transform: scaleX(1);
+        height: auto;
+    }
 }

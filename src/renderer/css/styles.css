@@ -475,7 +475,7 @@ body {
 }
 
 .keyboard {
-    top: 55% !important;
+    top: 70% !important;
 }
 
 /*********************************/
@@ -850,3 +850,6 @@ body {
     z-index: -1;
 }
 
+.keyboard-wrap {
+    /*background-color: #0056b3;*/
+}
