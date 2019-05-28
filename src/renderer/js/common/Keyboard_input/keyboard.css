@@ -13,6 +13,7 @@
     -webkit-user-select: none;
 }
 
+
 .keyboard-wrap.keyboard-active .keyboard { /* развёрнута */
     animation: heightAnimOp .35s .1s forwards;
     z-index: 99999;

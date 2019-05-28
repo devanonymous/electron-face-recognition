@@ -2,7 +2,7 @@ const faceapi = require('face-api.js/build/commonjs/index.js');
 
 const dataBase = require('./dataBase');
 const {getCanvas} = require('../helpers/canvas');
-
+const savePersonVideo = document.getElementById("savePersonVideo");
 
 module.exports.loadSavedPersons = async () => {
     const data = await dataBase.getAllPersons();
@@ -37,42 +37,44 @@ module.exports.savePerson = async (videoEl, options, name, position = '', isVert
     $fotoMax.innerHTML = facesRequired;
     $createFoto.classList.add('create-foto_show');
 
-    while (totalAttempts < threshold) {
-        totalAttempts++;
+    savePersonVideo.style.display = "block";
 
-        const face = await faceapi.detectSingleFace(getCanvas(videoEl, isVerticalOrientation), options)
-            .withFaceLandmarks()
-            .withFaceDescriptor();
-
-        const distanceThreshold = new faceapi.FaceMatcher(face).distanceThreshold;
-
-        if (!face || distanceThreshold === 0) {
-            continue;
-        }
-
-        descriptors.push(new faceapi.LabeledFaceDescriptors(name, [new Float32Array(face.descriptor)]));
-
-        $fotoIndex.innerHTML = descriptors.length;
-
-        if (descriptors.length >= facesRequired) {
-            break;
-        }
-    }
-
-    if (descriptors.length >= facesRequired) {
-        dataBase.addPerson({
-                className: {
-                    name:`${name}`,
-                    position: `${position}`
-                },
-                descriptors
-            });
-        $createFoto.classList.remove('create-foto_show');
-    } else {
-        $fotoDescription.innerHTML = `Распознание не удалось`;
-
-        setTimeout(() => {
-            $createFoto.classList.remove('create-foto_show');
-        }, 5000);
-    }
+    // while (totalAttempts < threshold) {
+    //     totalAttempts++;
+    //
+    //     const face = await faceapi.detectSingleFace(getCanvas(videoEl, isVerticalOrientation), options)
+    //         .withFaceLandmarks()
+    //         .withFaceDescriptor();
+    //
+    //     const distanceThreshold = new faceapi.FaceMatcher(face).distanceThreshold;
+    //
+    //     if (!face || distanceThreshold === 0) {
+    //         continue;
+    //     }
+    //
+    //     descriptors.push(new faceapi.LabeledFaceDescriptors(name, [new Float32Array(face.descriptor)]));
+    //
+    //     $fotoIndex.innerHTML = descriptors.length;
+    //
+    //     if (descriptors.length >= facesRequired) {
+    //         break;
+    //     }
+    // }
+    //
+    // if (descriptors.length >= facesRequired) {
+    //     dataBase.addPerson({
+    //             className: {
+    //                 name:`${name}`,
+    //                 position: `${position}`
+    //             },
+    //             descriptors
+    //         });
+    //     $createFoto.classList.remove('create-foto_show');
+    // } else {
+    //     $fotoDescription.innerHTML = `Распознание не удалось`;
+    //
+    //     setTimeout(() => {
+    //         $createFoto.classList.remove('create-foto_show');
+    //     }, 5000);
+    // }
 };

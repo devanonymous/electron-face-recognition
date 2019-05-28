@@ -3,9 +3,7 @@
 <head>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=1"/>
-
     <title></title>
-
     <link type="text/css" rel="stylesheet" href="../css/bootstrap-reboot.min.css"/>
     <link type="text/css" rel="stylesheet" href="../css/fonts.css"/>
     <link type="text/css" rel="stylesheet" href="../css/styles.css">
@@ -22,7 +20,6 @@
             background: rgb(135, 177, 211)
         }
     </style>
-
 </head>
 <body>
 <header class="f-header">
@@ -41,6 +38,7 @@
 
 <div class="center-content page-container">
     <div class="margin">
+        <video width="320" height="320" autoplay muted id="savePersonVideo"></video>
         <video id="background-blur-video" autoplay muted width="1080" height="1920"></video>
         <canvas id="canvas-one"></canvas>
         <video onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
@@ -64,7 +62,6 @@
     <!--  поля ввода имени и должности  -->
     <input id="name" type="text" class="validate field-name" placeholder="Введите ваше имя">
     <input id="user-position" type="text" class="validate field-name" placeholder="Введите вашу должность">
-
 </div>
 
 <section id="face-box">
@@ -150,7 +147,6 @@
 
 <div id="login-buttons_group" class="login-buttons">
     <div id="keyboard-button" class="login-buttons__btn login-buttons__btn_keyboard"></div>
-    <!--    <div class="login-buttons__btn login-buttons__btn_voice"></div>-->
 </div>
 
 <!--------------------------------------------------------------------------------------->
@@ -158,27 +154,32 @@
 <div class="keyboard-wrap">
     <!-- Клавиатура -->
     <div class="keyboard color-white highlight-blue bg-transparent font-Isotext font-size-24 perspective">
-        <div class="keyboard-ru kb active">
-            <i>й</i><i>ц</i><i>у</i><i>к</i><i>е</i><i>н</i><i>г</i><i>ш</i><i>щ</i><i>з</i><i>х</i><i>ъ</i><b></b>
-            <i>ф</i><i>ы</i><i>в</i><i>а</i><i>п</i><i>р</i><i>о</i><i>л</i><i>д</i><i>ж</i><i>э</i><i>ё</i><b></b>
-            <i>я</i><i>ч</i><i>с</i><i>м</i><i>и</i><i>т</i><i>ь</i><i>б</i><i>ю</i><i>@</i><i>-</i><i
-                class="btn-bsp arrow"></i><b></b>
-            <i class="btn-caps arrow"></i><i data-lng="num">123</i><i data-lng="en">En</i><i class="btn-space"></i><i
-                class="btn-enter">Ввод</i>
-        </div>
-        <div class="keyboard-en kb">
-            <i>q</i><i>w</i><i>e</i><i>r</i><i>t</i><i>y</i><i>u</i><i>i</i><i>o</i><i>p</i><b></b>
-            <i>a</i><i>s</i><i>d</i><i>f</i><i>g</i><i>h</i><i>j</i><i>k</i><i>l</i><b></b>
-            <i>z</i><i>x</i><i>c</i><i>v</i><i>b</i><i>n</i><i>m</i><i>@</i><i>-</i><i class="btn-bsp arrow"></i><b></b>
-            <i class="btn-caps arrow"></i><i data-lng="num">123</i><i data-lng="ru">Ru</i><i class="btn-space"></i><i
-                class="btn-enter">Ввод</i>
-        </div>
-        <div class="keyboard-num kb">
-            <i>(</i><i>)</i><i>&lt;</i><i>></i><i>/</i><i>*</i><i>_</i><i>=</i><i>7</i><i>8</i><i>9</i><i>-</i><b></b>
-            <i>{</i><i>}</i><i>&</i><i>%</i><i>$</i><i>#</i><i>'</i><i>"</i><i>4</i><i>5</i><i>6</i><i>+</i><b></b>
-            <i>[</i><i>]</i><i>!</i><i>?</i><i>@</i><i>,</i><i>.</i><i>0</i><i>1</i><i>2</i><i>3</i><i
-                class="btn-bsp arrow"></i><b></b>
-            <i data-lng="ru">Ru</i><i data-lng="en">En</i><i class="btn-space"></i><i class="btn-enter">Ввод</i>
+        <div class="color-wrapper">
+            <div class="keyboard-ru kb active">
+                <i>й</i><i>ц</i><i>у</i><i>к</i><i>е</i><i>н</i><i>г</i><i>ш</i><i>щ</i><i>з</i><i>х</i><i>ъ</i><b></b>
+                <i>ф</i><i>ы</i><i>в</i><i>а</i><i>п</i><i>р</i><i>о</i><i>л</i><i>д</i><i>ж</i><i>э</i><i>ё</i><b></b>
+                <i>я</i><i>ч</i><i>с</i><i>м</i><i>и</i><i>т</i><i>ь</i><i>б</i><i>ю</i><i>@</i><i>-</i><i
+                    class="btn-bsp arrow"></i><b></b>
+                <i class="btn-caps arrow"></i><i data-lng="num">123</i><i data-lng="en">En</i><i
+                    class="btn-space"></i><i
+                    class="btn-enter">Ввод</i>
+            </div>
+            <div class="keyboard-en kb">
+                <i>q</i><i>w</i><i>e</i><i>r</i><i>t</i><i>y</i><i>u</i><i>i</i><i>o</i><i>p</i><b></b>
+                <i>a</i><i>s</i><i>d</i><i>f</i><i>g</i><i>h</i><i>j</i><i>k</i><i>l</i><b></b>
+                <i>z</i><i>x</i><i>c</i><i>v</i><i>b</i><i>n</i><i>m</i><i>@</i><i>-</i><i
+                    class="btn-bsp arrow"></i><b></b>
+                <i class="btn-caps arrow"></i><i data-lng="num">123</i><i data-lng="ru">Ru</i><i
+                    class="btn-space"></i><i
+                    class="btn-enter">Ввод</i>
+            </div>
+            <div class="keyboard-num kb">
+                <i>(</i><i>)</i><i>&lt;</i><i>></i><i>/</i><i>*</i><i>_</i><i>=</i><i>7</i><i>8</i><i>9</i><i>-</i><b></b>
+                <i>{</i><i>}</i><i>&</i><i>%</i><i>$</i><i>#</i><i>'</i><i>"</i><i>4</i><i>5</i><i>6</i><i>+</i><b></b>
+                <i>[</i><i>]</i><i>!</i><i>?</i><i>@</i><i>,</i><i>.</i><i>0</i><i>1</i><i>2</i><i>3</i><i
+                    class="btn-bsp arrow"></i><b></b>
+                <i data-lng="ru">Ru</i><i data-lng="en">En</i><i class="btn-space"></i><i class="btn-enter">Ввод</i>
+            </div>
         </div>
     </div>
     <!-- /Клавиатура -->
@@ -193,7 +194,6 @@
 </div>
 
 <object id="face-box__name-svg-circle" type="image/svg+xml" data="../../assets/img/ellipse-gradient.svg"></object>
-
 
 <div id="b-graphic">
     <div class="b-graphic__row">

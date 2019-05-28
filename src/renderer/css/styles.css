@@ -640,7 +640,6 @@ body {
     z-index: 5;
     transform: translate3d(0, 0, 0) rotate3d(0, 0, 0, 0);
     transform-origin: 50%;
-
 }
 
 #inputVideo.rotate {
@@ -653,6 +652,13 @@ body {
     left: 50%;
     top: 50%;
     transform: translate3d(-50%,-50%,0) rotate(-90deg) scaleX(-1);
+}
+
+#savePersonVideo {
+    width: 320px;
+    height: 320px;
+    z-index: 999999999;
+    display:none;
 }
 
 #inputVideo.rotate-horizontal {

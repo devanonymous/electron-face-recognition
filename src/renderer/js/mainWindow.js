@@ -10,11 +10,13 @@ const guide = require(path.resolve(__dirname, './../js/helpers/Guide'));
 const findPerson = require(path.resolve(__dirname, './../js/helpers/findPerson'));
 const faceBox = require(path.resolve(__dirname, './../js/common/face-box'));
 const {loadSavedPersons} = require(path.resolve(__dirname, './../js/common/savePerson'));
-const guidVideo = document.getElementById('f-gid__video');
+const webCamStreamHelper = new (require(path.resolve(__dirname, './../js/common/videoStream')));
 
+const guidVideo = document.getElementById('f-gid__video');
 const bubble = document.getElementById('background-wrap');
 const videoEl = document.querySelector('#inputVideo');
 const backgroundBluredVideo = document.getElementById('background-blur-video');
+const savePersonVideo = document.getElementById('savePersonVideo');
 
 let personNames = new Set();
 
@@ -235,20 +237,10 @@ const loadFaceAPIModels = async () => {
     await faceapi.loadAgeGenderModel(path.resolve(__dirname, '../../../weights'));
 };
 
-const startVideoStreamFromWebCamera = () => {
-    navigator.mediaDevices.getUserMedia({
-            audio: false,
-            video: {
-                width: {ideal: IS_VERTICAL_ORIENTATION ? 1920 : 1080},
-                height: {ideal: 1080},
-            }
-        },
-    ).then(function (stream) {
-        videoEl.srcObject = stream;
-        if (!IS_VERTICAL_ORIENTATION) backgroundBluredVideo.srcObject = stream;
-    }).catch(function (err) {
-        console.log(err.name + ': ' + err.message);
-    });
+const startVideoStreamFromWebCamera = async () => {
+    webCamStreamHelper.setStreamToVideoElement(videoEl);
+    if (!IS_VERTICAL_ORIENTATION) webCamStreamHelper.setStreamToVideoElement(backgroundBluredVideo);
+    webCamStreamHelper.setStreamToVideoElement(savePersonVideo);
 };
 
 const initFaceAPIMonkeyPatch = () => {
@@ -261,7 +253,6 @@ const initFaceAPIMonkeyPatch = () => {
         createImageElement: () => document.createElement('img')
     });
 };
-
 
 async function run() {
     initFaceAPIMonkeyPatch();
