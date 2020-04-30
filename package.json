@@ -17,7 +17,7 @@
     "electron": "4.1.4",
     "electron-builder": "20.39.0",
     "electron-rebuild": "^1.8.4",
-    "jquery": "3.4.0"
+    "jquery": "3.5.0"
   },
   "dependencies": {
     "app-builder-bin": "2.6.6",
